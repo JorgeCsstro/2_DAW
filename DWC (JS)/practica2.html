@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <script text="text/javascript">
+
+        // preguntar al usuario que ponga 4 notas separados por comas
+
+        let notas = prompt("Dame 4 notas separadas por comas:");
+
+        let notasComas = notas.split(",")
+
+        let count = 0;
+        let promNotas = 0;
+
+        for (let i of notasComas) {
+
+            count++;
+            promNotas = promNotas + parseInt(notasComas[i - 1]);
+
+        }
+
+        let promTotal = promNotas / count;
+
+        alert("Promedio:" + promTotal)
+
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>

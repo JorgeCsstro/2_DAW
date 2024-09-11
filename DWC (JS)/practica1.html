@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <script text="text/javascript">
+
+        var radio = prompt("Dame el radio del circulo");
+        
+        var perimetro = (2 * Math.PI * radio);
+        var area = (Math.PI * (radio * radio));
+        
+        alert("Perimetro:" + perimetro + "\nArea:" + area);
+        document.write("Perimetro:" + perimetro + "Area:" + area);
+
+        // ARRAYS
+
+        let arr = [3, 5, 7];
+
+        let foo;
+
+        arr.foo = "Hello";
+
+        for (let i in arr) {
+
+            console.log(i + ': ' + arr[i]);
+
+        }
+
+        arr.forEach(function (elem, ind, array) {
+
+            console.log(elem, ind)
+
+        });
+
+        arr.forEach((elem, ind) => console.log(elem, ind));
+
+
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>

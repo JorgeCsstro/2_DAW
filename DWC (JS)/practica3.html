@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <script text="text/javascript">
+
+        // Pregunta hora y el tiempo en h horas
+
+        let d = new Date();
+
+        let hora = d.getHours();
+
+        let min = d.getMinutes();
+
+        sumar = prompt("Ahora mismo son: " + hora + ":" + min + ", cuantas horas quieres");
+
+        suma = parseInt(sumar) + parseInt(hora);
+
+
+        while(suma >= 24){
+            if (suma >= 24) {
+            suma = suma - 24; 
+            }
+        }
+        
+
+        alert("La hora marcará: " + suma + ":" + min);
+
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>

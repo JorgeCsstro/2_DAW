@@ -5,9 +5,9 @@
     <meta charset="utf-8">
     <script text="text/javascript">
 
-        // Pregunta hora y el tiempo en h horas
-
         let d = new Date();
+
+        let suma = 0;
 
         let hora = d.getHours();
 
@@ -24,6 +24,15 @@
             }
         }
         
+        if(suma < 10){
+
+            suma = "0" + suma;
+
+        }else if(min < 10){
+
+            min = "0" + min;
+
+        }
 
         alert("La hora marcará: " + suma + ":" + min);
 

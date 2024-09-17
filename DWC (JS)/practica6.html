@@ -5,7 +5,40 @@
     <meta charset="utf-8">
     <script text="text/javascript">
 
-        
+        // Función para saber si es un triangulo
+        function esTrianguloValido(lado1, lado2, lado3) {
+
+            return (lado1 + lado2 > lado3) && (lado1 + lado3 > lado2) && (lado2 + lado3 > lado1);
+
+        }
+
+        // Función para saber el tipo de triángulo
+        function tipoDeTriangulo(lado1, lado2, lado3) {
+            if (lado1 === lado2 && lado2 === lado3) {
+
+                return "Equilátero";
+
+            } else if (lado1 === lado2 || lado1 === lado3 || lado2 === lado3) {
+
+                return "Isósceles";
+
+            } else {
+
+                return "Escaleno";
+
+            }
+        }
+
+        let lado1 = parseFloat(prompt("Ingrese el primer lado del triángulo:"));
+        let lado2 = parseFloat(prompt("Ingrese el segundo lado del triángulo:"));
+        let lado3 = parseFloat(prompt("Ingrese el tercer lado del triángulo:"));
+
+        if (esTrianguloValido(lado1, lado2, lado3)) {
+            let tipo = tipoDeTriangulo(lado1, lado2, lado3);
+            alert("El triangulo es: Un " + tipo);
+        } else {
+            alert("Los lados no forman un triángulo.");
+        }
 
     </script>
 </head>

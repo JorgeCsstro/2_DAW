@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <script text="text/javascript">
+
+        let viaje = prompt("Dame los tramos del viaje separado por comas:");
+        let viajeComas = viaje.split(',');
+
+        let viajeSuma = 0;
+        let horas = 0;
+
+        viajeSuma = parseInt(viajeSuma)
+
+        for(let i = 0; i < viajeComas[0]; i++) {
+
+            let suma = viajeComas.shift();
+            suma = parseInt(suma);
+            viajeSuma = viajeSuma + suma;
+
+        }
+
+        while(viajeSuma >= 60){
+            if (viajeSuma >= 60) {
+                viajeSuma = viajeSuma - 60;
+                horas = horas + 1;
+            }
+        }
+
+        alert("El viaje te tomó: " + horas + ":" + viajeSuma);
+
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>

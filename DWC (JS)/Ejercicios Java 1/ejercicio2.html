@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <script text="text/javascript">
+
+        let salir = true;
+
+        let num = prompt("Dame un número para saber si es feliz :D");
+        let numSeparado = num.split("").join("");
+
+        num = parseInt(num);
+
+        console.log(numSeparado);
+        console.log(num);
+
+        let numOriginal = num;
+
+        let cont = 0;
+
+
+        while (cont < 3) {
+
+            cont = cont + 1;
+            
+            num = num * num;
+
+            num = num.toString();
+
+            numSeparado = num.split("").join("");
+
+            if (num == numOriginal) {
+                
+                salir = false;
+
+            }
+
+        }
+
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>

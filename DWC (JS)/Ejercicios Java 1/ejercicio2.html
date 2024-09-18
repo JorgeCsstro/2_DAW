@@ -5,34 +5,57 @@
     <meta charset="utf-8">
     <script text="text/javascript">
 
-        let salir = true;
+        let continuar = true;
 
         let num = prompt("Dame un número para saber si es feliz :D");
-        let numSeparado = num.split("").join("");
 
         num = parseInt(num);
 
-        console.log(numSeparado);
-        console.log(num);
+        let numSeparado = num.toString().split("").map(Number);
 
         let numOriginal = num;
 
         let cont = 0;
 
-
-        while (cont < 3) {
+        while (continuar == true) {
 
             cont = cont + 1;
-            
-            num = num * num;
 
-            num = num.toString();
+            let num2 = 0;
 
-            numSeparado = num.split("").join("");
+            for (let i = 0; i <= numSeparado.length; i++) {
 
-            if (num == numOriginal) {
+                // console.log(cont);
+
+                // console.log("num antes de sumar " + num2);
+
+                let numCuadrado = numSeparado.shift();
                 
-                salir = false;
+                num2 = num2 + numCuadrado * numCuadrado;
+
+                // console.log("num despues de sumar " + num2);
+                
+            }
+
+            // console.log("el num2 es = " + num2);
+
+            // console.log("el numSeparado es = " + numSeparado);
+
+            numSeparado = num2.toString().split("").map(Number);
+
+            // console.log("el numSeparado es = " + numSeparado);
+
+            if (num2 == 1) {
+                
+                alert("El número es feliz");
+
+                continuar = false;
+
+            }else if (num2 = numOriginal && cont == 8){
+
+                alert("el numero es infeliz");
+
+                continuar = false;
 
             }
 

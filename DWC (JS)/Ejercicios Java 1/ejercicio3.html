@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <script text="text/javascript">
+
+        let dni = prompt("Dame un DNI:");
+        let correo = prompt("Dame un E-Mail:");
+        let telef = prompt("Dame un Telefono:");
+        let ip = prompt("Dame una IP:");
+        let url = prompt("Dame una URL:");
+
+        function ultLetraDNI(dniValid) {
+
+            var numReg = /^[0-9]*$/;
+
+            console.log(dniValid);
+
+            let arr = dniValid.split("").join("");
+
+            console.log(arr)
+
+            if (arr.length == 9) {
+
+                console.log("Estoy dentro")
+
+                for (let i = 0; i < arr.length-1; i++) {
+
+                    if (arr[i].match(numReg)) {
+
+                        
+                    }else{
+
+                        alert("formato DNI incorrecto: Apartado de numeros incorrecto");
+
+                        return false
+
+
+                    }
+
+                }
+
+                // por hacer el match de la letra (facil)
+                if (arr[9]) {
+                    
+                }
+
+            } else {
+
+                alert("formato DNI incorrecto: Cadena de characteres incorrecta");
+
+                return false
+
+            }
+
+
+
+            console.log(arr);
+
+        }
+
+        ultLetraDNI(dni);
+
+
+
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>

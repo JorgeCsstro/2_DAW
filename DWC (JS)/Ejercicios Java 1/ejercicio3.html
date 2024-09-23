@@ -11,56 +11,156 @@
         let ip = prompt("Dame una IP:");
         let url = prompt("Dame una URL:");
 
-        function ultLetraDNI(dniValid) {
+        function validarDNI(dniValid) {
 
             var numReg = /^[0-9]*$/;
-
-            console.log(dniValid);
-
+            var dniLetra = /^[a-zA-Z]*$/;
+            //console.log(dniValid);
             let arr = dniValid.split("").join("");
-
-            console.log(arr)
+            let arrNum = []
+            //console.log(arr)
+            let arrLetra = ["T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N", "J", "Z", "S", "Q", "V", "H", "L", "C", "K", "E"];
 
             if (arr.length == 9) {
 
-                console.log("Estoy dentro")
-
-                for (let i = 0; i < arr.length-1; i++) {
+                for (let i = 0; i < arr.length - 1; i++) {
 
                     if (arr[i].match(numReg)) {
 
-                        
-                    }else{
+                        let num = parseInt(arr[i]);
+                        arrNum.push(num);
 
-                        alert("formato DNI incorrecto: Apartado de numeros incorrecto");
+                    } else {
+                        alert("Formato DNI incorrecto: Apartado de numeros incorrecto");
+                        return false;
+                    }
+                }
 
-                        return false
+                if (arr[8].match(dniLetra)) {
 
+                    let numeros = arrNum.shift().toString();
+
+                    for (let i = 0; i < 7; i++) {
+                        numeros = numeros + arrNum.shift().toString();
+                        //console.log(numeros);
+                    }
+
+                    parseInt(numeros);
+
+                    let asignaLetra = numeros % 23;
+
+                    if (arr[8].match(arrLetra[asignaLetra])) {
+
+                        return true;
+
+                    } else {
+
+                        alert("Formato DNI incorrecto: La última letra no es correcta");
+                        return false;
 
                     }
 
-                }
-
-                // por hacer el match de la letra (facil)
-                if (arr[9]) {
-                    
+                } else {
+                    alert("Formato DNI incorrecto: El último caracter no es una letra");
+                    return false;
                 }
 
             } else {
-
-                alert("formato DNI incorrecto: Cadena de characteres incorrecta");
-
+                alert("Formato DNI incorrecto: Cadena de characteres incorrecta");
                 return false
+            }
+        }
+
+        function validarCorreo(correoValid) {
+
+            var emailReg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,6}$/;
+            //console.log(correoValid);
+
+            if (emailReg.test(correoValid)) {
+
+                return true;
+
+            } else {
+
+                alert("Formato Correo incorrecto: Characteres invalidos");
+                return false;
 
             }
 
+        }
 
+        function validarTelefono(telefValid) {
 
-            console.log(arr);
+            var telefReg = /^(6|7)*([0-9]*){8}$/;
+
+            if (telefReg.test(telefValid)) {
+                return true;
+
+            } else {
+                alert("Formato Telefono incorrecto: Numero incorrecto (Formato: 600777888)");
+                return false;
+            }
 
         }
 
-        ultLetraDNI(dni);
+        function validarIP(IPValid) {
+
+            var ipReg = /^([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3})$/;
+
+            if (ipReg.test(IPValid)) {
+                return true;
+
+            } else {
+                alert("Formato IP incorrecto: IP incorrecta (Formato: 1.2.3.4)");
+                return false;
+            }
+
+        }
+
+        function validarURL(URLValid) {
+
+            var urlReg = /^(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?$/;
+
+            if (urlReg.test(URLValid)) {
+                return true;
+
+            } else {
+                alert("Formato URL incorrecto: URL incorrecta (Formato: 1.2.3.4)");
+                return false;
+            }
+
+        }
+
+
+        if (validarDNI(dni) == true) {
+        
+            console.log("DNI correcto :D")
+        
+        }
+        
+        if (validarCorreo(correo) == true) {
+        
+            console.log("Correo correcto :)")
+        
+        }
+        
+        if (validarTelefono(telef) == true) {
+        
+            console.log("Telefono correcto :P")
+        
+        }
+        
+        if (validarIP(ip) == true) {
+        
+            console.log("IP correcta :V")
+        
+        }
+        
+        if (validarURL(url) == true) {
+        
+            console.log("URL correcta :3")
+        
+        }
 
 
 

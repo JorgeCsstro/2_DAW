@@ -3,18 +3,16 @@
 
 <head>
     <meta charset="utf-8">
+</head>
+
+<body>
     <script text="text/javascript">
 
         let continuar = true;
-
         let num = prompt("Dame un número para saber si es feliz :D");
-
         num = parseInt(num);
-
         let numSeparado = num.toString().split("").map(Number);
-
         let numOriginal = num;
-
         let cont = 0;
 
         while (continuar == true) {
@@ -46,25 +44,17 @@
             // console.log("el numSeparado es = " + numSeparado);
 
             if (num2 == 1) {
-                
                 alert("El número es feliz");
-
                 continuar = false;
 
             }else if (num2 = numOriginal && cont == 8){
-
                 alert("el numero es infeliz");
-
                 continuar = false;
 
             }
-
         }
 
     </script>
-</head>
-
-<body>
 </body>
 
 </html>

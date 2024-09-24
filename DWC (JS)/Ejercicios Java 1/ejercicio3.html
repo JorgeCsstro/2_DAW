@@ -3,6 +3,10 @@
 
 <head>
     <meta charset="utf-8">
+    
+</head>
+
+<body>
     <script text="text/javascript">
 
         let dni = prompt("Dame un DNI:");
@@ -50,14 +54,11 @@
                     let asignaLetra = numeros % 23;
 
                     if (arr[8].match(arrLetra[asignaLetra])) {
-
                         return true;
 
                     } else {
-
                         alert("Formato DNI incorrecto: La última letra no es correcta");
                         return false;
-
                     }
 
                 } else {
@@ -81,10 +82,8 @@
                 return true;
 
             } else {
-
                 alert("Formato Correo incorrecto: Characteres invalidos");
                 return false;
-
             }
 
         }
@@ -133,41 +132,28 @@
 
 
         if (validarDNI(dni) == true) {
-        
             console.log("DNI correcto :D")
-        
         }
         
         if (validarCorreo(correo) == true) {
-        
             console.log("Correo correcto :)")
-        
         }
         
         if (validarTelefono(telef) == true) {
-        
             console.log("Telefono correcto :P")
-        
         }
         
         if (validarIP(ip) == true) {
-        
             console.log("IP correcta :V")
-        
         }
         
         if (validarURL(url) == true) {
-        
             console.log("URL correcta :3")
-        
         }
 
 
 
     </script>
-</head>
-
-<body>
 </body>
 
 </html>

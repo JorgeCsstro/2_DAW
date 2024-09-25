@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+    <link rel="stylesheet" href="./estilos/estilos.css">
+    
+</head>
+<body>
+
+    
+    <form action="/submit" method="post">
+        <h2>Formulario de Registro</h2>
+
+        <label for="nombre">Nombre:</label>
+        <input onblur="validarNombre();" onclick="quitarErrorNombre()" type="text" id="nombre" name="nombre" required >
+        <p id="espacioErrorNombre"></p>
+
+        <label for="apellidos">Apellidos:</label>
+        <input onblur="validarApellido();" onclick="quitarErrorApellido()" type="text" id="apellidos" name="apellidos" required>
+        <p id="espacioErrorApellido"></p>
+
+        <label for="email">E-mail:</label>
+        <input onblur="validarEmail()" onclick="quitarErrorEmail()" type="email" id="email" name="email" required>
+        <p id="espacioErrorEmail"></p>
+
+        <label for="dni">DNI:</label>
+        <input onblur="validarDNI()" onclick="quitarErrorDNI()" type="text" id="dni" name="dni" required>
+        <p id="espacioErrorDNI"></p>
+
+        <label for="password">Password:</label>
+        <input onblur="validarPass()" onclick="quitarErrorPass()" type="password" id="pass" name="password" required>
+        <p id="espacioErrorPass"></p>
+
+        <label for="repeat_password">Repetir Password:</label>
+        <input onblur="validarCheckPass()" onclick="quitarErrorCheckPass()" type="password" id="repeat_password" name="repeat_password" required>
+        <p id="espacioErrorRepPass"></p>
+
+        <label for="ip_equipo">IP Equipo:</label>
+        <input onblur="validarIP()" onclick="quitarErrorIP()" type="text" id="ip_equipo" name="ip_equipo">
+        <p id="espacioErrorIP"></p>
+
+        <input onclick="revisar()" type="submit" value="Enviar">
+    </form>
+
+    <script type="text/javascript" src="./js/scripts.js"></script>
+</body>
+</html>

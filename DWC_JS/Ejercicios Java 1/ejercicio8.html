@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    
+</head>
+
+<body>
+    <script text="text/javascript">
+
+        function extraer(palabra, numLetras, direccion){
+
+            var arr = palabra.split("").join("");
+
+            var arrReturn = [];
+
+            if (direccion == "principio") {
+                
+                for (let i = 0; i < numLetras; i++) {
+                    
+                    arrReturn.push(arr[i]);
+                    
+                }
+
+                return arrReturn.join("");
+
+            }else if (direccion == "fin") {
+
+                arr.reverse();
+
+                for (let i = numLetras; i > 0; i--) {
+                    
+                    arrReturn.push(arr[i]);
+                    
+                    
+                }
+
+                return arrReturn.join("");
+
+            }
+
+        }
+
+        document.write(extraer("Cristiano Ronaldo Apesta", 4, "fin"));
+
+        
+    </script>
+</body>
+
+</html>

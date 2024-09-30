@@ -8,9 +8,8 @@
     
 </head>
 <body>
-
     
-    <form action="/submit" method="post">
+    <form method="post">
         <h2>Formulario de Registro</h2>
 
         <label for="nombre">Nombre:</label>
@@ -33,15 +32,15 @@
         <input onblur="validarPass()" onclick="quitarErrorPass()" type="password" id="pass" name="password" required>
         <p id="espacioErrorPass"></p>
 
-        <label for="repeat_password">Repetir Password:</label>
-        <input onblur="validarCheckPass()" onclick="quitarErrorCheckPass()" type="password" id="repeat_password" name="repeat_password" required>
-        <p id="espacioErrorRepPass"></p>
+        <label for="checkPass">Repetir Password:</label>
+        <input onblur="validarCheckPass()" onclick="quitarErrorCheckPass()" type="password" id="checkPass" name="checkPass" required>
+        <p id="espacioErrorCheckPass"></p>
 
-        <label for="ip_equipo">IP Equipo:</label>
-        <input onblur="validarIP()" onclick="quitarErrorIP()" type="text" id="ip_equipo" name="ip_equipo">
+        <label for="ip">IP Equipo:</label>
+        <input onblur="validarIP()" onclick="quitarErrorIP()" type="text" id="ip" name="ip">
         <p id="espacioErrorIP"></p>
 
-        <input onclick="revisar()" type="submit" value="Enviar">
+        <input onclick="validarFormulario ()" type="submit" value="Enviar">
     </form>
 
     <script type="text/javascript" src="./js/scripts.js"></script>

@@ -1,3 +1,6 @@
+
+var todoCorrecto = false;
+
 function quitarErrorNombre() {
 
     let quitarErrorNombre = document.getElementById("errorNombre");
@@ -46,7 +49,7 @@ function quitarErrorCheckPass() {
     }
 }
 
-function quitarErrorCheckPass() {
+function quitarErrorIP() {
 
     let quitarErrorIP = document.getElementById("errorIP");
     if (quitarErrorIP) {
@@ -58,10 +61,14 @@ function quitarErrorCheckPass() {
 function validarNombre() {
 
     let elNombre = document.getElementById("nombre");
-    let textoNombre = document.getElementById("espacioErrorNombre");
+    let textoErrorNombre = document.getElementById("espacioErrorNombre");
     let nomReg = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]*$/
 
-    if (!nomReg.test(elNombre.value)) {
+    if (nomReg.test(elNombre.value)) {
+
+        todoCorrecto = true;
+
+    } else {
 
         let errorNode = document.createElement("p");
         let errorSimbolos = document.createTextNode("No se pueden los simbolos (. , ; etc) o numeros (1234567890)");
@@ -70,17 +77,24 @@ function validarNombre() {
         errorNode.className = "errores";
         errorNode.id = "errorNombre";
 
-        textoNombre.appendChild(errorNode);
+        textoErrorNombre.appendChild(errorNode);
+
+        todoCorrecto = false;
+
     }
 }
 
 function validarApellido() {
 
     let elApellido = document.getElementById("apellidos");
-    let textoApellido = document.getElementById("espacioErrorApellido");
+    let textoErrorApellido = document.getElementById("espacioErrorApellido");
     let nomReg = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]*$/
 
-    if (!nomReg.test(elApellido.value.trim())) {
+    if (nomReg.test(elApellido.value.trim())) {
+
+        todoCorrecto = true;
+
+    } else {
 
         let errorNode = document.createElement("p");
         let errorSimbolos = document.createTextNode("No se pueden los simbolos (. , ; etc) o numeros (1234567890)");
@@ -89,21 +103,24 @@ function validarApellido() {
         errorNode.className = "errores";
         errorNode.id = "errorApellido";
 
-        textoApellido.appendChild(errorNode);
+        textoErrorApellido.appendChild(errorNode);
+
+        todoCorrecto = false;
+
     }
 }
 
 function validarEmail() {
 
     let elEmail = document.getElementById("email");
-    let textoEmail = document.getElementById("espacioErrorEmail");
+    let textoErrorEmail = document.getElementById("espacioErrorEmail");
 
     var emailReg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,6}$/;
     //console.log(correoValid);
 
     if (emailReg.test(elEmail.value)) {
 
-        return true;
+        todoCorrecto = true;
 
     } else {
         let errorNode = document.createElement("p");
@@ -113,15 +130,16 @@ function validarEmail() {
         errorNode.className = "errores";
         errorNode.id = "errorEmail";
 
-        textoEmail.appendChild(errorNode);
-        return false;
+        textoErrorEmail.appendChild(errorNode);
+
+        todoCorrecto = false;
     }
 }
 
 function validarDNI() {
 
     let elDNI = document.getElementById("dni");
-    let textoDNI = document.getElementById("espacioErrorDNI");
+    let textoErrorDNI = document.getElementById("espacioErrorDNI");
 
     var numReg = /^[0-9]*$/;
     var dniLetra = /^[a-zA-Z]*$/;
@@ -149,7 +167,9 @@ function validarDNI() {
                 errorNode.className = "errores";
                 errorNode.id = "errorDNI";
 
-                textoDNI.appendChild(errorNode);
+                textoErrorDNI.appendChild(errorNode);
+
+                todoCorrecto = false;
             }
         }
 
@@ -167,7 +187,7 @@ function validarDNI() {
             let asignaLetra = numeros % 23;
 
             if (arr[8].match(arrLetra[asignaLetra])) {
-                return true;
+                todoCorrecto = true;
 
             } else {
                 let errorNode = document.createElement("p");
@@ -177,7 +197,9 @@ function validarDNI() {
                 errorNode.className = "errores";
                 errorNode.id = "errorDNI";
 
-                textoDNI.appendChild(errorNode);
+                textoErrorDNI.appendChild(errorNode);
+
+                todoCorrecto = false;
             }
 
         } else {
@@ -188,7 +210,8 @@ function validarDNI() {
             errorNode.className = "errores";
             errorNode.id = "errorDNI";
 
-            textoDNI.appendChild(errorNode);
+            textoError.appendChild(errorNode);
+            todoCorrecto = false;
         }
 
     } else {
@@ -199,18 +222,23 @@ function validarDNI() {
         errorNode.className = "errores";
         errorNode.id = "errorDNI";
 
-        textoDNI.appendChild(errorNode);
+        textoErrorDNI.appendChild(errorNode);
+        todoCorrecto = false;
     }
 }
 
 function validarPass() {
 
     let elPass = document.getElementById("pass");
-    let textoPass = document.getElementById("espacioErrorPass");
+    let textoErrorPass = document.getElementById("espacioErrorPass");
 
     var regexPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[A-Za-z\d$@$!%*?&#.$($)$-$_]{8,16}$/;
 
-    if (!regexPass.test(elPass.value)) {
+    if (regexPass.test(elPass.value)) {
+
+        todoCorrecto = true;
+
+    } else {
 
         let errorNode = document.createElement("p");
         let errorSimbolos = document.createTextNode("Password debe tener entre 8 y 16 caracteres, minimo 1 numero, 1 letra minuscula, 1 letra maysucula y 1 simbolo");
@@ -219,14 +247,73 @@ function validarPass() {
         errorNode.className = "errores";
         errorNode.id = "errorPass";
 
-        textoPass.appendChild(errorNode);
-        
+        textoErrorPass.appendChild(errorNode);
+
+        todoCorrecto = false;
+    }
+}
+
+function validarCheckPass() {
+
+    let elPass = document.getElementById("pass");
+    let elCheckPass = document.getElementById("checkPass");
+    let textoErrorCheckPass = document.getElementById("espacioErrorCheckPass");
+
+    if (elPass.value == elCheckPass.value) {
+
+        todoCorrecto = true;
+
+    } else {
+
+        let errorNode = document.createElement("p");
+        let errorCheck = document.createTextNode("Repetir Password no es igual");
+        errorNode.appendChild(errorCheck);
+
+        errorNode.className = "errores";
+        errorNode.id = "errorCheckPass";
+
+        textoErrorCheckPass.appendChild(errorNode);
+
+        todoCorrecto = false;
+    }
+}
+
+function validarIP() {
+
+    let laIP = document.getElementById("ip");
+    let textoErrorIP = document.getElementById("espacioErrorIP");
+
+    var ipReg = /^([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3})$/;
+
+    if (ipReg.test(laIP.value)) {
+
+        todoCorrecto = true;
+
+    } else {
+        let errorNode = document.createElement("p");
+        let errorCheck = document.createTextNode("IP no valida (ex. 192.168.1.1)");
+        errorNode.appendChild(errorCheck);
+
+        errorNode.className = "errores";
+        errorNode.id = "errorIP";
+
+        textoErrorIP.appendChild(errorNode);
+
+        todoCorrecto = false;
+    }
+}
+
+function validarFormulario() {
+
+    if (todoCorrecto == true) {
+
+        alert("Todo correcto :D");
+
     }else{
 
-        
+        alert("Revisa el formulario >:c");
 
     }
-
 
 }
 

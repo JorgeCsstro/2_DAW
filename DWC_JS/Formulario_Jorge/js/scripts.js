@@ -314,6 +314,5 @@ function validarFormulario() {
         alert("Revisa el formulario >:c");
 
     }
-
 }
 

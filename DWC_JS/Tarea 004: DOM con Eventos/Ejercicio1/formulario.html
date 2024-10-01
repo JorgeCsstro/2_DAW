@@ -11,15 +11,15 @@
     <form method="post">
 
         <label for="nombre">Nombre:</label>
-        <input onblur="validarNombre();" onclick="quitarErrorNombre()" type="text" id="nombre" name="nombre" required>
+        <input onblur="validarNombre()" type="text" id="nombre" name="nombre">
         <br>
 
         <label for="email">E-mail:</label>
-        <input onblur="validarEmail()" onclick="quitarErrorEmail()" type="email" id="email" name="email" required>
+        <input onblur="validarEmail()" type="email" id="email" name="email">
         <br>
 
         <label for="dni">DNI:</label>
-        <input onblur="validarDNI()" onclick="quitarErrorDNI()" type="text" id="dni" name="dni" required>
+        <input onblur="validarDNI()" type="text" id="dni" name="dni">
         <br>
 
         <input onclick="validarFormulario()" type="button" value="Copiar">

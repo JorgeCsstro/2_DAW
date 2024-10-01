@@ -7,7 +7,7 @@ let elEmail = document.getElementById("email");
 let elDNI = document.getElementById("dni");
 
 function validarNombre() {
-    
+
     let nomReg = /^([a-zA-ZáéíóúüÁÉÍÓÚÜñÑ]{2,60}[\,\-\.]{0,1}[\s]{0,1}){1,3}$/
 
     if (nomReg.test(elNombre.value)) {
@@ -98,44 +98,36 @@ function validarDNI() {
 
 function validarFormulario() {
 
-    let textoAlert = ""
+    var nom = document.getElementById("nombre").value;
+    var emai = document.getElementById("email").value;
+    var dn = document.getElementById("dni").value;
 
-    if (nombreCorrecto == true) {
+    if (nombreCorrecto == true && emailCorrecto == true && dniCorrecto == true) {
 
+        let contenedor = document.querySelector('.info');
+        let p = document.createElement('p');
+        p.innerText = nom + " con DNI " + dn + " e e-mail " + emai;
+        contenedor.appendChild(p);
 
+    } else{
 
-    } else {
+        let name = "Mal";
+        let email = "Mal";
+        let dni = "Mal";
 
+        if (nombreCorrecto == true) {
+            name = "Correcto";
+        }
 
+        if (emailCorrecto == true) {
+            email = "Correcto";
+        }
+
+        if (dniCorrecto == true) {
+            dni = "Correcto";
+        }
+
+        alert("Campos incorrectos: \n - Nombre: " + name + " \n - DNI: " + email + "\n - Email: " + dni)
 
     }
-
-    if (emailCorrecto == true) {
-
-
-
-    } else {
-
-
-
-    }
-
-    if (dniCorrecto == true) {
-
-
-
-    } else {
-
-
-
-    }
-
-    let contenedor = document.querySelector('.info');
-    let p = document.createElement('p');
-    p.innerText = elNombre.innerHTML + " con DNI " + elDNI.innerHTML + " e e-mail " + elEmail.innerHTML;
-    contenedor.appendChild(p);
-
-
-
 }
-

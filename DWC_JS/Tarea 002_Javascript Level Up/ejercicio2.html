@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <script text="text/javascript">
+
+        let continuar = true;
+        let num = prompt("Dame un número para saber si es feliz :D");
+        num = parseInt(num);
+        let numSeparado = num.toString().split("").map(Number);
+        let numOriginal = num;
+        let cont = 0;
+
+        while (continuar == true) {
+
+            cont = cont + 1;
+
+            let num2 = 0;
+
+            for (let i = 0; i <= numSeparado.length; i++) {
+
+                // console.log(cont);
+
+                // console.log("num antes de sumar " + num2);
+
+                let numCuadrado = numSeparado.shift();
+                
+                num2 = num2 + numCuadrado * numCuadrado;
+
+                // console.log("num despues de sumar " + num2);
+                
+            }
+
+            // console.log("el num2 es = " + num2);
+
+            // console.log("el numSeparado es = " + numSeparado);
+
+            numSeparado = num2.toString().split("").map(Number);
+
+            // console.log("el numSeparado es = " + numSeparado);
+
+            if (num2 == 1) {
+                alert("El número es feliz");
+                continuar = false;
+
+            }else if (num2 = numOriginal && cont == 8){
+                alert("el numero es infeliz");
+                continuar = false;
+
+            }
+        }
+
+    </script>
+</body>
+
+</html>

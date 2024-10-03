@@ -127,7 +127,7 @@ function validarFormulario() {
             dni = "Correcto";
         }
 
-        alert("Campos incorrectos: \n - Nombre: " + name + " \n - DNI: " + email + "\n - Email: " + dni)
+        alert("Campos incorrectos: \n - Nombre: " + name + " \n - Email: " + email + "\n - DNI: " + dni)
 
     }
 }

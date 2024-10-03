@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario</title>
-    
+    <link rel="stylesheet" href="./styles/styles.css">
 </head>
 <body>
     
@@ -22,12 +22,26 @@
         <input onblur="validarDNI()" type="text" id="dni" name="dni">
         <br>
 
-        <input onclick="validarFormulario()" type="button" value="Copiar">
-    </form>
+        <select id="lista" name="lista">
+            <option disabled selected value></option>
+            <option value="primera">Primera Lista</option>
+            <option value="segunda">Segunda Lista</option>
+        </select>
+        <br>
 
-    <div class="info">
+        <input onclick="validarFormulario()" type="button" value="Copiar">
+        <input onclick="remplazarDatos()" type="button" value="RemplazarDatos">
         
+    </form>
+    <div class="listas">
+        <div class="primera">
+        
+        </div>
+        <div class="segunda">
+            
+        </div>
     </div>
+    
 
     <script type="text/javascript" src="./js/scripts.js"></script>
 </body>

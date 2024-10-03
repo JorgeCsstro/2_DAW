@@ -97,45 +97,76 @@ function validarDNI() {
 }
 
 function validarFormulario() {
-
     var nom = document.getElementById("nombre").value;
     var emai = document.getElementById("email").value;
     var dn = document.getElementById("dni").value;
+    var list = document.getElementById("lista").value;
 
-    if (nombreCorrecto == true && emailCorrecto == true && dniCorrecto == true) {
-
-        let contenedor = document.querySelector('.info');
-        let p = document.createElement('p');
-        p.innerText = nom + " con DNI " + dn + " e e-mail " + emai;
-        contenedor.appendChild(p);
-
+    if (!list) {
+        alert("Por favor, selecciona una lista.");
     } else {
+        if (nombreCorrecto == true && emailCorrecto == true && dniCorrecto == true) {
+            let contenedor = document.querySelector('.' + list);
+            let p = document.createElement('p');
+            p.innerText = nom + " con DNI " + dn + " e e-mail " + emai;
+            contenedor.appendChild(p);
+        } else {
+            let name = "Mal";
+            let email = "Mal";
+            let dni = "Mal";
 
-        let name = "Mal";
-        let email = "Mal";
-        let dni = "Mal";
+            if (nombreCorrecto == true) {
+                name = "Correcto";
+            }
 
-        if (nombreCorrecto == true) {
-            name = "Correcto";
+            if (emailCorrecto == true) {
+                email = "Correcto";
+            }
+
+            if (dniCorrecto == true) {
+                dni = "Correcto";
+            }
+
+            alert("Campos incorrectos: \n - Nombre: " + name + " \n - Email: " + email + "\n - DNI: " + dni);
         }
-
-        if (emailCorrecto == true) {
-            email = "Correcto";
-        }
-
-        if (dniCorrecto == true) {
-            dni = "Correcto";
-        }
-
-        alert("Campos incorrectos: \n - Nombre: " + name + " \n - DNI: " + email + "\n - Email: " + dni)
-
     }
-
 }
 
 function remplazarDatos() {
+    var nom = document.getElementById("nombre").value;
+    var emai = document.getElementById("email").value;
+    var dn = document.getElementById("dni").value;
+    var list = document.getElementById("lista").value;
 
+    if (!list) {
+        alert("Por favor, selecciona una lista.");
+    } else {
+        if (nombreCorrecto == true && emailCorrecto == true && dniCorrecto == true) {
+            let paragraphs = document.querySelectorAll('.' + list + ' p');
 
+            let newText = nom + " con DNI " + dn + " e e-mail " + emai;
 
+            for (let i = 0; i < paragraphs.length; i++) {
+                paragraphs[i].innerText = newText;
+            }
+        } else {
+            let name = "Mal";
+            let email = "Mal";
+            let dni = "Mal";
+
+            if (nombreCorrecto == true) {
+                name = "Correcto";
+            }
+
+            if (emailCorrecto == true) {
+                email = "Correcto";
+            }
+
+            if (dniCorrecto == true) {
+                dni = "Correcto";
+            }
+
+            alert("Campos incorrectos: \n - Nombre: " + name + " \n - Email: " + email + "\n - DNI: " + dni);
+        }
+    }
 }
-

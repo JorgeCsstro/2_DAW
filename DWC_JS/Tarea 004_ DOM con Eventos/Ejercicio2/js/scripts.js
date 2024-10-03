@@ -109,7 +109,7 @@ function validarFormulario() {
         p.innerText = nom + " con DNI " + dn + " e e-mail " + emai;
         contenedor.appendChild(p);
 
-    } else{
+    } else {
 
         let name = "Mal";
         let email = "Mal";
@@ -127,22 +127,47 @@ function validarFormulario() {
             dni = "Correcto";
         }
 
-        alert("Campos incorrectos: \n - Nombre: " + name + " \n - DNI: " + email + "\n - Email: " + dni)
+        alert("Campos incorrectos: \n - Nombre: " + name + " \n - Email: " + email + "\n - DNI: " + dni)
 
     }
 
 }
 
-// function dbclickCambia(){
-// 
-//     let contenedor = document.getElementsByClassName("info");
-// 
-//     console.log(contenedor.length)
-// 
-// }
+function remplazarDatos() {
 
-function cambio(){
+    var nom = document.getElementById("nombre").value;
+    var emai = document.getElementById("email").value;
+    var dn = document.getElementById("dni").value;
 
-    
+    if (nombreCorrecto == true && emailCorrecto == true && dniCorrecto == true) {
 
+        let paragraphs = document.querySelectorAll('.info p');
+
+        let newText = nom + " con DNI " + dn + " e e-mail " + emai;
+
+        for (let i = 0; i < paragraphs.length; i++) {
+            paragraphs[i].innerText = newText;
+        }
+
+    } else {
+
+        let name = "Mal";
+        let email = "Mal";
+        let dni = "Mal";
+
+        if (nombreCorrecto == true) {
+            name = "Correcto";
+        }
+
+        if (emailCorrecto == true) {
+            email = "Correcto";
+        }
+
+        if (dniCorrecto == true) {
+            dni = "Correcto";
+        }
+
+        alert("Campos incorrectos: \n - Nombre: " + name + " \n - Email: " + email + "\n - DNI: " + dni)
+
+    }
 }

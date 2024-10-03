@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    
+</head>
+
+<body>
+    <script text="text/javascript">
+
+        function nombreMes(dat){
+
+            let separ = dat.split('/');
+            let fech =  [separ[1], separ[0], separ[2]];
+            let fecha = new Date(fech);
+            console.log(fecha.getMonth());
+
+            let arrMes = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            
+            return arrMes[fecha.getMonth()]
+
+
+        }
+
+        document.write("Resultado: " + nombreMes("10/11/2009"));
+
+        
+    </script>
+</body>
+
+</html>

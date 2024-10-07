@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+    <link rel="stylesheet" href="./styles/styles.css">
+</head>
+<body>
+    
+    <form method="post">
+
+        <label for="nombre">Nombre:</label>
+        <input onblur="validarNombre()" type="text" id="nombre" name="nombre">
+        <br>
+
+        <label for="email">E-mail:</label>
+        <input onblur="validarEmail()" type="email" id="email" name="email">
+        <br>
+
+        <label for="dni">DNI:</label>
+        <input onblur="validarDNI()" type="text" id="dni" name="dni">
+        <br>
+
+        <select id="lista" name="lista">
+            <option disabled selected value></option>
+            <option value="primera">Primera Lista</option>
+            <option value="segunda">Segunda Lista</option>
+            <option value="tercera">Tercera Lista</option>
+            <option value="cuarta">Cuarta Lista</option>
+        </select>
+        <br>
+
+        <input onclick="validarFormulario()" type="button" value="Copiar">
+        <input onclick="remplazarDatos()" type="button" value="RemplazarDatos">
+        
+    </form>
+    <div class="listas">
+        <div class="primera">
+            <h2>
+                Listado 1
+            </h2>
+        </div>
+        <div class="segunda">
+            <h2>
+                Listado 2
+            </h2>
+        </div>
+    </div>
+    <div class="listas">
+        <div class="tercera">
+            <h2>
+                Listado 3
+            </h2>
+        </div>
+        <div class="cuarta">
+            <h2>
+                Listado 4
+            </h2>
+        </div>
+    </div>
+    
+
+    <script type="text/javascript" src="./js/scripts.js"></script>
+</body>
+</html>

@@ -58,3 +58,7 @@
 .infDer {
     border-bottom-right-radius: 10px; 
 }
+
+.sombraInt {
+    box-shadow:inset 5px 5px 15px black;
+}

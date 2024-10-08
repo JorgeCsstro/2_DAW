@@ -11,75 +11,65 @@
             <div class="pantalla">
                 <input type="text" maxlength="13" value="0" disabled>
             </div>
-            <div class="operación">
-                <div class="boton">
-                    C
-                </div>
-                <div class="boton">
-                    %
-                </div>
-                <div class="boton">
-                    &laquo;
-                </div>
-                <div class="boton">
-                    /
-                </div>
+            <div class="boton" onclick="borrarTodo()" onmousedown="sombra(this)" onmouseup="sombra(this)">
+                C
             </div>
-            <div class="boton">
+            <div class="boton" onclick="ponOperandos('%')" onmousedown="sombra(this)" onmouseup="sombra(this)">
+                %
+            </div>
+            <div class="boton" onclick="borrarUno()" onmousedown="sombra(this)" onmouseup="sombra(this)">
+                &laquo;
+            </div>
+            <div class="boton" onclick="ponOperandos('/')" onmousedown="sombra(this)" onmouseup="sombra(this)">
+                /
+            </div>
+            <div class="boton" onclick="ponOperandos('7')" onmousedown="sombra(this)" onmouseup="sombra(this)">
                 7
             </div>
-            <div class="boton">
+            <div class="boton" onclick="ponOperandos('8')" onmousedown="sombra(this)" onmouseup="sombra(this)">
                 8
             </div>
-            <div class="boton">
+            <div class="boton" onclick="ponOperandos('9')" onmousedown="sombra(this)" onmouseup="sombra(this)">
                 9
             </div>
-            <div class="operacion">
-                <div class="boton">
-                    x
-                </div>
+            <div class="boton" onclick="ponOperandos('*')" onmousedown="sombra(this)" onmouseup="sombra(this)">
+                x
             </div>
-            <div class="boton">
+            <div class="boton" onclick="ponOperandos('4')" onmousedown="sombra(this)" onmouseup="sombra(this)">
                 4
             </div>
-            <div class="boton">
+            <div class="boton" onclick="ponOperandos('5')" onmousedown="sombra(this)" onmouseup="sombra(this)">
                 5
             </div>
-            <div class="boton">
+            <div class="boton" onclick="ponOperandos('6')" onmousedown="sombra(this)" onmouseup="sombra(this)">
                 6
             </div>
-            <div class="operacion">
-                <div class="boton">
-                    -
-                </div>
+            <div class="boton" onclick="ponOperandos('-')" onmousedown="sombra(this)" onmouseup="sombra(this)">
+                -
             </div>
-            <div class="boton">
+            <div class="boton" onclick="ponOperandos('1')" onmousedown="sombra(this)" onmouseup="sombra(this)">
                 1
             </div>
-            <div class="boton">
+            <div class="boton" onclick="ponOperandos('2')" onmousedown="sombra(this)" onmouseup="sombra(this)">
                 2
             </div>
-            <div class="boton">
+            <div class="boton" onclick="ponOperandos('3')" onmousedown="sombra(this)" onmouseup="sombra(this)">
                 3
             </div>
-            <div class="operacion">
-                <div class="boton">
-                    +
-                </div>
+            <div class="boton" onclick="ponOperandos('+')" onmousedown="sombra(this)" onmouseup="sombra(this)">
+                +
             </div>
-            <div class="boton infIzq">
+            <div class="boton infIzq" onclick="ponOperandos('0')" onmousedown="sombra(this)" onmouseup="sombra(this)">
                 0
             </div>
-            <div class="boton">
+            <div class="boton" onclick="ponOperandos('.')" onmousedown="sombra(this)" onmouseup="sombra(this)">
                 .
             </div>
-            <div class="boton">
+            <div class="boton" onclick="ponParentesis()" onmousedown="sombra(this)" onmouseup="sombra(this)">
                 ()
             </div>
-            <div class="operacion">
-                <div class="boton infDer">
-                    =
-                </div>
+            <div class="boton infDer" onclick="operar()" onmousedown="sombra(this)" onmouseup="sombra(this)">
+                =
             </div>
             <div style="clear:both"></div>
         </div>

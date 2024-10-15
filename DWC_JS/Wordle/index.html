@@ -7,42 +7,14 @@
     <link rel="stylesheet" type="text/css" media="screen" href="./css/styles.css" />
     <script src="./js/wordle.js"></script>
 </head>
-<body>
+<body onload="nuevaPartida()">
 
 <div class="container">
     <!-- Wordle Grid -->
-    <div id="wordleGrid" class="grid">
-        <!-- 30 tiles for 5 rows of 5 letters -->
-        <div class="tile1"></div>
-        <div class="tile1"></div>
-        <div class="tile1"></div>
-        <div class="tile1"></div>
-        <div class="tile1"></div>
-
-        <div class="tile2"></div>
-        <div class="tile2"></div>
-        <div class="tile2"></div>
-        <div class="tile2"></div>
-        <div class="tile2"></div>
-
-        <div class="tile3"></div>
-        <div class="tile3"></div>
-        <div class="tile3"></div>
-        <div class="tile3"></div>
-        <div class="tile3"></div>
-
-        <div class="tile4"></div>
-        <div class="tile4"></div>
-        <div class="tile4"></div>
-        <div class="tile4"></div>
-        <div class="tile4"></div>
-
-        <div class="tile5"></div>
-        <div class="tile5"></div>
-        <div class="tile5"></div>
-        <div class="tile5"></div>
-        <div class="tile5"></div>
-    </div>
+     <h1 class="titulo">Jordle</h1>
+     <div id="wordleGrid" class="grid">
+        
+     </div>
 
     <!-- Keyboard -->
     <div class="keyboard">
@@ -77,6 +49,11 @@
         <button class="key">M</button>
         <button class="key backspace">Back</button>
     </div>
+
+    <button class="nueva" onclick="nuevaPartida()">
+        NUEVA PARTIDA
+    </button>
+
 </div>
 </body>
 </html>

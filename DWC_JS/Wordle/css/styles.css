@@ -14,21 +14,10 @@ body {
 }
 .grid {
     display: grid;
-    grid-template-columns: repeat(5, 50px);
     grid-gap: 5px;
     margin-bottom: 20px;
 }
-.tile {
-    width: 50px;
-    height: 50px;
-    background-color: #d3d6da;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    font-weight: bold;
-    text-transform: uppercase;
-}
+
 .keyboard {
     display: grid;
     grid-template-columns: repeat(10, 40px);
@@ -45,4 +34,27 @@ body {
 }
 .key.enter, .key.backspace {
     grid-column: span 2;
+}
+
+.tile {
+    width: 50px;
+    height: 50px;
+    background-color: #d3d6da;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 5px;
+    border-radius: 10px;
+}
+
+.nueva {
+    display: flex;
+    width: 100px;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    background-color: rgb(195, 113, 12);
 }

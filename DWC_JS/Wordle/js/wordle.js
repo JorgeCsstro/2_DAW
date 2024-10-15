@@ -1,141 +1,143 @@
 
-var palabra = [];
-var currentRow = 0; // Track the current row
-var currentWord = ''; // Store the current word
-var maxRows = 5; // Number of allowed attempts
+var adivinar = [];
+var lineaActual = 0;
+var palabraActual = '';
+var intentos = 5;
 
 document.addEventListener('keydown', function (event) {
     var key = event.key;
-    var letterRegex = /^[a-zA-Z]$/;
+    var letterRegex = /^[a-zA-ZñÑ]$/;
 
     if (letterRegex.test(key)) {
         ponLetra(key);
+
     } else if (key === 'Enter') {
         comprobar();
+
     } else if (key === 'Backspace') {
         borrarUno();
+
     }
 });
 
 function nuevaPartida() {
+    // Reinicia todo
+    lineaActual = 0;
+    adivinar = [];
+
+    // Palabras posibles
     let posibilidades = ["GATO", "PERRO", "MANOS", "CASA", "LUNA", "PLAYA", "LIBRO",
         "SILLA", "TIGRE", "MONTAÑA", "HOLA", "FRIO", "AVEJA", "AVISPA",
         "MARIPOSA", "ELEFANTE", "CANGREJO", "AVENTURA", "SONRISA", "CIELO",
         "ESTRELLA", "GALICIA", "ESPERANZA"];
 
+    // Random desde el minimo hasta el maximo del array
     let rando = Math.floor(Math.random() * posibilidades.length);
+    palabraActual = posibilidades[rando];
+    console.log(palabraActual);
 
-    currentWord = posibilidades[rando];
-    currentRow = 0;
-    palabra = [];
-    console.log(currentWord);
-
-    crearTiles(currentWord.length);
-    return currentWord;
+    crearTiles(palabraActual.length);
+    return palabraActual;
 }
 
-function crearTiles(wordLength) {
-    // Clear previous grid
+function crearTiles(longitud) {
+
+    // Limpia todo los bloques y crea nuevos
     var grid = document.getElementById('wordleGrid');
     grid.innerHTML = '';
 
-    // Adjust grid-template-columns dynamically to match word length
-    grid.style.gridTemplateColumns = `repeat(${wordLength}, 50px)`;
+    // Creo tantas columnas como tenga la palabra
+    grid.style.gridTemplateColumns = `repeat(${longitud}, 50px)`;
 
-    // Create rows and tiles dynamically
-    for (let row = 0; row < maxRows; row++) {
-        for (let col = 0; col < wordLength; col++) {
-            const tile = document.createElement('div');
+    // Creo todas las lineas y columnas
+    for (let row = 0; row < intentos; row++) {
+
+        for (let col = 0; col < longitud; col++) {
+
+            var tile = document.createElement('div');
             tile.classList.add('tile');
-            tile.setAttribute('data-row', row); // Track the row for each tile
-            tile.setAttribute('data-col', col); // Track the column for each tile
+            tile.setAttribute('data-row', row);
+            tile.setAttribute('data-col', col);
             grid.appendChild(tile);
         }
     }
 }
 
-
+// Pone la letra indicada por teclado
 function ponLetra(letra) {
-    if (palabra.length < currentWord.length) {
-        palabra.push(letra);
+    if (adivinar.length < palabraActual.length) {
+        adivinar.push(letra);
         actualizarGrid();
+
     }
 }
 
+// Borra la última letra
 function borrarUno() {
-    if (palabra.length > 0) {
-        palabra.pop();
+    if (adivinar.length > 0) {
+        adivinar.pop();
         actualizarGrid();
+
     }
 }
-
+// Actualiza el grid con lo que tiene el array actualemente
 function actualizarGrid() {
-    // Update the current row in the grid with the letters in "palabra"
-    for (let i = 0; i < currentWord.length; i++) {
-        const tile = document.querySelector(`[data-row="${currentRow}"][data-col="${i}"]`);
-        if (palabra[i]) {
+    for (let i = 0; i < palabraActual.length; i++) {
+        var tile = document.querySelector(`[data-row="${lineaActual}"][data-col="${i}"]`);
 
-            tile.textContent = palabra[i].toUpperCase();
+        if (adivinar[i]) {
+
+            tile.textContent = adivinar[i].toUpperCase();
         } else {
-
-            tile.textContent = ''; // Clear empty tiles
+            tile.textContent = '';
         }
     }
 }
 
+// Comprobacion de la palabra
 function comprobar() {
-    if (palabra.length === currentWord.length) {
-        var userWord = palabra.join('').toUpperCase();
-        console.log("Checking word: " + userWord);
+    if (adivinar.length === palabraActual.length) {
+        var adivinarString = adivinar.join('').toUpperCase();
+        console.log("Checking word: " + adivinarString);
 
-        // Array to keep track of which letters have been checked
-        let letterChecked = Array(currentWord.length);
+        // Pon colores dependiendo si: la letra esta en el sitio correcto (verde), la letra existe (amarillo), la letra no existe (rojo)
+        for (let i = 0; i < palabraActual.length; i++) {
+            var tile = document.querySelector(`[data-row="${lineaActual}"][data-col="${i}"]`);
 
-        // First pass: check for correct letters in correct positions (green)
-        for (let i = 0; i < currentWord.length; i++) {
-            const tile = document.querySelector(`[data-row="${currentRow}"][data-col="${i}"]`);
-            if (userWord[i] === currentWord[i]) {
+            if (adivinarString[i] === palabraActual[i]) {
                 tile.style.backgroundColor = 'green';
-                letterChecked[i] = true; // Mark this letter as checked
-            }
-        }
 
-        // Second pass: check for correct letters in wrong positions (yellow)
-        for (let i = 0; i < currentWord.length; i++) {
-            const tile = document.querySelector(`[data-row="${currentRow}"][data-col="${i}"]`);
-            if (userWord[i] !== currentWord[i]) {
-                // Check if the letter exists elsewhere in the word
+            } else if (adivinarString[i] !== palabraActual[i]) {
                 let letterFound = false;
-                for (let j = 0; j < currentWord.length; j++) {
-                    if (userWord[i] === currentWord[j] && !letterChecked[j]) {
+                for (let j = 0; j < palabraActual.length; j++) {
+                    if (adivinarString[i] === palabraActual[j]) {
                         letterFound = true;
-                        letterChecked[j] = true; // Mark the matching letter as checked
                         break;
                     }
                 }
 
-                // If the letter was found but not in the correct place, make it yellow
                 if (letterFound) {
                     tile.style.backgroundColor = 'yellow';
                 } else {
-                    // Otherwise, make it red (letter doesn't exist in the word)
                     tile.style.backgroundColor = 'red';
                 }
             }
         }
 
-        // Check if the user has guessed the correct word
-        if (userWord === currentWord) {
-            console.log("Correcto"); // Correct word guessed
+        // Si ha
+        if (adivinarString === palabraActual) {
+            console.log("Correcto");
+            console.log("Felicidades");
+
         } else {
-            console.log("Incorrecto"); // Incorrect guess
-            // Move to the next row if not the last row
-            if (currentRow < maxRows - 1) {
-                currentRow++;
-                palabra = []; // Reset palabra for the new row
+            console.log("Incorrecto");
+            if (lineaActual < intentos - 1) {
+                lineaActual++;
+                adivinar = [];
+            } else {
+                console.log("Game Over! The word was: " + palabraActual);
+
             }
         }
     }
 }
-
-

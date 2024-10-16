@@ -12,6 +12,13 @@ body {
     flex-direction: column;
     align-items: center;
 }
+
+.titulo{
+
+    padding-top: 75px;
+
+}
+
 .grid {
     display: grid;
     grid-gap: 5px;
@@ -32,6 +39,7 @@ body {
     text-transform: uppercase;
     cursor: pointer;
 }
+
 .key.enter, .key.backspace {
     grid-column: span 2;
 }
@@ -57,4 +65,5 @@ body {
     align-items: center;
     color: black;
     background-color: rgb(195, 113, 12);
+    margin-bottom: 20px;
 }

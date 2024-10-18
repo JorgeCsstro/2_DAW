@@ -15,16 +15,23 @@
         case 1:
             print("Lunes");
             break;
-
-        case 1:
-            print("Lunes");
+        case 2:
+            print("Martes");
             break;
-        case 1:
-            print("Lunes");
+        case 3:
+            print("Miércoles");
             break;
-        
-        default:
-            # code...
+        case 4:
+            print("Jueves");
+            break;
+        case 5:
+            print("Viernes");
+            break;
+        case 6:
+            print("Sábado");
+            break;
+        case 7:
+            print("Domingo");
             break;
     }
 

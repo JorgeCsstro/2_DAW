@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jorge Castro - Formulario de registro 2</title>
+    <title>Jorge Castro - Formulario de registro 3</title>
 </head>
 
 <body>
 
-    <h1>Jorge Castro - Formulario de registro 2</h1>
+    <h1>Jorge Castro - Formulario de registro 3</h1>
 
-    <form action="ejercicio2.php" method="get">
+    <form action="ejercicio3.php" method="get">
         <label for="">Nombre:</label>
         <input type="text" name="nombre" id="nombre" maxlength="50">
         <br>
@@ -44,13 +44,20 @@
         </select>
         <br>
         <br>
-        <label for="">Situación:</label>
-        <select multiple size="2" name="situacion[]" >
-            <option value="Estudiando">Estudiando</option>
-            <option value="Trabajando">Trabajando</option>
-            <option value=" Buscando_empleo"> Buscando empleo</option>
-            <option value="Otro">Otro</option>
+        <label for="">Horario de contacto:</label>
+        <select multiple size="2" name="horario">
+            <option value=" De8a14"> De 8 a 14 horas</option>
+            <option value="De14a18"> De 14 a 18 horas</option>
+            <option value="De18a21"> De 18 a 21 hora</option>
         </select>
+        <br>
+        <br>
+        <label for="">¿Como nos ha conocido?</label>
+        <br>
+        <input type="checkbox" name="amigo" value="Si">Un amigo
+        <input type="checkbox" name="web" value="Si">Web
+        <input type="checkbox" name="prensa" value="Si">Prensa
+        <input type="checkbox" name="otros" value="Si">Otros
         <br>
         <br>
         <label for="">Comentario:</label>

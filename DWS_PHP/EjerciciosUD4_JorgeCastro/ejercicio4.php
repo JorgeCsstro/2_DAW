@@ -1,5 +1,39 @@
-<html lang="es">
+<?php
+    /**
+     * @author Jorge Castro <jorgecastrot2005@gmail.com>
+    */
 
+    if (isset($_GET['enviar'])) {
+        
+        // Cojo los valores del formulario
+        $nombre = $_GET['nombre'];
+        $apellidos = $_GET['apellidos'];
+        $email = $_GET['email'];
+        $user = $_GET['user'];
+        $pass = $_GET['pass'];
+        $sexo = $_GET['sexo'];
+        $provincia = $_GET['provincia'];
+        $horario = $_GET['horario'];
+        $conocido = $_GET['conocido'];
+        $incidencia = $_GET['incidencia'];
+        $descIncidencia = $_GET['descIncidencia'];
+
+        // Muestro los valores
+        print(  "<b>Nombre:</b> " . strtoupper($nombre) .
+                "<br><b>Apellidos:</b> " . strtoupper($apellidos) . 
+                "<br><b>Email:</b> " . strtoupper($email) . 
+                "<br><b>User:</b> " . strtoupper($user) . 
+                "<br><b>Password:</b> " . strtoupper($pass) . 
+                "<br><b>Sexo:</b> " . strtoupper($sexo) . 
+                "<br><b>Provincia:</b> " . strtoupper($provincia) . 
+                "<br><b>Horario:</b> " . strtoupper(implode(" - ", $horario)) . 
+                "<br><b>¿Como nos ha conocido?:</b> " . strtoupper(implode(", ", $conocido)) . 
+                "<br><b>Tipo de Incidencia:</b> " . strtoupper($incidencia) . 
+                "<br><b>Descripción de la Incidencia:</b> " . strtoupper($descIncidencia));
+    }
+?>
+
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,19 +83,19 @@
             <br>
             <br>
             <label for="">Horario de contacto:</label>
-            <select multiple size="2" name="horario">
-                <option value=" De8a14"> De 8 a 14 horas</option>
-                <option value="De14a18"> De 14 a 18 horas</option>
-                <option value="De18a21"> De 18 a 21 hora</option>
+            <select multiple size="2" name="horario[]">
+                <option value="De 8 a 14"> De 8 a 14 horas</option>
+                <option value="De 14 a 18"> De 14 a 18 horas</option>
+                <option value="De 18 a 21"> De 18 a 21 hora</option>
             </select>
             <br>
             <br>
             <label for="">¿Como nos ha conocido?</label>
             <br>
-            <input type="checkbox" name="amigo" value="Si">Un amigo
-            <input type="checkbox" name="web" value="Si">Web
-            <input type="checkbox" name="prensa" value="Si">Prensa
-            <input type="checkbox" name="otros" value="Si">Otros
+            <input type="checkbox" name="conocido[]" value="amigo">Un amigo
+            <input type="checkbox" name="conocido[]" value="web">Web
+            <input type="checkbox" name="conocido[]" value="prensa">Prensa
+            <input type="checkbox" name="conocido[]" value="otros">Otros
             <br>
             <br>
         </fieldset>
@@ -69,23 +103,22 @@
         <fieldset>
             <legend>Datos de la incidencia:</legend>
             <label for="">Tipo:</label>
-            <select name="tipo">
-                <option value="telefFijo">Teléfono fijo</option>
-                <option value="telefMov">Teléfono móvil</option>
+            <select name="incidencia">
+                <option value="telef_Fijo">Teléfono fijo</option>
+                <option value="telef_Móvil">Teléfono móvil</option>
                 <option value="internet">Internet</option>
                 <option value="tele">Televisión</option>
             </select>
             <br>
             <br>
             <label for="">Descripción de la incidencia:</label>
-            <textarea name="" id="" cols="40" rows="4" placeholder="Describa la incidencia . . ."></textarea>
+            <textarea name="descIncidencia" cols="40" rows="4" placeholder="Describa la incidencia . . ."></textarea>
         </fieldset>
         <br>
         <fieldset>
             <input type="reset" value="Limpiar">
-            <input type="submit" value="Enviar">
+            <input type="submit" value="Enviar" name="enviar">
         </fieldset>
     </form>
 </body>
-
 </html>

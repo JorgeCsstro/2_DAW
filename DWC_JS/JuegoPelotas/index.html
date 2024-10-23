@@ -10,15 +10,35 @@
 </head>
 
 <body>
-    <div class="cronometro">
-        <div id="ms">00:00</div>
-    </div>
-
-    <div id="marcador">
+    
+<!--<div id="marcador">
         <div id="buenas">Buenas</div>
         <div id="malas">Malas</div>
-    </div>
-
+    </div> --> 
+    <div class="card">
+        <div data-status="inprogress" class="teams">
+          <span class="event-scoreboard">
+            <span class="event-score-container">
+              <span class="current-time-container">
+                <span class="event-current-time">
+                </span>
+                <div class="cronometro">
+                    <div id="ms">00:00</div>
+                </div>            
+                <span class="progress-dots" data-progress="1S">
+                  <span class="load"></span>
+                </span>
+              </span>
+              <span class="score-container">
+                <span class="wins">0</span>
+                <span class="custom-sep">-</span>
+                <span class="losses">0</span>
+              </span>
+            </span>
+          </span>
+        </div>
+      </div>
+      
     <div id="tablero">
         <div id="botones">
             <label>Num Pelotas:</label>
@@ -27,9 +47,9 @@
                 <option value="20">20</option>
                 <option value="30">30</option>
             </select>
-            <div class="boton start">Start</div>        
-            <div class="boton stop">Stop</div>
-            <div class="boton reiniciar">Reset</div>
+            <div class="boton todasPelotas">Eliminar todas las peloas</div>        
+            <div class="boton unaPelota">Eliminar solo un color</div>
+            <div class="boton jugar">Jugar</div>
         </div>
     </div>
 

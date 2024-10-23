@@ -1,8 +1,6 @@
 window.onload = init;
 function init(){
-    document.querySelector(".start").addEventListener("click",cronometrar);
-    document.querySelector(".stop").addEventListener("click",parar);
-    document.querySelector(".reiniciar").addEventListener("click",reiniciar);
+    document.querySelector(".jugar").addEventListener("click",cronometrar);
     m = 0;
     s = 0;
     document.getElementById("ms").innerHTML="00:00";
@@ -12,7 +10,7 @@ function init(){
 function cronometrar(){
     escribir();
     id = setInterval(escribir,1000);
-    document.querySelector(".start").removeEventListener("click",cronometrar);
+    document.querySelector(".jugar").removeEventListener("click",cronometrar);
 }
 function escribir(){
     var mAux, sAux;
@@ -24,7 +22,8 @@ function escribir(){
 
     document.getElementById("ms").innerHTML = mAux + ":" + sAux; 
 }
-function parar(){
+
+/*function parar(){
     clearInterval(id);
     document.querySelector(".start").addEventListener("click",cronometrar);
 
@@ -34,4 +33,4 @@ function reiniciar(){
     document.getElementById("ms").innerHTML="00:00";
     h=0;m=0;s=0;
     document.querySelector(".start").addEventListener("click",cronometrar);
-}
+}*/

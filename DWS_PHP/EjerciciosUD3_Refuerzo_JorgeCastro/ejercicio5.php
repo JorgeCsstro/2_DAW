@@ -11,7 +11,7 @@
         satisfactoriamente”. Tendremos cuatro oportunidades para abrir la caja fuerte.
     */
     
-    // random de combinación
+    // Random de combinación
     $numArr =   [rand(0,9), rand(0,9), rand(0,9), rand(0,9)];
 
     $combinacion = implode("", $numArr);

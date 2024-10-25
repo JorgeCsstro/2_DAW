@@ -14,7 +14,8 @@
 
     $numArr = explode(" ", $rea);
 
-    for ($i=0; $i < count($numArr); $i++) { 
+    for ($i=0; $i < count($numArr); $i++) {
+        // Para saber si es impar o par
         if ($numArr[$i] % 2) {
             print("Número $i: es IMPAR\n");
         }else{

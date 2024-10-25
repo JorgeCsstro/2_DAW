@@ -20,7 +20,7 @@
         print($arr[count($arr)-1] . "]\n");
     }
     
-    // random de notas
+    // Random de notas
     $notasArr =   [rand(0,10), rand(0,10), rand(0,10), rand(0,10), rand(0,10), rand(0,10), rand(0,10)];
 
     $total = 0;

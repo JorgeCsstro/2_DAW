@@ -20,24 +20,21 @@
         print($arr[count($arr)-1] . "]\n");
     }
 
+    // Pido números para los arrays
     $reaA = readline("Dime 10 números separados por espacios (Vector A): ");
-
-    $vecA = explode(" ", $reaA);
+    $arrA = explode(" ", $reaA);
 
     $reaB = readline("Dime 10 números separados por espacios (Vector B): ");
+    $arrB = explode(" ", $reaB);
 
-    $vecB = explode(" ", $reaB);
+    $arrC = [];
 
-    $vecC = [];
-
+    // Agrego al arrC datos de ambos array a intervalos (arrA, arrB, arrA, arrB...)
     for ($i = 0; $i < 10; $i++) {
-        $vecC[] = $vecA[$i];    // Agregar el elemento de A
-        $vecC[] = $vecB[$i];    // Agregar el elemento de B
+        $arrC[] = $arrA[$i];
+        $arrC[] = $arrB[$i];
     }
 
     echo "El vector C es:\n";
-    printArr($vecC);
-
-
-
+    printArr($arrC);
 ?>

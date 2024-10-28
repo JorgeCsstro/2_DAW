@@ -11,7 +11,9 @@ if (isset($_GET['enviar'])) {
     $num2 = $_GET['num2'];
     $operaciones = $_GET['operaciones'];
 
+    // Si los 2 apartados introducidos són números
     if (is_numeric($num1) && is_numeric($num2)) {
+        // Por cada operación pondrá una línea con el resultado
         for ($i = 0; $i < count($operaciones); $i++) {
             switch ($operaciones[$i]) {
                 case '+':
@@ -24,6 +26,7 @@ if (isset($_GET['enviar'])) {
                     print("Resultado de la multiplicación: " . $num1 . "*" . $num2 . " = " . $num1 * $num2 . "<br>");
                     break;
                 case '/':
+                    // Errores para división
                     if ($num2 == 0) {
                         print("Resultado de la división: No se puede dividir entre 0 <br>");
                         break;

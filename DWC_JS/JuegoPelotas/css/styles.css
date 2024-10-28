@@ -1,212 +1,235 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
 }
 
 .cronometro {
-    width: fit-content;
-    height: fit-content;
-    text-align: center;
-} 
+  width: fit-content;
+  height: fit-content;
+  text-align: center;
+}
 
 #ms {
-    height: fit-content;
-    font-size: 20px;
-    color: #ffffff;
-    font-family: alarm;
+  height: fit-content;
+  font-size: 20px;
+  color: #ffffff;
+  font-family: alarm;
 }
 
 /* MARCADOR */
-.card{
+.card {
 
-    margin-top: 20px;
+  margin-top: 20px;
 
 }
+
 .card * {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  }
-  .card .teams {
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(90deg, transparent, #111, transparent);
-  }
-  .card .teams > span {
-    flex: 1;
-    text-align: center;
-    position: relative;
-    font-size: 13px;
-    text-wrap: nowrap;
-  }
-  .card .teams span.progress-dots {
-    height: 3px;
-    position: relative;
-    width: 60px;
-    display: block;
-    overflow: hidden;
-    margin: 0;
-    border-radius: 10px;
-  }
-  .card .teams span.progress-dots .load {
-    background: linear-gradient(90deg, #3a3dff, #ff2929);
-    display: block;
-    height: 1.5px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card .teams {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, transparent, #111, transparent);
+}
+
+.card .teams>span {
+  flex: 1;
+  text-align: center;
+  position: relative;
+  font-size: 13px;
+  text-wrap: nowrap;
+}
+
+.card .teams span.progress-dots {
+  height: 3px;
+  position: relative;
+  width: 60px;
+  display: block;
+  overflow: hidden;
+  margin: 0;
+  border-radius: 10px;
+}
+
+.card .teams span.progress-dots .load {
+  background: linear-gradient(90deg, #3a3dff, #ff2929);
+  display: block;
+  height: 1.5px;
+  width: 3px;
+  bottom: 0;
+  position: absolute;
+  transform: translateX(0px);
+  animation: loading_dots 7.5s ease both infinite;
+}
+
+@keyframes loading_dots {
+  0% {
     width: 3px;
-    bottom: 0;
-    position: absolute;
     transform: translateX(0px);
-    animation: loading_dots 7.5s ease both infinite;
   }
-  @keyframes loading_dots {
-    0% {
-      width: 3px;
-      transform: translateX(0px);
-    }
-    40% {
-      width: 3px;
-      transform: translateX(57px);
-    }
-  
-    75% {
-      width: 100%;
-      transform: translateX(0px);
-    }
-    100% {
-      width: 3px;
-      transform: translateX(0px);
-    }
-  }
-  
-  .event-info-banner .info-heading {
-    position: absolute;
-    right: 12px;
-    bottom: 5px;
-    color: rgba(255, 255, 255, 0.2);
-    margin: 0;
-  }
-  .card .event-scoreboard .event-score-container {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 10px;
-    border-radius: 10px;
-    width: fit-content;
-    background: linear-gradient(#1e1e1e 0%, #0c0c0c8e 4%, #1a1419);
-    box-shadow:
-      inset 0 0 1px 0 #2c2c2c,
-      0 0 20px 0 #1313139c;
-    margin: 10px 0;
-  }
-  .card .event-scoreboard .event-score-container .score-container {
-    font-size: 24px;
-    background: linear-gradient(90deg, #3a3dff, #ff2929);
-    -webkit-background-clip: text;
-    width: 100%;
-    -webkit-text-fill-color: transparent;
-  }
-  .card .event-scoreboard .event-score-container .current-time-container {
-    font-size: 12px;
-    margin-bottom: 8px;
-    width: 100%;
-    font-family: "SegoeUI";
-    color: #a1a1a1;
-    justify-content: center;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    row-gap: 5px;
-  }
-  .card
-    .event-scoreboard
-    .event-score-container
-    .current-time-container
-    .event-clock {
-    font-weight: 500;
-    color: #eee;
-    margin-right: 10px;
-  }
-/* MARCADOR */  
 
-/*#marcador {
-    display: flex;
-    width: fit-content;
-    justify-content: space-evenly;
-    align-items: center;
+  40% {
+    width: 3px;
+    transform: translateX(57px);
+  }
+
+  75% {
+    width: 100%;
+    transform: translateX(0px);
+  }
+
+  100% {
+    width: 3px;
+    transform: translateX(0px);
+  }
 }
 
-#buenas {
-    background-color: blue;
-    color: white;
-    padding: 10px;
-    margin-right: 10px;
-    text-align: center;
-    width: 100px;
+.event-info-banner .info-heading {
+  position: absolute;
+  right: 12px;
+  bottom: 5px;
+  color: rgba(255, 255, 255, 0.2);
+  margin: 0;
 }
 
-#malas {
-    background-color: red;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    width: 100px;
-}*/
+.card .event-scoreboard .event-score-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  border-radius: 10px;
+  width: fit-content;
+  background: linear-gradient(#1e1e1e 0%, #0c0c0c8e 4%, #1a1419);
+  box-shadow:
+    inset 0 0 1px 0 #2c2c2c,
+    0 0 20px 0 #1313139c;
+  margin: 10px 0;
+}
+
+.card .event-scoreboard .event-score-container .score-container {
+  font-size: 24px;
+  background: linear-gradient(90deg, #3a3dff, #ff2929);
+  -webkit-background-clip: text;
+  width: 100%;
+  -webkit-text-fill-color: transparent;
+}
+
+.card .event-scoreboard .event-score-container .current-time-container {
+  font-size: 12px;
+  margin-bottom: 8px;
+  width: 100%;
+  font-family: "SegoeUI";
+  color: #a1a1a1;
+  justify-content: center;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 5px;
+}
+
+.card .event-scoreboard .event-score-container .current-time-container .event-clock {
+  font-weight: 500;
+  color: #eee;
+  margin-right: 10px;
+}
+
+/* MARCADOR */
+
+#juego{
+
+  display: flex;
+  justify-content: center; /* Centers both divs within the container */
+  gap: 20px;
+
+}
 
 #tablero {
-    display: flex;
-    width: 80%;
-    height: 500px;
-    align-items: center;
-    margin-top: 40px;
-    background-color: rgb(94, 94, 94);
-    border: 5px solid black;
-    border-radius: 30px;
+  display: flex;
+  position: relative; /* Constrains pelota positions within tablero */
+  width: 800px;
+  height: 500px;
+  align-items: center;
+  margin-top: 40px;
+  background-color: rgb(94, 94, 94);
+  border: 5px solid black;
+  border-radius: 30px;
+  
 }
 
 #botones {
-    display: flex;
-    flex-direction: column; /* Display buttons in a column */
-    justify-content: center;
-    align-items: center;
-    width: 100%; /* Adjust width as needed */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 350px;
+  height: 600px;
+  background-color: rgb(94, 94, 94);
+  border: 5px solid black;
+  border-radius: 30px;
+  
 }
 
-label{
-
-    font-size: 32px;
-
+.pelota {
+  position: absolute;
+  border-radius: 50%;
 }
 
-#num-pelotas{
+label {
+  font-size: 32px;
+}
 
-    width: 100px;
-    text-align: center;
-    height: fit-content;
-    font-size: 24px;
+#num-pelotas {
+
+  width: 100px;
+  text-align: center;
+  height: fit-content;
+  font-size: 24px;
 
 }
 
 .boton {
-    background-color: lightgray; /* Light gray background */
-    font-size: 24px; /* Bigger text */
-    padding: 15px 30px; /* Bigger padding for large buttons */
-    margin: 10px 0; /* Space between buttons */
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    width: 250px; /* Adjust button width */
-    text-align: center;
+  background-color: lightgray;
+  /* Light gray background */
+  font-size: 24px;
+  /* Bigger text */
+  padding: 15px 30px;
+  /* Bigger padding for large buttons */
+  margin: 10px 0;
+  /* Space between buttons */
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 250px;
+  /* Adjust button width */
+  text-align: center;
 }
 
 .boton:hover {
-    background-color: darkgray; /* Change color on hover */
+  background-color: darkgray;
+  /* Change color on hover */
+}
+
+#win-message {
+  
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px 40px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-size: 24px;
+  border-radius: 10px;
+  text-align: center;
 }

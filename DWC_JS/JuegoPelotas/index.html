@@ -2,56 +2,61 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Balls Game</title>
-    <link rel="stylesheet" type="text/css" media="screen" href="./css/styles.css" />
-    <script src="./js/balls.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Balls Game</title>
+  <link rel="stylesheet" type="text/css" media="screen" href="./css/styles.css" />
+  <script src="./js/balls.js"></script>
 </head>
 
 <body>
-    
-<!--<div id="marcador">
+
+  <!--<div id="marcador">
         <div id="buenas">Buenas</div>
         <div id="malas">Malas</div>
-    </div> --> 
-    <div class="card">
-        <div data-status="inprogress" class="teams">
-          <span class="event-scoreboard">
-            <span class="event-score-container">
-              <span class="current-time-container">
-                <span class="event-current-time">
-                </span>
-                <div class="cronometro">
-                    <div id="ms">00:00</div>
-                </div>            
-                <span class="progress-dots" data-progress="1S">
-                  <span class="load"></span>
-                </span>
-              </span>
-              <span class="score-container">
-                <span class="wins">0</span>
-                <span class="custom-sep">-</span>
-                <span class="losses">0</span>
-              </span>
+    </div> -->
+  <div class="card">
+    <div data-status="inprogress" class="teams">
+      <span class="event-scoreboard">
+        <span class="event-score-container">
+          <span class="current-time-container">
+            <span class="event-current-time">
+            </span>
+            <div class="cronometro">
+              <div id="ms">00:00</div>
+            </div>
+            <span class="progress-dots" data-progress="1S">
+              <span class="load"></span>
             </span>
           </span>
-        </div>
-      </div>
-      
-    <div id="tablero">
-        <div id="botones">
-            <label>Num Pelotas:</label>
-            <select name="num-pelotas" id="num-pelotas">
-                <option value="10" selected>10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-            </select>
-            <div class="boton todasPelotas">Eliminar todas las peloas</div>        
-            <div class="boton unaPelota">Eliminar solo un color</div>
-            <div class="boton jugar">Jugar</div>
-        </div>
+          <span class="score-container">
+            <span id="wins">0</span>
+            <span class="custom-sep">-</span>
+            <span id="losses">0</span>
+          </span>
+        </span>
+      </span>
     </div>
+  </div>
+  <div id="juego">
+    <div id="botones">
+      <label>Num Pelotas:</label>
+      <select name="num-pelotas" id="numPelotas">
+        <option value="10" selected>10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+      </select>
+      <div class="boton jugar" onclick="newGame(); startGame()">Jugar</div>
+      <div class="boton todasPelotas">Eliminar todas las pelotas</div>
+      <div class="boton unaPelota">Eliminar solo un color</div>
+      <div id="esferaWin" id="win-message">You won in <span id="timeWin">00:00</span>!</div>
+      <!-- Hidden Reset button, initially not displayed -->
+      <div class="boton reset" id="resetButton" style="display: none;" onclick="resetGame()">Reset</div>
+    </div>
+    <div id="tablero"></div>
+  </div>
+  
+
 
 </body>
 

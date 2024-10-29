@@ -233,3 +233,8 @@ label {
   border-radius: 10px;
   text-align: center;
 }
+
+.selected {
+  background-color: darkblue;
+  color: white; /* Optional: make text white for better contrast */
+}

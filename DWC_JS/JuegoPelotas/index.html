@@ -43,10 +43,12 @@
       <label>Num Pelotas:</label>
       <select name="num-pelotas" id="numPelotas">
         <option value="10" selected>10</option>
-        <option value="20">20</option>
-        <option value="30">30</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="200">200</option>
+        <option value="500">500</option>
       </select>
-      <div class="boton jugar" onclick="newGame(); startGame()">Jugar</div>
+      <div class="boton jugar" onclick="startGame()">Jugar</div>
       <div class="boton todasPelotas">Eliminar todas las pelotas</div>
       <div class="boton unaPelota">Eliminar solo un color</div>
       <div id="esferaWin" id="win-message">You won in <span id="timeWin">00:00</span>!</div>

@@ -11,10 +11,7 @@
 
 <body>
 
-  <!--<div id="marcador">
-        <div id="buenas">Buenas</div>
-        <div id="malas">Malas</div>
-    </div> -->
+  <!-- Marcador -->
   <div class="card">
     <div data-status="inprogress" class="teams">
       <span class="event-scoreboard">
@@ -30,15 +27,18 @@
             </span>
           </span>
           <span class="score-container">
-            <span id="wins">0</span>
+            <span id="pelotasBuenas">0</span>
             <span class="custom-sep">-</span>
-            <span id="losses">0</span>
+            <span id="pelotasMalas">0</span>
           </span>
         </span>
       </span>
     </div>
   </div>
+
+  
   <div id="juego">
+    <!-- Botones del juego -->
     <div id="botones">
       <label>Num Pelotas:</label>
       <select name="num-pelotas" id="numPelotas">
@@ -51,15 +51,12 @@
       <div class="boton jugar" onclick="startGame()">Jugar</div>
       <div class="boton todasPelotas">Eliminar todas las pelotas</div>
       <div class="boton unaPelota">Eliminar solo un color</div>
-      <div id="esferaWin" id="win-message">You won in <span id="timeWin">00:00</span>!</div>
-      <!-- Hidden Reset button, initially not displayed -->
       <div class="boton reset" id="resetButton" style="display: none;" onclick="resetGame()">Reset</div>
+      <div id="esferaWin">You won in <span id="timeWin">00:00</span>!</div>
     </div>
+    <!-- Tablero -->
     <div id="tablero"></div>
   </div>
-  
-
-
 </body>
 
 </html>

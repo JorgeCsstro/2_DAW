@@ -25,6 +25,86 @@ body {
   font-family: alarm;
 }
 
+#juego{
+
+  display: flex;
+  justify-content: center; /* Centers both divs within the container */
+  gap: 20px;
+
+}
+
+#tablero {
+  display: flex;
+  position: relative; /* Constrains pelota positions within tablero */
+  width: 800px;
+  height: 500px;
+  align-items: center;
+  margin-top: 40px;
+  background-color: rgb(94, 94, 94);
+  border: 5px solid black;
+  border-radius: 30px;
+  
+}
+
+#botones {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 350px;
+  height: 600px;
+  background-color: rgb(94, 94, 94);
+  border: 5px solid black;
+  border-radius: 30px;
+  
+}
+
+.pelota {
+  position: absolute;
+  border-radius: 50%;
+}
+
+label {
+  font-size: 32px;
+}
+
+#numPelotas {
+
+  width: 100px;
+  text-align: center;
+  height: fit-content;
+  font-size: 24px;
+
+}
+
+.boton {
+  background-color: lightgray;
+  font-size: 24px;
+  padding: 15px 30px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 250px;
+  text-align: center;
+}
+
+.boton:hover {
+  background-color: darkgray;
+}
+
+#esferaWin{
+
+  font-size: 32px;
+
+}
+
+.selected {
+  background-color: darkblue;
+  color: white;
+}
+
+
 /* MARCADOR */
 .card {
 
@@ -145,96 +225,3 @@ body {
 }
 
 /* MARCADOR */
-
-#juego{
-
-  display: flex;
-  justify-content: center; /* Centers both divs within the container */
-  gap: 20px;
-
-}
-
-#tablero {
-  display: flex;
-  position: relative; /* Constrains pelota positions within tablero */
-  width: 800px;
-  height: 500px;
-  align-items: center;
-  margin-top: 40px;
-  background-color: rgb(94, 94, 94);
-  border: 5px solid black;
-  border-radius: 30px;
-  
-}
-
-#botones {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 350px;
-  height: 600px;
-  background-color: rgb(94, 94, 94);
-  border: 5px solid black;
-  border-radius: 30px;
-  
-}
-
-.pelota {
-  position: absolute;
-  border-radius: 50%;
-}
-
-label {
-  font-size: 32px;
-}
-
-#num-pelotas {
-
-  width: 100px;
-  text-align: center;
-  height: fit-content;
-  font-size: 24px;
-
-}
-
-.boton {
-  background-color: lightgray;
-  /* Light gray background */
-  font-size: 24px;
-  /* Bigger text */
-  padding: 15px 30px;
-  /* Bigger padding for large buttons */
-  margin: 10px 0;
-  /* Space between buttons */
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  width: 250px;
-  /* Adjust button width */
-  text-align: center;
-}
-
-.boton:hover {
-  background-color: darkgray;
-  /* Change color on hover */
-}
-
-#win-message {
-  
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 20px 40px;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
-  font-size: 24px;
-  border-radius: 10px;
-  text-align: center;
-}
-
-.selected {
-  background-color: darkblue;
-  color: white; /* Optional: make text white for better contrast */
-}

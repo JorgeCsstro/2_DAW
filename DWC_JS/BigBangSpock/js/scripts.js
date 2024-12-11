@@ -14,7 +14,8 @@ var mensajes = {
 }
 
 //Variables que contendrán los elementos HTML que vayamos a necesitar
-
+let puntosMaq = 0;
+let puntosJug = 0;
 
 window.onload = function(){
     cargarTablero();
@@ -77,20 +78,170 @@ function continuar() {
 function deliverar() {
     document.getElementById("proteccion").className="visible";
     document.getElementById("deliveracion").className="visible";
-    setTimeout(mostrarMensaje,2000);
+    let maqSeleccion = document.getElementById("enemigo");
+
+    let maquina = Math.floor(Math.random() * 5) + 1;
+    let seleccionado = document.getElementById("seleccionado").children[0];
+    let jugador = parseInt(seleccionado.getAttribute("data-puntos"));
+    let caso = mensajes.empa;
+
+    switch (maquina) {
+        case 1:
+            maqSeleccion.innerHTML = '<img src="img/piedra.png" id="piedra" data-puntos="1"></img>';
+            break;
+        case 2:
+            maqSeleccion.innerHTML = '<img src="img/papel.png" id="papel" data-puntos="2"></img>';
+            break;
+        case 3:
+            maqSeleccion.innerHTML = '<img src="img/tijera.png" id="tijera" data-puntos="3"></img>';
+            break;
+        case 4:
+            maqSeleccion.innerHTML = '<img src="img/lagarto.png" id="lagarto" data-puntos="4"></img>';
+            break;
+        case 5:
+            maqSeleccion.innerHTML = '<img src="img/spock.png" id="spock" data-puntos="5"></img>';
+            break;
+    }
+
+
+    switch (jugador) {
+        // PIEDRA JUGADOR
+        case 1:
+            switch (maquina) {
+                case 1:
+                    caso = mensajes.empa;
+                    break;
+                case 2:
+                    caso = mensajes.papi;
+                    puntosMaq = 2;
+                    break;
+                case 3:
+                    caso = mensajes.piti;
+                    puntosJug = 3;
+                    break;
+                case 4:
+                    caso = mensajes.pila;
+                    puntosJug = 4;
+                    break;
+                case 5:
+                    caso = mensajes.sppi;
+                    puntosMaq = 5;
+                    break;
+            }
+            break;
+
+        // PAPEL JUGADOR
+        case 2:
+            switch (maquina) {
+                case 1:
+                    caso = mensajes.papi;
+                    puntosJug = 1;
+                    break;
+                case 2:
+                    caso = mensajes.empa;
+                    break;
+                case 3:
+                    caso = mensajes.tipa;
+                    puntosMaq = 3;
+                    break;
+                case 4:
+                    caso = mensajes.lapa;
+                    puntosMaq = 4;
+                    break;
+                case 5:
+                    caso = mensajes.pasp;
+                    puntosJug = 5;
+                    break;
+            }
+            break;
+        // TIJERA JUGADOR
+        case 3:
+            switch (maquina) {
+                case 1:
+                    caso = mensajes.piti;
+                    puntosMaq = 1;
+                    break;
+                case 2:
+                    caso = mensajes.tipa;
+                    puntosJug = 2;
+                    break;
+                case 3:
+                    caso = mensajes.empa;
+                    break;
+                case 4:
+                    caso = mensajes.tila;
+                    puntosJug = 4;
+                    break;
+                case 5:
+                    caso = mensajes.spti;
+                    puntosMaq = 5;
+                    break;
+            }
+            break;
+        // LAGARTO JUGADOR
+        case 4:
+            switch (maquina) {
+                case 1:
+                    caso = mensajes.pila;
+                    puntosMaq = 1;
+                    break;
+                case 2:
+                    caso = mensajes.lapa;
+                    puntosJug = 2;
+                    break;
+                case 3:
+                    caso = mensajes.tila;
+                    puntosMaq = 3;
+                    break;
+                case 4:
+                    caso = mensajes.empa;
+                    break;
+                case 5:
+                    caso = mensajes.lasp;
+                    puntosJug = 5;
+                    break;
+            }
+            break;
+        // SPOCK JUGADOR
+        case 5:
+            switch (maquina) {
+                case 1:
+                    caso = mensajes.sppi;
+                    puntosJug = 1;
+                    break;
+                case 2:
+                    caso = mensajes.spti;
+                    puntosJug = 2;
+                    break;
+                case 3:
+                    caso = mensajes.pasp;
+                    puntosMaq = 3;
+                    break;
+                case 4:
+                    caso = mensajes.lasp;
+                    puntosMaq = 4;
+                    break;
+                case 5:
+                    caso = mensajes.empa;
+                    break;
+            }
+            break;
+        default:
+            caso = mensajes.empa;
+            break;
+    }
+    
+    setTimeout(mostrarMensaje(caso),2000);
 }
 
-function mostrarMensaje() {
+function mostrarMensaje(caso) {
     
     //Mostramos el mensaje en función del resultado de la jugada o de la partida
     let restult = document.getElementById("resultado");
-    /*if (condition) {
-        restult.innerHTML = mensajes.tipa;
-    }*/
+    
+    restult.innerHTML = caso;
     
     document.getElementById("mensaje").className="visible";
-
-    
 
 }
 

@@ -28,6 +28,6 @@
     $segundos = $r;
 
     // Imprime resultado
-    printf("%02d:%02d:%02d\n", $horas, $minutos, $segundos)
+    printf("%02d:%02d:%02d\n", $horas, $minutos, $segundos);
 
 ?>

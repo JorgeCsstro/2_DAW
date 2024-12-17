@@ -12,15 +12,15 @@
     $matriz = [];
     
     // Creo la matriz
-    for ($n = 0; $n < 5; $n++) {
-        for ($m = 0; $m < 5; $m++) {
+    for ($n = 0; $n < 3; $n++) {
+        for ($m = 0; $m < 3; $m++) {
             $matriz[$n][$m] = $n + $m;
         }
     }
     
     // Print de la matriz
-    for ($n = 0; $n < 5; $n++) {
-        for ($m = 0; $m < 5; $m++) {
+    for ($n = 0; $n < 3; $n++) {
+        for ($m = 0; $m < 3; $m++) {
             print($matriz[$n][$m] . "\t");
         }
         print("\n");

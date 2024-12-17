@@ -38,18 +38,18 @@ if (isset($_GET['enviar'])) {
     // Convertimos los números en un array
     $numeros = array_map('intval', explode(',', $numerosInput));
 
-    echo "<h2>Resultados:</h2>";
+    print "<h2>Resultados:</h2>";
     if (in_array('media', $opciones)) {
         $media = calcularMedia($numeros);
-        echo "<p><strong>Media:</strong> $media</p>";
+        print "<p><strong>Media:</strong> $media</p>";
     }
     if (in_array('moda', $opciones)) {
         $moda = calcularModa($numeros);
-        echo "<p><strong>Moda:</strong> " . implode(', ', $moda) . "</p>";
+        print "<p><strong>Moda:</strong> " . implode(', ', $moda) . "</p>";
     }
     if (in_array('mediana', $opciones)) {
         $mediana = calcularMediana($numeros);
-        echo "<p><strong>Mediana:</strong> $mediana</p>";
+        print "<p><strong>Mediana:</strong> $mediana</p>";
     }
     
 }
@@ -63,7 +63,7 @@ if (isset($_GET['enviar'])) {
 </head>
 
 <body>
-<form action="" method="get">
+<form action="eje18.php" method="get">
     <h1>Ejercicio 18 - Jorge Castro</h1>
     <label for="numeros">Dígame todos los números que quiera (separados por comas):</label>
     <input type="text" name="numeros" id="numeros">

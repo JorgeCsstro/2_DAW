@@ -1,3 +1,4 @@
+
 //Mensajes de los resultados de las jugadas
 var mensajes = {
     tipa: "Tijeras cortan papel",
@@ -13,7 +14,6 @@ var mensajes = {
     empa: "Empate"
 }
 
-//Variables que contendrán los elementos HTML que vayamos a necesitar
 let puntosMaq = 0;
 let puntosJug = 0;
 let totalJug = Math.min(puntosJug, 10);
@@ -28,16 +28,17 @@ function cargarEventos() {
     let seleccionado = document.getElementById("seleccionado");
     let elementos = ["piedra", "papel", "tijera", "lagarto", "spock"];
 
+    // Añade funcion continuar al boton continuar
     document.getElementById("continuar").addEventListener("click", continuar);
 
-    // Add drag and drop events to the 'seleccionado' div
+    // Añade a "seleccionado" el drag and drop
     seleccionado.addEventListener("drop", (ev) => {
         drop(ev);
         deliverar();
     });
     seleccionado.addEventListener("dragover", allowDrop);
 
-    // Add dragstart events to each draggable item
+    // Añade draggable a todas las fotos del juego
     elementos.forEach(id => {
         let dragElement = document.getElementById(id);
         dragElement.draggable = true;
@@ -45,6 +46,7 @@ function cargarEventos() {
     });
 }
 
+// Funcion para saber los resultados del jugo y mostrar mensajes
 function deliverar() {
     document.getElementById("proteccion").className = "visible";
     document.getElementById("deliveracion").className = "visible";
@@ -53,6 +55,8 @@ function deliverar() {
     let maquina = Math.floor(Math.random() * 5) + 1;
     let seleccionado = document.getElementById("seleccionado").children[0];
     let jugador = parseInt(seleccionado.getAttribute("data-puntos"));
+
+    // El caso default es empate
     let caso = mensajes.empa;
 
     switch (maquina) {
@@ -107,25 +111,27 @@ function deliverar() {
             break;
     }
 
-    // After a 3-second delay, display results and update points
+    // Muestro el mensaje en un poco de delay
     setTimeout(() => {
         mostrarMensaje(caso);
         actualizarPuntos();
     }, 3000);
 }
 
+// Función para colocar puntos en pantalla
 function actualizarPuntos() {
     let jugadorDiv = document.getElementById("jugador");
     let maquinaDiv = document.getElementById("maquina");
 
-    // Clear previous squares
+    // Quita lo que tenian los contenedores de puntos
     jugadorDiv.innerHTML = '';
     maquinaDiv.innerHTML = '';
 
-    // Calculate squares for player and machine
-    totalJug = Math.min(puntosJug, 10); // Cap at 10 squares
+    // Calcula los puntos de cada uno y lo capa para que no exceda de 10
+    totalJug = Math.min(puntosJug, 10);
     totalMaq = Math.min(puntosMaq, 10);
 
+    // Creación de divs de puntos
     for (let i = 0; i < totalJug; i++) {
         let square = document.createElement("div");
         square.className = "punto mio";
@@ -138,63 +144,57 @@ function actualizarPuntos() {
         maquinaDiv.appendChild(square);
     }
 
+    // Victoria / Derrota
     if (totalJug === 10 || totalMaq === 10) {
-        let resultadoDiv = document.getElementById("resultado");
     
         let ganadorMensaje = document.createElement("p");
         ganadorMensaje.id = "ganador";
     
         if (totalJug === 10) {
-            ganadorMensaje.innerHTML = "¡Felicidades! El jugador ha ganado la partida.";
+            ganadorMensaje.innerHTML = "Has GANADO, la humanidad persiste, 'Paco' nunca ganará >:D";
         } else if (totalMaq === 10) {
-            ganadorMensaje.innerHTML = "La máquina ha ganado la partida. ¡Suerte la próxima vez!";
+            ganadorMensaje.innerHTML = "Has PERDIDO, la humanidad perece y solo queda 'Paco' :C";
         }
     
         let mensajeDiv = document.getElementById("mensaje");
-        let continuarBtn = document.getElementById("continuar");
-        mensajeDiv.insertBefore(ganadorMensaje, continuarBtn);
+        let continuar = document.getElementById("continuar");
+
+        // Me coloca el mensaje antes de el botón
+        mensajeDiv.insertBefore(ganadorMensaje, continuar);
         document.getElementById("mensaje").className = "visible";
     
         gameWon = true;
     }
 }
 
-
-
+// Muestra el mensaje con el resultado de la jugada
 function mostrarMensaje(caso) {
-
-    //Mostramos el mensaje en función del resultado de la jugada o de la partida
     let restult = document.getElementById("resultado");
-
     restult.innerHTML = caso;
-
     document.getElementById("mensaje").className = "visible";
 
 }
 
 function continuar() {
     if (gameWon) {
-        // Full reset if the game has been won
+        // Si ya se ha gandado/perdido la partida, hará reset del juego
         puntosJug = 0;
         puntosMaq = 0;
         totalJug = 0;
         totalMaq = 0;
-        gameWon = false; // Reset the win flag
+        gameWon = false;
 
-        // Clear points from the screen
         document.getElementById("jugador").innerHTML = '';
         document.getElementById("maquina").innerHTML = '';
-
-        // Reset the enemy image to the question mark
         document.getElementById("enemigo").innerHTML = '<img src="img/interrogante.png">';
-
-        // Move any remaining dragged elements back to their original container
         let seleccionado = document.getElementById("seleccionado");
         let draggedElement = seleccionado.children[0];
 
+        // Sirve para devolver el elemento arrastrado a su posición original
         if (draggedElement) {
-            let availableContainers = Array.from(document.querySelectorAll(".item"))
-                .filter(container => container.children.length === 0 && container.id !== "seleccionado");
+            let availableContainers = Array.from(document.querySelectorAll(".item")).filter(
+                container => container.children.length === 0 && container.id !== "seleccionado"
+            );
 
             if (availableContainers.length > 0) {
                 availableContainers[0].appendChild(draggedElement);
@@ -202,18 +202,13 @@ function continuar() {
         }
 
         seleccionado.innerHTML = '';
-
-        // Remove winner message
         let paragraphs = document.querySelectorAll("p#ganador");
         paragraphs.forEach((p) => p.remove());
-
-        // Hide overlays
         document.getElementById("mensaje").className = "invisible";
         document.getElementById("proteccion").className = "invisible";
         document.getElementById("deliveracion").className = "invisible";
 
     } else {
-        // Regular continue behavior if the game hasn't been won
         document.getElementById("mensaje").className = "invisible";
         document.getElementById("proteccion").className = "invisible";
         document.getElementById("deliveracion").className = "invisible";
@@ -223,24 +218,24 @@ function continuar() {
         let seleccionado = document.getElementById("seleccionado");
         let draggedElement = seleccionado.children[0];
 
+        // Sirve para devolver el elemento arrastrado a su posición original
         if (draggedElement) {
-            let availableContainers = Array.from(document.querySelectorAll(".item"))
-                .filter(container => container.children.length === 0 && container.id !== "seleccionado");
+            let availableContainers = Array.from(document.querySelectorAll(".item")).filter(
+                container => container.children.length === 0 && container.id !== "seleccionado"
+            );
 
             if (availableContainers.length > 0) {
                 availableContainers[0].appendChild(draggedElement);
             }
         }
-
         seleccionado.innerHTML = '';
+
     }
 }
 
 
 
 /***************************DRAG AND DROP ****************************/
-
-//Funciones para el drag&drop
 
 function allowDrop(ev) {
     /*
@@ -258,13 +253,10 @@ function drag(ev) {
 
 function drop(ev) {
     ev.preventDefault();
-
-    // Get the ID of the dragged element
     let idElement = ev.dataTransfer.getData("id");
     let draggedElement = document.getElementById(idElement);
 
     if (draggedElement) {
-        // Append the dragged element to the target container
         ev.target.appendChild(draggedElement);
     }
 }

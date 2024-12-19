@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jorge Castro - Formulario de registro 3</title>
+    <title>Formulario de registro 3 - Jorge Castro</title>
 </head>
 
 <body>
@@ -13,7 +13,7 @@
     indicando el campo en cursiva y el contenido en negrita
 -->
 
-    <h1>Jorge Castro - Formulario de registro 3</h1>
+    <h1>Formulario de registro 3 - Jorge Castro</h1>
 
     <form action="NombreAlumnoForm3OK.php" method="post">
         <label for="">Nombre:</label>

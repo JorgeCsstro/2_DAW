@@ -14,6 +14,7 @@ if (isset($_GET['enviar'])) {
     $modulo = $_GET['modulo'];
     $horas = $_GET['horas'];
     
+    // Todas las tablas
     if ($curso == "primero") {
         if ($modulo == "daw") {
             if ($horas == "si") {

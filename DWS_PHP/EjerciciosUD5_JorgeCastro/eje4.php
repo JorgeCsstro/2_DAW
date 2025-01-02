@@ -12,6 +12,7 @@ if (isset($_GET['enviar'])) {
 
     $horasTrabajadas = $_GET['horas'];
 
+    // Salario sin horas extras y con horas extras
     if ($horasTrabajadas <= $horasOrdinarias) {
         $salario = $horasTrabajadas * $tarifaOrdinaria;
         print("El salario es: " . $salario);

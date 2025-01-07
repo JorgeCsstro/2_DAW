@@ -7,14 +7,12 @@
 if (isset($_GET['enviar'])) {
 
     $fecha = $_GET['fecha'];
-    
+
+    // Comprobacion de fecha
     if (is_numeric($fecha) && $fecha >= 0 && $fecha <= 31) {
-        
-        echo(($fecha <= 15) ? "Primera quincena <br>" : "Segunda quincena <br>");
+        print(($fecha <= 15) ? "Primera quincena <br>" : "Segunda quincena <br>");
     }else{
-
-        echo("Fecha no válida");
-
+        print("Fecha no válida");
     }
 }
 

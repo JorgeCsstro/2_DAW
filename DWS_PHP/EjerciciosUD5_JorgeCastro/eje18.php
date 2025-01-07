@@ -10,10 +10,12 @@
     calculadas pero se deben mostrar todas para que el usuario las marque o desmarque
 */
 
+// Calcular media
 function calcularMedia($numeros) {
     return array_sum($numeros) / count($numeros);
 }
 
+// Calcular moda
 function calcularModa($numeros) {
     $frecuencias = array_count_values($numeros);
     $maxFrecuencia = max($frecuencias);
@@ -21,6 +23,7 @@ function calcularModa($numeros) {
     return $moda;
 }
 
+// Calcular mediana
 function calcularMediana($numeros) {
     sort($numeros);
     $n = count($numeros);
@@ -38,6 +41,7 @@ if (isset($_GET['enviar'])) {
     // Convertimos los números en un array
     $numeros = array_map('intval', explode(',', $numerosInput));
 
+    // Print los resultados seleccionados
     print "<h2>Resultados:</h2>";
     if (in_array('media', $opciones)) {
         $media = calcularMedia($numeros);

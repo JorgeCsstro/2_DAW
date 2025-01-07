@@ -15,6 +15,7 @@ if (isset($_GET['enviar'])) {
         echo "<table border='1'";
         echo "<tr><th>Zona Horaria</th><th>Hora Actual</th></tr>";
 
+        // Muestra todas las horas de las diferentes zonas horarias
         foreach ($zonas as $zona) {
             $dateTime = new DateTime("now", new DateTimeZone($zona));
             echo "<tr><td>" . $zona . "</td><td>" . $dateTime->format('H:i:s') . "</td></tr>";

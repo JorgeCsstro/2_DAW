@@ -7,6 +7,7 @@
 if (isset($_GET['enviar'])) {
 
     $char = $_GET['char'];
+    // Comprobador de carácteres
     if (ctype_lower($char)) {
         print("Soy un carácter de letra Minúscula<br>");
     } elseif (ctype_upper($char)) {

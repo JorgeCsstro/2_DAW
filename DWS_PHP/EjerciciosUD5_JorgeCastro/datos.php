@@ -19,13 +19,16 @@ if (isset($_GET['enviar'])) {
     $nombre = $_GET['nombre'];
     $email = $_GET['email'];
     $nivel = $_GET['nivel'];
+    $situacion = $_GET['situacion'];
+    $hobbies = $_GET['hobbies'];
     
     // Muestro los valores
     print(
             "<br><i>Nombre:</i> <b>" . strtoupper($nombre) . "</b>" .
             "<br><i>Email:</i> <b>" . $email . "</b>" . 
-            "<br><i>Email:</i> <b>" . $nivel . "</b>"
-            
+            "<br><i>Nivel de estudios:</i> <b>" . $nivel . "</b>" .
+            "<br><i>Situación:</i> <b>" . strtoupper(implode(", ", $situacion)) . "</b>" .
+            "<br><i>Hobbies:</i> <b>" . strtoupper(implode(", ", $hobbies)) . "</b>"
     );
 }
 

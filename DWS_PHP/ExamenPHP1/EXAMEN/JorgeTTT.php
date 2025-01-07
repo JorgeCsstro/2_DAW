@@ -32,16 +32,16 @@
                 if ($turno == 0) {
                     $columna = readline($jugadores[0]["nombre"] . "(" . $jugadores[0]["caracter"] . "), indica la columna (0-2) o escribe 's' para abandonar la partida: ");
                     $fila = readline($jugadores[0]["nombre"] . "(" . $jugadores[0]["caracter"] . "), indica la fila (0-2) o escribe 's' para abandonar la partida: ");
-                    if ($columna || $fila = 's') {
-                        $seguir = false;
-                        $jugadores[1]["wins"] += 1;
-                        print("\n!". $jugadores[1]["nombre"] ." ha ganado esta partida¡\n");
-                    }else{
+                    //if ($columna || $fila == 's') {
+                    //    $seguir = false;
+                    //    $jugadores[1]["wins"] += 1;
+                    //    print("\n!". $jugadores[1]["nombre"] ." ha ganado esta partida¡\n");
+                    //}else{
                         $matriz[$columna][$fila] = $jugadores[0]["caracter"];
                         $turno = 1;
                         imprimirTablero($matriz);
                         $seguir = verificarGanador($matriz, $jugadores);
-                    }
+                    //}
                     
                 }elseif($turno == 1){
                     $columna = readline($jugadores[1]["nombre"] . "(" . $jugadores[1]["caracter"] . "), indica la columna (0-2) o escribe 's' para abandonar la partida: ");

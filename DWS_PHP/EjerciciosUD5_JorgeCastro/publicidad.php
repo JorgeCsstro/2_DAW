@@ -5,8 +5,10 @@
 */
 
 /*
-    13. Formulario 1, petición por GET y mostrar en NombreAlumnoForm1OK.php los resultados
-    indicando el campo en cursiva y el contenido en negrita
+    22. Escribe un formulario que solicite una dirección de correo y que la confirme e indique si
+    acepta recibir publicidad. Añade botón Enviar y Borrar. Cuando enviemos, iremos a otra página
+    donde se le indique el email y si ha aceptado recibir publicidad o no. El botón borrar se
+    mantendrá en el mismo formulario inicial pero limpiará todos los campos.
 */
 
 if (isset($_GET['enviar'])) {

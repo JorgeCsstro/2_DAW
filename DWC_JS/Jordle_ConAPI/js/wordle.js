@@ -64,76 +64,88 @@ function actualizarGrid() {
 async function compruebaRAE(adivinar){
 
     let str = adivinar.join("");
-    let palabraExiste = await fetch("https://rae-api.com/api/words/" + str);
-    let ok = await palabraExiste.json();
-
-    
+    let palabraExiste = await fetch("https://rae-api.com/api/words/" + str)
+    .then(response =>{
+        if (response.ok) {
+            return true;
+        }else{
+            return false;
+        }
+    });
+    return palabraExiste;
 }
 
 // Comprobacion de la palabra
-function comprobar() {
-    if (adivinar.length === palabraActual.length && compruebaRAE(adivinar)) {
-        var adivinarString = adivinar.join('').toUpperCase();
+async function comprobar() {
+    if (adivinar.length === palabraActual.length) {
+        let existe = await compruebaRAE(adivinar);
+        if (existe) {
+            var adivinarString = adivinar.join('').toUpperCase();
 
-        // Pon colores dependiendo si: la letra está en el sitio correcto (verde), la letra existe (amarillo), la letra no existe (rojo)
-        for (let i = 0; i < palabraActual.length; i++) {
-            var tile = document.querySelector(`[data-row="${lineaActual}"][data-col="${i}"]`);
-            var keyButton = document.querySelector(`.key[onclick="ponLetra('${adivinarString[i]}')"]`);
+            // Pon colores dependiendo si: la letra está en el sitio correcto (verde), la letra existe (amarillo), la letra no existe (rojo)
+            for (let i = 0; i < palabraActual.length; i++) {
+                var tile = document.querySelector(`[data-row="${lineaActual}"][data-col="${i}"]`);
+                var keyButton = document.querySelector(`.key[onclick="ponLetra('${adivinarString[i]}')"]`);
 
-            // PARA LOS COLORES EL JS TE LOS PONE EN RGB aunque los tengas en HEX
-            if (adivinarString[i] === palabraActual[i]) {
-                tile.style.backgroundColor = '#019101'; // green
-                keyButton.style.backgroundColor = '#019101'; // green
+                // PARA LOS COLORES EL JS TE LOS PONE EN RGB aunque los tengas en HEX
+                if (adivinarString[i] === palabraActual[i]) {
+                    tile.style.backgroundColor = '#019101'; // green
+                    keyButton.style.backgroundColor = '#019101'; // green
 
-            } else {
-                let letterFound = false;
-                for (let j = 0; j < palabraActual.length; j++) {
-                    if (adivinarString[i] === palabraActual[j]) {
-                        letterFound = true;
-                        break;
-                    }
-                }
-
-                if (letterFound) {
-                    tile.style.backgroundColor = '#c5b700'; // yellow
-                    if (keyButton.style.backgroundColor != 'rgb(1, 145, 1)') { // green
-
-                        keyButton.style.backgroundColor = '#c5b700';// yellow
-                    }
                 } else {
-                    tile.style.backgroundColor = '#853636';// red
-                    if (keyButton && keyButton.style.backgroundColor != 'rgb(1, 145, 1)' && keyButton.style.backgroundColor != 'rgb(197, 183, 0)') {
-                        keyButton.style.backgroundColor = '#853636';// red
+                    let letterFound = false;
+                    for (let j = 0; j < palabraActual.length; j++) {
+                        if (adivinarString[i] === palabraActual[j]) {
+                            letterFound = true;
+                            break;
+                        }
+                    }
+
+                    if (letterFound) {
+                        tile.style.backgroundColor = '#c5b700'; // yellow
+                        if (keyButton.style.backgroundColor != 'rgb(1, 145, 1)') { // green
+
+                            keyButton.style.backgroundColor = '#c5b700';// yellow
+                        }
+                    } else {
+                        tile.style.backgroundColor = '#853636';// red
+                        if (keyButton && keyButton.style.backgroundColor != 'rgb(1, 145, 1)' && keyButton.style.backgroundColor != 'rgb(197, 183, 0)') {
+                            keyButton.style.backgroundColor = '#853636';// red
+                        }
                     }
                 }
             }
-        }
 
-        // Si ha acertado la palabra
-        if (adivinarString === palabraActual) {
+            // Si ha acertado la palabra
+            if (adivinarString === palabraActual) {
 
-            racha++;
-            // Cambia la opacidad según la racha
-            let intensidad = Math.min(1, racha * 0.1);
-        
-            // Aplica el nuevo fondo rojo con opacidad variable
-            document.querySelector('.racha').style.backgroundColor = `rgba(133, 54, 54, ${intensidad})`;
-        
-            document.querySelector('.racha').textContent = "RACHA: " + racha;
-            puedeComprobar = false;
-
-        } else {
-            if (lineaActual < intentos - 1) {
-                lineaActual++;
-                adivinar = [];
-
-            } else {
-                document.querySelector('.racha').style.backgroundColor = `rgba(133, 54, 54, 0)`;
-                palabra = document.getElementById('palabra').innerHTML = "Game Over! La palabra era: " + palabraActual;
-                racha = 0; // Reinicia la racha al perder
+                racha++;
+                // Cambia la opacidad según la racha
+                let intensidad = Math.min(1, racha * 0.1);
+            
+                // Aplica el nuevo fondo rojo con opacidad variable
+                document.querySelector('.racha').style.backgroundColor = `rgba(133, 54, 54, ${intensidad})`;
+            
                 document.querySelector('.racha').textContent = "RACHA: " + racha;
                 puedeComprobar = false;
+
+            } else {
+                if (lineaActual < intentos - 1) {
+                    lineaActual++;
+                    adivinar = [];
+
+                } else {
+                    document.querySelector('.racha').style.backgroundColor = `rgba(133, 54, 54, 0)`;
+                    palabra = document.getElementById('palabra').innerHTML = "Game Over! La palabra era: " + palabraActual;
+                    racha = 0; // Reinicia la racha al perder
+                    document.querySelector('.racha').textContent = "RACHA: " + racha;
+                    puedeComprobar = false;
+                }
             }
+        }else{
+
+            alert("La palabra no existe >:C");
+
         }
     }
 }
@@ -153,7 +165,7 @@ function nuevaPartida() {
     let posibilidades = ["GATO", "PERRO", "MANOS", "CASA", "LUNA", "PLAYA", "LIBRO",
         "SILLA", "TIGRE", "MONTAÑA", "HOLA", "FRIO", "AVEJA", "AVISPA",
         "MARIPOSA", "ELEFANTE", "CANGREJO", "AVENTURA", "SONRISA", "CIELO",
-        "ESTRELLA", "GALICIA", "ESPERANZA", "ESPAÑA", "TIERRA", "VULGAR", "HERMANO", 
+        "ESTRELLA", "GALICIA", "ESPERANZA", "TIERRA", "VULGAR", "HERMANO", 
         "REALIDAD", "KAYAK", "KARATE", "PERSONA", "MONSTRUO", "DEMONIO", "ANGEL", "DIOS"];
 
     // Random desde el minimo hasta el maximo del array

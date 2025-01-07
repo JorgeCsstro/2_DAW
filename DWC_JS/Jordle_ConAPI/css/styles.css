@@ -1,0 +1,93 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f1f1f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.titulo{
+
+    margin-top: 300px;
+    padding: 10px;
+    padding-left: 250px;
+    padding-right: 250px;
+    border: solid black;
+    border-radius: 35px;
+    background-color: #969e00;
+
+}
+
+.racha{
+
+    font-size: 26px;
+    padding: 10px;
+    transition: background-color 0.5s ease;
+    border-radius: 20px;
+
+}
+
+.grid {
+    display: grid;
+    grid-gap: 5px;
+    margin-bottom: 20px;
+}
+
+#palabra{
+
+    width: 100%;
+    height: 50px;
+    font-size: 32px;
+    font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
+
+}
+
+.keyboard {
+    display: grid;
+    grid-template-columns: repeat(10, 40px);
+    grid-gap: 5px;
+}
+.key {
+    background-color: #818384;
+    color: white;
+    border: none;
+    height: 50px;
+    font-size: 18px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.key.enter, .key.backspace {
+    grid-column: span 2;
+}
+
+.tile {
+    width: 50px;
+    height: 50px;
+    background-color: #d3d6da;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 5px;
+    border-radius: 10px;
+}
+
+.nueva {
+    display: flex;
+    width: 100px;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    background-color: rgb(195, 113, 12);
+    margin-bottom: 20px;
+}

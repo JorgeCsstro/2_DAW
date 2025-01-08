@@ -16,15 +16,15 @@ document.addEventListener('keydown', function (event) {
     if (letterRegex.test(key)) {
         ponLetra(key);
 
-    // Si es un Enter
+        // Si es un Enter
     } else if (key === 'Enter' && puedeComprobar) {
         comprobar();
 
-    // Si ya no te quedan intentos el proximo enter será una nueva partida
+        // Si ya no te quedan intentos el proximo enter será una nueva partida
     } else if (key === 'Enter' && !puedeComprobar) {
         nuevaPartida();
 
-    // Si es un Del
+        // Si es un Del
     } else if (key === 'Backspace') {
         borrarUno();
     }
@@ -61,17 +61,17 @@ function actualizarGrid() {
     }
 }
 
-async function compruebaRAE(adivinar){
+async function compruebaRAE(adivinar) {
 
     let str = adivinar.join("");
     let palabraExiste = await fetch("https://rae-api.com/api/words/" + str)
-    .then(response =>{
-        if (response.ok) {
-            return true;
-        }else{
-            return false;
-        }
-    });
+        .then(response => {
+            if (response.ok) {
+                return true;
+            } else {
+                return false;
+            }
+        });
     return palabraExiste;
 }
 
@@ -122,10 +122,10 @@ async function comprobar() {
                 racha++;
                 // Cambia la opacidad según la racha
                 let intensidad = Math.min(1, racha * 0.1);
-            
+
                 // Aplica el nuevo fondo rojo con opacidad variable
                 document.querySelector('.racha').style.backgroundColor = `rgba(133, 54, 54, ${intensidad})`;
-            
+
                 document.querySelector('.racha').textContent = "RACHA: " + racha;
                 puedeComprobar = false;
 
@@ -142,7 +142,7 @@ async function comprobar() {
                     puedeComprobar = false;
                 }
             }
-        }else{
+        } else {
 
             alert("La palabra no existe >:C");
 
@@ -150,8 +150,20 @@ async function comprobar() {
     }
 }
 
+async function apiPalabra() {
+    let palabraRand = await fetch("https://random-word-api.herokuapp.com/word?lang=es")
+        .then(response => response.json())
+        .then(data => data[0]);
+    return palabraRand;
+}
+
+
 // Al iniciar una nueva partida...
-function nuevaPartida() {
+async function nuevaPartida() {
+    
+    palabraActual = await apiPalabra();
+    palabraActual = palabraActual.toUpperCase();
+    
     // Reinicia todo
     lineaActual = 0;
     adivinar = [];
@@ -160,24 +172,13 @@ function nuevaPartida() {
 
     // Quito el game over del anterior juego
     palabra = document.getElementById('palabra').innerHTML = "";
-
-    // Palabras posibles
-    let posibilidades = ["GATO", "PERRO", "MANOS", "CASA", "LUNA", "PLAYA", "LIBRO",
-        "SILLA", "TIGRE", "MONTAÑA", "HOLA", "FRIO", "AVEJA", "AVISPA",
-        "MARIPOSA", "ELEFANTE", "CANGREJO", "AVENTURA", "SONRISA", "CIELO",
-        "ESTRELLA", "GALICIA", "ESPERANZA", "TIERRA", "VULGAR", "HERMANO", 
-        "REALIDAD", "KAYAK", "KARATE", "PERSONA", "MONSTRUO", "DEMONIO", "ANGEL", "DIOS"];
-
-    // Random desde el minimo hasta el maximo del array
-    let rando = Math.floor(Math.random() * posibilidades.length);
-    palabraActual = posibilidades[rando];
-
+    
     // Cheat por si acaso :P
     console.log(palabraActual);
 
-    // Poner mas lineas de intentos si sobrepasa 5 letras
+    // Poner más líneas de intentos si sobrepasa 5 letras
     if (palabraActual.length > 5) {
-        intentos = palabraActual.length +1;
+        intentos = palabraActual.length + 1;
     }
 
     // Quita colores de las teclas
@@ -186,6 +187,7 @@ function nuevaPartida() {
     // Crea el grid del juego
     crearTiles(palabraActual.length);
 }
+
 
 
 // Pone todos los botones en gris

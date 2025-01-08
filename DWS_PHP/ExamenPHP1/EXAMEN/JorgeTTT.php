@@ -30,32 +30,32 @@
             imprimirTablero($matriz);
             while ($seguir == true) {
                 if ($turno == 0) {
-                    $columna = readline($jugadores[0]["nombre"] . "(" . $jugadores[0]["caracter"] . "), indica la columna (0-2) o escribe 's' para abandonar la partida: ");
                     $fila = readline($jugadores[0]["nombre"] . "(" . $jugadores[0]["caracter"] . "), indica la fila (0-2) o escribe 's' para abandonar la partida: ");
-                    //if ($columna || $fila == 's') {
+                    $columna = readline($jugadores[0]["nombre"] . "(" . $jugadores[0]["caracter"] . "), indica la columna (0-2) o escribe 's' para abandonar la partida: ");
+                    //if ($fila || $fila == 's') {
                     //    $seguir = false;
                     //    $jugadores[1]["wins"] += 1;
                     //    print("\n!". $jugadores[1]["nombre"] ." ha ganado esta partida¡\n");
                     //}else{
-                        $matriz[$columna][$fila] = $jugadores[0]["caracter"];
+                        $matriz[$fila][$columna] = $jugadores[0]["caracter"];
                         $turno = 1;
                         imprimirTablero($matriz);
                         $seguir = verificarGanador($matriz, $jugadores);
                     //}
                     
                 }elseif($turno == 1){
-                    $columna = readline($jugadores[1]["nombre"] . "(" . $jugadores[1]["caracter"] . "), indica la columna (0-2) o escribe 's' para abandonar la partida: ");
                     $fila = readline($jugadores[1]["nombre"] . "(" . $jugadores[1]["caracter"] . "), indica la fila (0-2) o escribe 's' para abandonar la partida: ");
-                    if ($columna || $fila = 's') {
-                        $seguir = false;
-                        $jugadores[0]["wins"] += 1;
-                        print("\n!". $jugadores[0]["nombre"] ." ha ganado esta partida¡\n");
-                    }else{
-                        $matriz[$columna][$fila] = $jugadores[1]["caracter"];
+                    $columna = readline($jugadores[1]["nombre"] . "(" . $jugadores[1]["caracter"] . "), indica la columna (0-2) o escribe 's' para abandonar la partida: ");
+                    //if ($fila || $fila = 's') {
+                    //    $seguir = false;
+                    //    $jugadores[0]["wins"] += 1;
+                    //    print("\n!". $jugadores[0]["nombre"] ." ha ganado esta partida¡\n");
+                    //}else{
+                        $matriz[$fila][$columna] = $jugadores[1]["caracter"];
                         $turno = 0;
                         imprimirTablero($matriz);
                         $seguir = verificarGanador($matriz, $jugadores);
-                    }
+                    //}
                 }
             }
             $seguir = true;
@@ -90,93 +90,56 @@
         }
     }
 
-    function verificarGanador($matriz, $jugadores){
-
-        if ($matriz[0][0] && $matriz[0][1] && $matriz[0][2] == $jugadores[0]["caracter"]) {
-            $jugadores[0]["wins"] += 1;
-            print("\n!". $jugadores[0]["nombre"] ." ha ganado esta partida¡\n");
-            return false;
-
-        }elseif ($matriz[0][0] && $matriz[0][1] && $matriz[0][2] == $jugadores[1]["caracter"]){
-            $jugadores[1]["wins"] += 1;
-            print("\n!". $jugadores[1]["nombre"] ." ha ganado esta partida¡\n");
-            return false;
-
-        }elseif ($matriz[0][0] && $matriz[1][0] && $matriz[2][0] == $jugadores[0]["caracter"]){
-            $jugadores[0]["wins"] += 1;
-            print("\n!". $jugadores[0]["nombre"] ." ha ganado esta partida¡\n");
-            return false;
-
-        }elseif ($matriz[0][0] && $matriz[1][0] && $matriz[2][0] == $jugadores[1]["caracter"]){
-            $jugadores[1]["wins"] += 1;
-            print("\n!". $jugadores[1]["nombre"] ." ha ganado esta partida¡\n");
-            return false;
-
-        }elseif ($matriz[1][0] && $matriz[1][1] && $matriz[1][2] == $jugadores[0]["caracter"]){
-            $jugadores[0]["wins"] += 1;
-            print("\n!". $jugadores[0]["nombre"] ." ha ganado esta partida¡\n");
-            return false;
-
-        }elseif ($matriz[1][0] && $matriz[1][1] && $matriz[1][2] == $jugadores[1]["caracter"]){
-            $jugadores[1]["wins"] += 1;
-            print("\n!". $jugadores[1]["nombre"] ." ha ganado esta partida¡\n");
-            return false;
-
-        }elseif ($matriz[0][1] && $matriz[1][1] && $matriz[2][1] == $jugadores[0]["caracter"]){
-            $jugadores[0]["wins"] += 1;
-            print("\n!". $jugadores[0]["nombre"] ." ha ganado esta partida¡\n");
-            return false;
-
-        }elseif ($matriz[0][1] && $matriz[1][1] && $matriz[2][1] == $jugadores[1]["caracter"]){
-            $jugadores[1]["wins"] += 1;
-            print("\n!". $jugadores[1]["nombre"] ." ha ganado esta partida¡\n");
-            return false;
-
-        }elseif ($matriz[2][0] && $matriz[2][1] && $matriz[2][2] == $jugadores[0]["caracter"]){
-            $jugadores[0]["wins"] += 1;
-            print("\n!". $jugadores[0]["nombre"] ." ha ganado esta partida¡\n");
-            return false;
-
-        }elseif ($matriz[2][0] && $matriz[2][1] && $matriz[2][2] == $jugadores[1]["caracter"]){
-            $jugadores[1]["wins"] += 1;
-            print("\n!". $jugadores[1]["nombre"] ." ha ganado esta partida¡\n");
-            return false;
-
-        }elseif ($matriz[0][2] && $matriz[1][2] && $matriz[2][2] == $jugadores[0]["caracter"]){
-            $jugadores[0]["wins"] += 1;
-            print("\n!". $jugadores[0]["nombre"] ." ha ganado esta partida¡\n");
-            return false;
-
-        }elseif ($matriz[0][2] && $matriz[1][2] && $matriz[2][2] == $jugadores[1]["caracter"]){
-            $jugadores[1]["wins"] += 1;
-            print("\n!". $jugadores[1]["nombre"] ." ha ganado esta partida¡\n");
-            return false;
-
-        }elseif ($matriz[0][0] && $matriz[1][1] && $matriz[2][2] == $jugadores[0]["caracter"]){
-            $jugadores[0]["wins"] += 1;
-            print("\n!". $jugadores[0]["nombre"] ." ha ganado esta partida¡\n");
-            return false;
-
-        }elseif ($matriz[0][0] && $matriz[1][1] && $matriz[2][2] == $jugadores[1]["caracter"]){
-            $jugadores[1]["wins"] += 1;
-            print("\n!". $jugadores[1]["nombre"] ." ha ganado esta partida¡\n");
-            return false;
-
-        }elseif ($matriz[2][0] && $matriz[1][1] && $matriz[0][2] == $jugadores[0]["caracter"]){
-            $jugadores[0]["wins"] += 1;
-            print("\n!". $jugadores[0]["nombre"] ." ha ganado esta partida¡\n");
-            return false;
-
-        }elseif ($matriz[2][0] && $matriz[1][1] && $matriz[0][2] == $jugadores[1]["caracter"]){
-            $jugadores[1]["wins"] += 1;
-            print("\n!". $jugadores[1]["nombre"] ." ha ganado esta partida¡\n");
-            return false;
-
-        }else{
-            return tableroLleno($matriz);
+    function verificarGanador($matriz, &$jugadores) {
+        // Check rows and columns
+        for ($i = 0; $i < 3; $i++) {
+            // Check row
+            if ($matriz[$i][0] !== " " && $matriz[$i][0] === $matriz[$i][1] && $matriz[$i][1] === $matriz[$i][2]) {
+                foreach ($jugadores as $jugador) {
+                    if ($jugador["caracter"] === $matriz[$i][0]) {
+                        $jugador["wins"] += 1;
+                        print("\n!". $jugador["nombre"] ." ha ganado esta partida¡\n");
+                        return false;
+                    }
+                }
+                
+            }
+    
+            // Check column
+            if ($matriz[0][$i] !== " " && $matriz[0][$i] === $matriz[1][$i] && $matriz[1][$i] === $matriz[2][$i]) {
+                foreach ($jugadores as $jugador) {
+                    if ($jugador["caracter"] === $matriz[0][$i]) {
+                        $jugador["wins"] += 1;
+                        print("\n!". $jugador["nombre"] ." ha ganado esta partida¡\n");
+                        return false;
+                    }
+                }
+            }
         }
-
+    
+        // Check diagonals
+        if ($matriz[0][0] !== " " && $matriz[0][0] === $matriz[1][1] && $matriz[1][1] === $matriz[2][2]) {
+            foreach ($jugadores as $jugador) {
+                if ($jugador["caracter"] === $matriz[0][0]) {
+                    $jugador["wins"] += 1;
+                    print("\n!". $jugador["nombre"] ." ha ganado esta partida¡\n");
+                    return false;
+                }
+            }
+        }
+        if ($matriz[0][2] !== " " && $matriz[0][2] === $matriz[1][1] && $matriz[1][1] === $matriz[2][0]) {
+            foreach ($jugadores as $jugador) {
+                if ($jugador["caracter"] === $matriz[0][2]) {
+                    $jugador["wins"] += 1;
+                    print("\n!". $jugador["nombre"] ." ha ganado esta partida¡\n");
+                    return false;
+                }
+            }
+        }
+    
+        return tableroLleno($matriz);
     }
+
 
     function tableroLleno($matriz){
         $count = 0;

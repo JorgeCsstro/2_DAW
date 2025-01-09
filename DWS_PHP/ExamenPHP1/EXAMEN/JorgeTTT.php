@@ -91,9 +91,7 @@
     }
 
     function verificarGanador($matriz, &$jugadores) {
-        // Check rows and columns
         for ($i = 0; $i < 3; $i++) {
-            // Check row
             if ($matriz[$i][0] !== " " && $matriz[$i][0] === $matriz[$i][1] && $matriz[$i][1] === $matriz[$i][2]) {
                 foreach ($jugadores as $jugador) {
                     if ($jugador["caracter"] === $matriz[$i][0]) {

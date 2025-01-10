@@ -16,45 +16,11 @@
         grupo de clase.
 */
 
-$directorio = "fotos/";
+$nombre = $_GET['nombre'];
+$grupo = rand(1,5);
 
-if (isset($_POST['enviar'])) {
-
-    // Validación de subida de foto
-    if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
-        $file = $_FILES['foto'];
-        $fileName = $file['name'];
-        $fileTmp = $file['tmp_name'];
-        $fileSize = $file['size'];
-
-        // < de 50KB de imagen
-        if ($fileSize > 51200) {
-            die(print "Error: El archivo excede el tamaño máximo permitido de 50 KB.");
-        }
-
-        // Validación de extensiones de imagen
-        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-        $fileExtension = strtolower(explode('.', $fileName)[1]);
-        if (!in_array($fileExtension, $allowedExtensions)) {
-            die(print "Error: Tipo de archivo no permitido. Solo se aceptan archivos JPG, JPEG, PNG, y GIF.");
-        }
-        
-        // Crea un id para la imágen
-        $uniqueName = uniqid('foto_') . '.' . $fileExtension;
-
-        // Guarda la imagen en el directorio "fotos"
-        $destination = $directorio . $uniqueName;
-
-        // Muestra mi nombre y el grupo de clase
-        if (move_uploaded_file($fileTmp, $destination)) {
-            print "<h1>Archivo subido con éxito</h1>";
-            print "<p>Nombre del archivo: $uniqueName</p>";
-            $grupo = rand(1,5);
-            print "<p>Jorge Castro. Grupo de clase: $grupo</p>";
-        } else {
-            die(print "Error: No se pudo mover el archivo subido.");
-        }
-    }
-}
+print "<h1>Archivo subido con éxito</h1>";
+            print "<p>Nombre: $nombre</p>";
+            print "<p>Grupo de clase: $grupo</p>";
 
 ?>

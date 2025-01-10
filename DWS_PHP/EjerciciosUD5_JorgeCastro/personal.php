@@ -13,7 +13,6 @@
         Debe tener los botones de Enviar y Borrar
 */
 
-if (isset($_GET['enviar'])) {
     
     // Cojo los valores del formulario
     $nombre = $_GET['nombre'];
@@ -34,6 +33,5 @@ if (isset($_GET['enviar'])) {
             "<br><i>Estado:</i> <b>" . strtoupper($estado) . "</b>" .
             "<br><i>Aficiones:</i> <b>" . strtoupper(implode(", ", $aficiones)) . "</b>"
     );
-}
 
 ?>

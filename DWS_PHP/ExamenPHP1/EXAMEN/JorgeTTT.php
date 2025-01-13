@@ -87,7 +87,6 @@ function imprimirTablero() {
 
 function verificarGanador() {
     global $matriz;
-    global $jugadores;
 
     for ($i = 0; $i < 3; $i++) {
         if ($matriz[$i][0] !== " " && $matriz[$i][0] === $matriz[$i][1] && $matriz[$i][1] === $matriz[$i][2]) {
@@ -115,7 +114,7 @@ function verificarGanador() {
 function mostrarGanador($caracter) {
     global $jugadores;
 
-    foreach ($jugadores as &$jugador) {
+    foreach ($jugadores as $jugador) {
         if ($jugador["caracter"] === $caracter) {
             $jugador["wins"] += 1;
             print("\n¡" . $jugador["nombre"] . " ha ganado esta partida!\n");
@@ -153,6 +152,17 @@ function jugarTorneo(){
     }
 
     print_r($jugadores);
+
+    $jugarOtra = readline("Quieres jugar otro torneo? (s / n):");
+
+    if ($jugarOtra == "s") {
+        for ($i=0; $i <= 1; $i++) { 
+            $jugadores[$i]["wins"] = 0;
+            $jugadores[$i]["losses"] = 0;
+        }
+    }else {
+        print("\nGracias por jugar" . $jugadores[0]["nombre"] . " y " . $jugadores[1]["nombre"] . " :D\n");
+    }
 
 }
 

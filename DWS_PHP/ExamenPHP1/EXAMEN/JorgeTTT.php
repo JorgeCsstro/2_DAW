@@ -114,7 +114,7 @@ function verificarGanador() {
 function mostrarGanador($caracter) {
     global $jugadores;
 
-    foreach ($jugadores as $jugador) {
+    foreach ($jugadores as &$jugador) {
         if ($jugador["caracter"] === $caracter) {
             $jugador["wins"] += 1;
             print("\n¡" . $jugador["nombre"] . " ha ganado esta partida!\n");
@@ -160,8 +160,9 @@ function jugarTorneo(){
             $jugadores[$i]["wins"] = 0;
             $jugadores[$i]["losses"] = 0;
         }
+        jugarTorneo();
     }else {
-        print("\nGracias por jugar" . $jugadores[0]["nombre"] . " y " . $jugadores[1]["nombre"] . " :D\n");
+        print("\nGracias por jugar " . $jugadores[0]["nombre"] . " y " . $jugadores[1]["nombre"] . " :D\n");
     }
 
 }

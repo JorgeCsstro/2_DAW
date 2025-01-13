@@ -61,7 +61,7 @@ function actualizarGrid() {
     }
 }
 
-async function compruebaRAE(adivinar) {
+async function compruebaRAEadivinar(adivinar) {
 
     let str = adivinar.join("");
     let palabraExiste = await fetch("https://rae-api.com/api/words/" + str)
@@ -75,10 +75,26 @@ async function compruebaRAE(adivinar) {
     return palabraExiste;
 }
 
+async function compruebaRAErandom(random) {
+
+
+
+    let palabraExiste = await fetch("https://rae-api.com/api/words/" + random)
+        .then(response => {
+            if (response.ok) {
+                console.log("holalalala")
+                return true;
+            } else {
+                return false;
+            }
+        });
+    return palabraExiste;
+}
+
 // Comprobacion de la palabra
 async function comprobar() {
     if (adivinar.length === palabraActual.length) {
-        let existe = await compruebaRAE(adivinar);
+        let existe = await compruebaRAEadivinar(adivinar);
         if (existe) {
             var adivinarString = adivinar.join('').toUpperCase();
 
@@ -150,10 +166,27 @@ async function comprobar() {
     }
 }
 
+function removeAccents(str) {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
 async function apiPalabra() {
-    let palabraRand = await fetch("https://random-word-api.herokuapp.com/word?lang=es")
+    let encontrarValidacion = true;
+    let palabraRand = "a";
+   while (encontrarValidacion) {
+        palabraRand = await fetch("https://random-word-api.herokuapp.com/word?lang=es")
         .then(response => response.json())
         .then(data => data[0]);
+
+        palabraRand = removeAccents(palabraRand);
+
+        if (palabraRand.length < 9) {
+            if (await compruebaRAErandom(palabraRand) == true) {
+                encontrarValidacion = false;
+            }
+        }
+    }
+    
     return palabraRand;
 }
 

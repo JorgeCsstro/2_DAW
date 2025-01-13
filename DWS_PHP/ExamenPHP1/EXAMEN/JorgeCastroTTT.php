@@ -56,14 +56,11 @@ function iniciarPartida() {
             break;
         }
 
-        //if (isset($matriz[$fila][$columna]) && $matriz[$fila][$columna] === " ") {
         $matriz[$fila][$columna] = $jugadorActual["caracter"];
         imprimirTablero();
         $seguir = verificarGanador();
         $turno = 1 - $turno;
-        //} else {
-        //    print("\nPosición inválida, intenta de nuevo.\n");
-        //}
+        
     } while ($seguir);
 }
 

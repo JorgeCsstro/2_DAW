@@ -173,10 +173,12 @@ function removeAccents(str) {
 async function apiPalabra() {
     let encontrarValidacion = true;
     let palabraRand = "a";
-   while (encontrarValidacion) {
+    document.getElementById('loadingOverlay').style.display = 'flex';
+
+    while (encontrarValidacion) {
         palabraRand = await fetch("https://random-word-api.herokuapp.com/word?lang=es")
-        .then(response => response.json())
-        .then(data => data[0]);
+            .then(response => response.json())
+            .then(data => data[0]);
 
         palabraRand = removeAccents(palabraRand);
 
@@ -186,9 +188,11 @@ async function apiPalabra() {
             }
         }
     }
-    
+    document.getElementById('loadingOverlay').style.display = 'none';
+
     return palabraRand;
 }
+
 
 
 // Al iniciar una nueva partida...

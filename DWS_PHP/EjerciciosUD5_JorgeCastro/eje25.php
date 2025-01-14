@@ -69,8 +69,7 @@ if (isset($_POST['enviar'])) {
         $errores++;
         $erroresArray['email'] = "Rellena el campo de Email";
 
-    }
-    if (!preg_match('/^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/', $email)) {
+    }elseif (!preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $email)) {
         $errores++;
         $erroresArray['email'] = "Pon un Email correcto";
     }
@@ -115,7 +114,7 @@ if (isset($_POST['enviar'])) {
         $erroresArray['foto'] = "Sube una Foto";
     }
 
-    if ($errores < 1) {
+    if ($errores <= 1) {
         header("Location: foto.php?nombre=$nombre");
     }
 
@@ -129,6 +128,15 @@ if (isset($_POST['enviar'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ejercicio 25 - Jorge Castro</title>
+    <style>
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+        div{
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 
 <body>

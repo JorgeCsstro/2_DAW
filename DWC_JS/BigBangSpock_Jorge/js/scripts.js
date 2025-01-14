@@ -61,7 +61,7 @@ function deliverar() {
 
     switch (maquina) {
         case 1:
-            maqSeleccion.innerHTML = '<img src="img/piedra.png" id="piedra" data-puntos="1"></img>';
+            maqSeleccion.ignnerHTML = '<img src="img/piedra.png" id="piedra" data-puntos="1"></img>';
             break;
         case 2:
             maqSeleccion.innerHTML = '<img src="img/papel.png" id="papel" data-puntos="2"></img>';

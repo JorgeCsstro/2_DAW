@@ -14,9 +14,18 @@
 if (isset($_GET['enviar'])) {
 
     $nombre = $_GET['nombre'];
-    $saldes = $_GET['saldes'];
+    $idioma = $_GET['idioma'];
+    $color = $_GET['color'];
+    $ciudad = $_GET['ciudad'];
 
-    setcookie($nombre, $saldes, time() + (24 * 60 * 60), "/");
+    $arrayDatos = [$nombre, $idioma, $color, $ciudad];
+
+    $stringDatos = $nombre . "," . $idioma . "," . $color . "," . $ciudad;
+
+    setcookie("datosAnt", $stringDatos, time() + (24 * 60 * 60), "/");
+
+    $datosCookie = $_COOKIE["datosAnt"];
+    $array_datos_cookie = explode(",", $datosCookie);
 
 }
 
@@ -34,7 +43,7 @@ if (isset($_GET['enviar'])) {
 
     <h1>Ejercicio 2 - Jorge Castro</h1>
 
-    <form action="eje1.php" method="get">
+    <form action="eje2.php" method="get">
         <label for="">Nombre:</label>
         <input type="text" name="nombre">
         <br>
@@ -48,8 +57,32 @@ if (isset($_GET['enviar'])) {
         </select>
         <br>
         <br>
+        <label for="">Color:</label>
+        <select name="color" id="">
+            <option value="Rojo">Rojo</option>
+            <option value="Azul">Azul</option>
+            <option value="Verde">Verde</option>
+        </select>
+        <br>
+        <br>
+        <label for="">Ciudad:</label>
+        <input type="text" name="ciudad">
+        <br>
+        <br>
         <input type="submit" value="Enviar" name="enviar">
     </form>
+    <h2>Datos Actuales:</h2>
+    <?php 
+        for ($i=0; $i < count($arrayDatos); $i++) { 
+            print("<p>" . $arrayDatos[$i] . "</p>");
+        }
+    ?>
+    <h2>Datos Anteriores:</h2>
+    <?php 
+        for ($i=0; $i < count($array_datos_cookie); $i++) { 
+            print("<p>" . $array_datos_cookie[$i] . "</p>");
+        }
+    ?>
 </body>
 
 </html>

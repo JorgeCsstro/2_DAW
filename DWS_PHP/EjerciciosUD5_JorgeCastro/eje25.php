@@ -19,7 +19,7 @@
 $errores = 0;
 $erroresArray = [
     'nombre' => '',
-    'constasena' => '',
+    'contrasena' => '',
     'nivel' => '',
     'nacionalidad' => '',
     'idiomas' => '',
@@ -30,7 +30,7 @@ $erroresArray = [
 if (isset($_POST['enviar'])) {
 
     $nombre = $_POST['nombre'];
-    $constasena = $_POST['constasena'];
+    $contrasena = $_POST['contrasena'];
     $nivel = $_POST['nivel'];
     $nacionalidad = $_POST['nacionalidad'];
     $idiomas = $_POST['idiomas'];
@@ -39,39 +39,47 @@ if (isset($_POST['enviar'])) {
     if (empty($nombre)) {
         $errores++;
         $erroresArray['nombre'] = "Rellena el campo de Nombre";
+        print("12");
 
     } elseif (!preg_match('/^[A-Za-z]*$/', $nombre)) {
         $errores++;
         $erroresArray['nombre'] = "Pon letras";
+        print("11");
     }
 
-    if (empty($constasena)) {
+    if (empty($contrasena)) {
         $errores++;
-        $erroresArray['constasena'] = "Rellena el campo de constasena";
+        $erroresArray['contrasena'] = "Rellena el campo de contrasena";
+        print("10");
     }
 
     if (empty($nivel)) {
         $errores++;
         $erroresArray['nivel'] = "Rellena el campo de Nivel de estudios";
+        print("9");
     }
 
     if (empty($nacionalidad)) {
         $errores++;
         $erroresArray['nacionalidad'] = "Rellena el campo de Nacionalidad";
+        print("8");
     }
 
     if (empty($idiomas)) {
         $errores++;
         $erroresArray['idiomas'] = "Rellena el campo de Idiomas";
+        print("7");
     }
 
     if (empty($email)) {
         $errores++;
         $erroresArray['email'] = "Rellena el campo de Email";
+        print("6");
 
     }elseif (!preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $email)) {
         $errores++;
         $erroresArray['email'] = "Pon un Email correcto";
+        print("5");
     }
 
     $directorio = "fotos/";
@@ -87,6 +95,7 @@ if (isset($_POST['enviar'])) {
         if ($fotoSize > 51200) {
             $errores++;
             $erroresArray['foto'] = "El archivo excede el tamaño máximo permitido de 50 KB.";
+            print("4");
         }
 
         // Validación de extensiones de imagen
@@ -95,6 +104,7 @@ if (isset($_POST['enviar'])) {
         if (!in_array($fotoExtension, $allowedExtensions)) {
             $errores++;
             $erroresArray['foto'] = "Tipo de archivo no permitido. Solo se aceptan archivos JPG, JPEG, PNG, y GIF.";
+            print("3");
         }
         
         // Crea un id para la imágen
@@ -107,14 +117,16 @@ if (isset($_POST['enviar'])) {
         if (!move_uploaded_file($fotoTmp, $destination)) {
             $errores++;
             $erroresArray['foto'] = "No se pudo mover el archivo subido.";
+            print("2");
             
         }
     }else {
         $errores++;
         $erroresArray['foto'] = "Sube una Foto";
+        print("1");
     }
 
-    if ($errores <= 1) {
+    if ($errores < 1) {
         header("Location: foto.php?nombre=$nombre");
     }
 

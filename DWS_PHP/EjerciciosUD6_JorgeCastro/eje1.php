@@ -16,7 +16,14 @@ if (isset($_GET['enviar'])) {
     $nombre = $_GET['nombre'];
     $saldes = $_GET['saldes'];
 
-    setcookie($nombre, $saldes, time() + (24 * 60 * 60), "/");
+    $arrayDatos = [$nombre, $saldes];
+
+    $stringDatos = $nombre . "," . $saldes;
+
+    setcookie("datosAnterior", $stringDatos, time() + (24 * 60 * 60), "/");
+
+    $datosCookie = $_COOKIE["datosAnterior"];
+    $array_datos_cookie = explode(",", $datosCookie);
 
 }
 
@@ -48,6 +55,18 @@ if (isset($_GET['enviar'])) {
         <br>
         <input type="submit" value="Enviar" name="enviar">
     </form>
+    <h2>Datos Actuales:</h2>
+    <?php 
+        for ($i=0; $i < count($arrayDatos); $i++) { 
+            print("<p>" . $arrayDatos[$i] . "</p>");
+        }
+    ?>
+    <h2>Datos Anteriores:</h2>
+    <?php 
+        for ($i=0; $i < count($array_datos_cookie); $i++) { 
+            print("<p>" . $array_datos_cookie[$i] . "</p>");
+        }
+    ?>
 </body>
 
 </html>

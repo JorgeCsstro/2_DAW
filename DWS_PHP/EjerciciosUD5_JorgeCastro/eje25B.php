@@ -16,7 +16,7 @@
         grupo de clase.
 */
 
-$errores = 0;
+$errores = 1;
 $erroresArray = [
     'nombre' => '',
     'contrasena' => '',
@@ -27,7 +27,17 @@ $erroresArray = [
     'foto' => ''
 ];
 
-if (isset($_POST['enviar'])) {
+$nombre;
+$contrasena;
+$nivel;
+$nacionalidad;
+$idiomas;
+$email;
+
+
+if (isset($_POST['validar'])) {
+
+    $errores = 0;
 
     $nombre = $_POST['nombre'];
     $contrasena = $_POST['contrasena'];
@@ -126,10 +136,12 @@ if (isset($_POST['enviar'])) {
         print("1");
     }
 
-    if ($errores < 1) {
+}
+
+if (isset($_POST['enviar'])) {
+    if ($errores == 0) {
         header("Location: foto.php?nombre=$nombre");
     }
-
 }
 
 ?>
@@ -143,10 +155,12 @@ if (isset($_POST['enviar'])) {
     <style>
         .error {
             color: red;
-            font-size: 0.9em;
         }
         div{
             margin-bottom: 10px;
+        }
+        .validado{
+            color: green;
         }
     </style>
 </head>
@@ -155,61 +169,79 @@ if (isset($_POST['enviar'])) {
 
     <h1>Ejercicio 25 - Jorge Castro</h1>
 
-    <form action="eje25.php" method="post" enctype="multipart/form-data">
+    <form action="eje25B.php" method="post" enctype="multipart/form-data">
         <label for="">Nombre:</label>
-        <input type="text" name="nombre">
+        <input type="text" name="nombre" value="<?php echo(htmlspecialchars($nombre))?>">
         <span class="error"><?= $erroresArray['nombre'] ?></span>
         <br>
         <br>
         <label for="">Contraseña:</label>
-        <input type="password" name="contrasena">
+        <input type="password" name="contrasena" value="<?php echo(htmlspecialchars($contrasena))?>">
         <span class="error"><?= $erroresArray['contrasena'] ?></span>
         <br>
         <br>
         <label for="">Nivel de estudios:</label>
-        <select name="nivel">
-            <option value="Sin estudios">Sin estudios</option>
-            <option value="ESO">ESO</option>
-            <option value="Bachillerato">Bachilllerato</option>
-            <option value="FP">FP</option>
-            <option value="Estudios Universitarios">Estudios Universitarios</option>
+        <select name="nivel" value="<?php echo(htmlspecialchars($nivel))?>">
+            <option value="Sin estudios" <?= $nivel === "Sin estudios" ? "selected" : "" ?>>Sin estudios</option>
+            <option value="ESO" <?= $nivel === "ESO" ? "selected" : "" ?>>ESO</option>
+            <option value="Bachillerato" <?= $nivel === "Bachillerato" ? "selected" : "" ?>>Bachillerato</option>
+            <option value="FP" <?= $nivel === "FP" ? "selected" : "" ?>>FP</option>
+            <option value="Estudios Universitarios" <?= $nivel === "Estudios Universitarios" ? "selected" : "" ?>>Estudios Universitarios</option>
         </select>
         <span class="error"><?= $erroresArray['nivel'] ?></span>
         <br>
         <br>
         <label for="">Nacionalidad:</label>
-        <select name="nacionalidad">
-            <option value="Espanola">Española</option>
-            <option value="Otra">Otra</option>
+        <select name="nacionalidad" value="<?php echo(htmlspecialchars($nacionalidad))?>">
+            <option value="Espanola" <?= $nacionalidad === "Espanola" ? "selected" : "" ?>>Española</option>
+            <option value="Otra" <?= $nacionalidad === "Otra" ? "selected" : "" ?>>Otra</option>
         </select>
         <span class="error"><?= $erroresArray['nacionalidad'] ?></span>
         <br>
         <br>
         <label for="">Idiomas:</label>
         <select name="idiomas[]" multiple>
-            <option value="Espanol">Español</option>
-            <option value="Ingles">Inglés</option>
-            <option value="Frances">Francés</option>
-            <option value="Aleman">Alemán</option>
-            <option value="Italiano">Italiano</option>
+            <option value="Espanol" <?= in_array("Espanol", $idiomas) ? "selected" : "" ?>>Español</option>
+            <option value="Ingles" <?= in_array("Ingles", $idiomas) ? "selected" : "" ?>>Inglés</option>
+            <option value="Frances" <?= in_array("Frances", $idiomas) ? "selected" : "" ?>>Francés</option>
+            <option value="Aleman" <?= in_array("Aleman", $idiomas) ? "selected" : "" ?>>Alemán</option>
+            <option value="Italiano" <?= in_array("Italiano", $idiomas) ? "selected" : "" ?>>Italiano</option>
         </select>
         <span class="error"><?= $erroresArray['idiomas'] ?></span>
         <br>
         <br>
         <label for="">Email:</label>
-        <input type="text" name="email">
+        <input type="text" name="email" value="<?php echo(htmlspecialchars($email))?>">
         <span class="error"><?= $erroresArray['email'] ?></span>
         <br>
         <br>
         <label for="foto">Adjuntar Foto:</label>
-        <input type="file" name="foto" id="foto" required accept=".jpg, .jpeg, .gif, .png">
+        <input type="file" name="foto" id="foto">
         <small>(Solo extensiones jpg, gif y png, tamaño máximo 50 KB)</small>
         <span class="error"><?= $erroresArray['foto'] ?></span>
         <br>
         <br>
         <input type="submit" value="Enviar" name="enviar">
+        <input type="submit" value="Validar" name="validar">
         <input type="reset" value="Borrar" name="borrar">
     </form>
+
+
+        <?php
+            if ($errores == 0) {
+                print("<p class='validado'>Todos los campos validados</p>");
+                print("<img src='./$destination'>");
+            }else{
+                print("<ul>");
+                foreach ($erroresArray as $key => $value) {
+                    if (strlen($erroresArray[$key] > 1)) {
+                        print("<li class='error'>" . $erroresArray[$key] . "</li>");
+                    }
+                }
+                print("</ul>");
+            }
+        ?>
+
 </body>
 
 </html>

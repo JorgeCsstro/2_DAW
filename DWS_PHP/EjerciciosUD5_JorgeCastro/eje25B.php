@@ -16,7 +16,7 @@
         grupo de clase.
 */
 
-$errores = 1;
+$errores = 0;
 $erroresArray = [
     'nombre' => '',
     'contrasena' => '',
@@ -31,117 +31,123 @@ $nombre;
 $contrasena;
 $nivel;
 $nacionalidad;
-$idiomas;
+$idiomas = isset($_POST['idiomas']) ? $_POST['idiomas'] : [];
 $email;
+$directorio = "fotos/";
 
 
-if (isset($_POST['validar'])) {
-
-    $errores = 0;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $nombre = $_POST['nombre'];
     $contrasena = $_POST['contrasena'];
     $nivel = $_POST['nivel'];
     $nacionalidad = $_POST['nacionalidad'];
-    $idiomas = $_POST['idiomas'];
+    $idiomas = isset($_POST['idiomas']) ? $_POST['idiomas'] : [];
     $email = $_POST['email'];
 
     if (empty($nombre)) {
         $errores++;
         $erroresArray['nombre'] = "Rellena el campo de Nombre";
-        print("12");
 
     } elseif (!preg_match('/^[A-Za-z]*$/', $nombre)) {
         $errores++;
         $erroresArray['nombre'] = "Pon letras";
-        print("11");
     }
 
     if (empty($contrasena)) {
         $errores++;
         $erroresArray['contrasena'] = "Rellena el campo de contrasena";
-        print("10");
+
+    }elseif (!preg_match('/^(?=\w*[a-zA-Z])\S{8,9999}$/', $contrasena)) {
+        $errores++;
+        $erroresArray['contrasena'] = "Contraseña: Min 8 caracter y una letra";
     }
+    
 
     if (empty($nivel)) {
         $errores++;
         $erroresArray['nivel'] = "Rellena el campo de Nivel de estudios";
-        print("9");
     }
 
     if (empty($nacionalidad)) {
         $errores++;
         $erroresArray['nacionalidad'] = "Rellena el campo de Nacionalidad";
-        print("8");
     }
 
     if (empty($idiomas)) {
         $errores++;
         $erroresArray['idiomas'] = "Rellena el campo de Idiomas";
-        print("7");
     }
 
     if (empty($email)) {
         $errores++;
         $erroresArray['email'] = "Rellena el campo de Email";
-        print("6");
 
     }elseif (!preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $email)) {
         $errores++;
         $erroresArray['email'] = "Pon un Email correcto";
-        print("5");
     }
 
-    $directorio = "fotos/";
-
-    // Validación de subida de foto
-    if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
-        $foto = $_FILES['foto'];
-        $fotoName = $foto['name'];
-        $fotoTmp = $foto['tmp_name'];
-        $fotoSize = $foto['size'];
-
-        // < de 50KB de imagen
-        if ($fotoSize > 51200) {
+    if (isset($_POST['validar'])) {
+        if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
+            $foto = $_FILES['foto'];
+            $fotoName = $foto['name'];
+            $fotoTmp = $foto['tmp_name'];
+            $fotoSize = $foto['size'];
+    
+            if ($fotoSize > 51200) {
+                $errores++;
+                $erroresArray['foto'] = "El archivo excede el tamaño máximo permitido de 50 KB.";
+            }
+    
+            $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+            $fotoExtension = strtolower(pathinfo($fotoName, PATHINFO_EXTENSION));
+            if (!in_array($fotoExtension, $allowedExtensions)) {
+                $errores++;
+                $erroresArray['foto'] = "Tipo de archivo no permitido. Solo se aceptan archivos JPG, JPEG, PNG, y GIF.";
+            }
+    
+            if ($errores === 0) {
+                $uniqueName = uniqid('foto_') . '.' . $fotoExtension;
+                $destination = $directorio . $uniqueName;
+    
+                if (move_uploaded_file($fotoTmp, $destination)) {
+                    // Save the photo name to a hidden input
+                    $fotoGuarda = $uniqueName;
+                } else {
+                    $errores++;
+                    $erroresArray['foto'] = "No se pudo mover el archivo subido.";
+                }
+            }
+        } else {
             $errores++;
-            $erroresArray['foto'] = "El archivo excede el tamaño máximo permitido de 50 KB.";
-            print("4");
+            $erroresArray['foto'] = "Sube una Foto.";
         }
-
-        // Validación de extensiones de imagen
-        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-        $fotoExtension = strtolower(explode('.', $fotoName)[1]);
-        if (!in_array($fotoExtension, $allowedExtensions)) {
-            $errores++;
-            $erroresArray['foto'] = "Tipo de archivo no permitido. Solo se aceptan archivos JPG, JPEG, PNG, y GIF.";
-            print("3");
-        }
-        
-        // Crea un id para la imágen
-        $uniqueName = uniqid('foto_') . '.' . $fotoExtension;
-
-        // Guarda la imagen en el directorio "fotos"
-        $destination = $directorio . $uniqueName;
-
-        // Muestra mi nombre y el grupo de clase
-        if (!move_uploaded_file($fotoTmp, $destination)) {
-            $errores++;
-            $erroresArray['foto'] = "No se pudo mover el archivo subido.";
-            print("2");
-            
-        }
-    }else {
-        $errores++;
-        $erroresArray['foto'] = "Sube una Foto";
-        print("1");
     }
-
 }
 
 if (isset($_POST['enviar'])) {
     if ($errores == 0) {
-        header("Location: foto.php?nombre=$nombre");
+        $nombre = $_POST['nombre'];
+        $fotoGuarda = $_POST['hidden_foto'] ?? '';
+        if (strlen($fotoGuarda) > 0) {
+            $destination = $directorio . $fotoGuarda;
+            header("Location: foto.php?nombre=$nombre&destination=$destination");
+        }else {
+            $errores++;
+            $erroresArray['foto'] = "Sube una Foto.";
+        }
     }
+}
+
+if (isset($_POST['borrar'])) {
+    $nombre = '';
+    $contrasena = '';
+    $nivel = '';
+    $nacionalidad = '';
+    $idiomas = isset($_POST['idiomas']) ? $_POST['idiomas'] : [];
+    $email = '';
+    $fotoGuarda = '';
 }
 
 ?>
@@ -169,34 +175,45 @@ if (isset($_POST['enviar'])) {
 
     <h1>Ejercicio 25 - Jorge Castro</h1>
 
+    <?php
+        if ($errores == 0 && !isset($_POST['borrar'])) {
+            print("<p class='validado'>Todos los campos validados</p>");
+            print("<img src='./$destination'>");
+        }elseif(!isset($_POST['borrar'])){
+            print("<ul>");
+            foreach ($erroresArray as $key => $value) {
+                if (strlen($erroresArray[$key] > 1)) {
+                    print("<li class='error'>" . $erroresArray[$key] . "</li>");
+                }
+            }
+            print("</ul>");
+        }
+    ?>
+
     <form action="eje25B.php" method="post" enctype="multipart/form-data">
         <label for="">Nombre:</label>
-        <input type="text" name="nombre" value="<?php echo(htmlspecialchars($nombre))?>">
-        <span class="error"><?= $erroresArray['nombre'] ?></span>
+        <input type="text" name="nombre" value="<?= isset($_POST['borrar']) ? '' : htmlspecialchars($nombre) ?>">
         <br>
         <br>
         <label for="">Contraseña:</label>
-        <input type="password" name="contrasena" value="<?php echo(htmlspecialchars($contrasena))?>">
-        <span class="error"><?= $erroresArray['contrasena'] ?></span>
+        <input type="password" name="contrasena" value="<?= isset($_POST['borrar']) ? '' : htmlspecialchars($contrasena) ?>">
         <br>
         <br>
         <label for="">Nivel de estudios:</label>
-        <select name="nivel" value="<?php echo(htmlspecialchars($nivel))?>">
+        <select name="nivel" value="<?= isset($_POST['borrar']) ? '' : htmlspecialchars($nivel) ?>">
             <option value="Sin estudios" <?= $nivel === "Sin estudios" ? "selected" : "" ?>>Sin estudios</option>
             <option value="ESO" <?= $nivel === "ESO" ? "selected" : "" ?>>ESO</option>
             <option value="Bachillerato" <?= $nivel === "Bachillerato" ? "selected" : "" ?>>Bachillerato</option>
             <option value="FP" <?= $nivel === "FP" ? "selected" : "" ?>>FP</option>
             <option value="Estudios Universitarios" <?= $nivel === "Estudios Universitarios" ? "selected" : "" ?>>Estudios Universitarios</option>
         </select>
-        <span class="error"><?= $erroresArray['nivel'] ?></span>
         <br>
         <br>
         <label for="">Nacionalidad:</label>
-        <select name="nacionalidad" value="<?php echo(htmlspecialchars($nacionalidad))?>">
+        <select name="nacionalidad" value="<?= isset($_POST['borrar']) ? '' : htmlspecialchars($nacionalidad) ?>">
             <option value="Espanola" <?= $nacionalidad === "Espanola" ? "selected" : "" ?>>Española</option>
             <option value="Otra" <?= $nacionalidad === "Otra" ? "selected" : "" ?>>Otra</option>
         </select>
-        <span class="error"><?= $erroresArray['nacionalidad'] ?></span>
         <br>
         <br>
         <label for="">Idiomas:</label>
@@ -207,40 +224,25 @@ if (isset($_POST['enviar'])) {
             <option value="Aleman" <?= in_array("Aleman", $idiomas) ? "selected" : "" ?>>Alemán</option>
             <option value="Italiano" <?= in_array("Italiano", $idiomas) ? "selected" : "" ?>>Italiano</option>
         </select>
-        <span class="error"><?= $erroresArray['idiomas'] ?></span>
         <br>
         <br>
         <label for="">Email:</label>
-        <input type="text" name="email" value="<?php echo(htmlspecialchars($email))?>">
-        <span class="error"><?= $erroresArray['email'] ?></span>
+        <input type="text" name="email" value="<?= isset($_POST['borrar']) ? '' : htmlspecialchars($email) ?>">
         <br>
         <br>
         <label for="foto">Adjuntar Foto:</label>
         <input type="file" name="foto" id="foto">
         <small>(Solo extensiones jpg, gif y png, tamaño máximo 50 KB)</small>
-        <span class="error"><?= $erroresArray['foto'] ?></span>
+        <input type="hidden" name="hidden_foto" value="<?= isset($_POST['borrar']) ? '' : htmlspecialchars($fotoGuarda ?? '') ?>">
         <br>
         <br>
         <input type="submit" value="Enviar" name="enviar">
-        <input type="submit" value="Validar" name="validar">
-        <input type="reset" value="Borrar" name="borrar">
+        <input type="submit" value="Validar & Subir foto" name="validar">
+        <input type="submit" value="Borrar" name="borrar">
     </form>
 
 
-        <?php
-            if ($errores == 0) {
-                print("<p class='validado'>Todos los campos validados</p>");
-                print("<img src='./$destination'>");
-            }else{
-                print("<ul>");
-                foreach ($erroresArray as $key => $value) {
-                    if (strlen($erroresArray[$key] > 1)) {
-                        print("<li class='error'>" . $erroresArray[$key] . "</li>");
-                    }
-                }
-                print("</ul>");
-            }
-        ?>
+        
 
 </body>
 

@@ -18,9 +18,11 @@
 
 $nombre = $_GET['nombre'];
 $grupo = rand(1,5);
+$destination = $_GET['destination'];
 
 print "<h1>Archivo subido con éxito</h1>";
             print "<p>Nombre: $nombre</p>";
             print "<p>Grupo de clase: $grupo</p>";
+            print "<img src='./$destination'>";
 
 ?>

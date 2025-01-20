@@ -182,7 +182,7 @@ async function apiPalabra() {
 
         palabraRand = removeAccents(palabraRand);
 
-        if (palabraRand.length < 9) {
+        if (palabraRand.length < 10 || palabraRand.length > 3) {
             if (await compruebaRAErandom(palabraRand) == true) {
                 encontrarValidacion = false;
             }

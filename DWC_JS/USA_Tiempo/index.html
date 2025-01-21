@@ -6,8 +6,8 @@
         <link href="css/styles.css" rel="stylesheet">
         <script src="js/scripts.js" type="text/javascript"></script>
     </head>
-    <body>
-        <h1>El Covid-19 en EEUU</h1>
+    <body onload="start()">
+        <h1>El Tiempo en EEUU</h1>
         <div class="noresize">
             <map name="USA">
                 <area href="#Alabama" data-cod="AL" shape="poly" coords="537,310,556,377,518,382,518,395,506,391,504,312"
@@ -162,16 +162,6 @@
         </div>
         <div id="modal" class="oculto">
             <h3 id="titulo">Título</h3>
-            <table>
-                <tr>
-                    <td class="titPob">Población</td>
-                    <td class="poblacion"></td>
-                    <td class="titPob">Hispanos</td>
-                    <td class="poblacion"></td>
-                    <td class="titPob">No hispanos</td>
-                    <td class="poblacion"></td>
-                </tr>
-            </table>
             <div id="info">
                 <div>
                     <h4>Notas</h4>
@@ -181,37 +171,27 @@
                 </div>
                 <table>
                     <tr>
-                        <td colspan="2" class="titulo">Fecha</td>
-                        <td colspan="2" class="descripcion"></td>
-                    </tr>
-                    <tr>
-                        <td class="titulo">Muertos</td>
-                        <td class="descripcion"></td>
-                        <td class="titulo">Incremento</td>
+                        <td class="titulo">validt</td>
                         <td class="descripcion"></td>
                     </tr>
                     <tr>
-                        <td class="titulo">Hospitalizaciones</td>
-                        <td class="descripcion"></td>
-                        <td class="titulo">Incremento</td>
+                        <td class="titulo">localtime</td>
                         <td class="descripcion"></td>
                     </tr>
                     <tr>
-                        <td class="titulo">Tests</td>
-                        <td class="descripcion"></td>
-                        <td class="titulo">Incremento</td>
+                        <td class="titulo">temp</td>
                         <td class="descripcion"></td>
                     </tr>
                     <tr>
-                        <td class="titulo">Positivos</td>
-                        <td class="descripcion"></td>
-                        <td class="titulo">Incremento</td>
+                        <td class="titulo">wdir_compass</td>
                         <td class="descripcion"></td>
                     </tr>
                     <tr>
-                        <td class="titulo">Negativos</td>
+                        <td class="titulo">wspd</td>
                         <td class="descripcion"></td>
-                        <td class="titulo">Incremento</td>
+                    </tr>
+                    <tr>
+                        <td class="titulo">skycam</td>
                         <td class="descripcion"></td>
                     </tr>
                 </table>

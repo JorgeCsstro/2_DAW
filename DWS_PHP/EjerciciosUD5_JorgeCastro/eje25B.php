@@ -16,7 +16,8 @@
         grupo de clase.
 */
 
-$errores = 0;
+$errores = 1;
+
 $erroresArray = [
     'nombre' => '',
     'contrasena' => '',
@@ -38,6 +39,8 @@ $directorio = "fotos/";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    $errores = 0;
+
     $nombre = $_POST['nombre'];
     $contrasena = $_POST['contrasena'];
     $nivel = $_POST['nivel'];
@@ -47,16 +50,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($nombre)) {
         $errores++;
-        $erroresArray['nombre'] = "Rellena el campo de Nombre";
+        $erroresArray['nombre'] = "Nombre: Rellena el campo";
 
-    } elseif (!preg_match('/^[A-Za-z]*$/', $nombre)) {
+    } elseif (!preg_match('/^[A-Z][a-z]+(\s[A-Z][a-z]?){0,}/', $nombre)) {
         $errores++;
-        $erroresArray['nombre'] = "Pon letras";
+        $erroresArray['nombre'] = "Nombre: Solo letras y espacios";
     }
 
     if (empty($contrasena)) {
         $errores++;
-        $erroresArray['contrasena'] = "Rellena el campo de contrasena";
+        $erroresArray['contrasena'] = "Contraseña: Rellena el campo";
 
     }elseif (!preg_match('/^(?=\w*[a-zA-Z])\S{8,9999}$/', $contrasena)) {
         $errores++;
@@ -66,26 +69,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($nivel)) {
         $errores++;
-        $erroresArray['nivel'] = "Rellena el campo de Nivel de estudios";
+        $erroresArray['nivel'] = "Nivel de estudios: Rellena el campo";
     }
 
     if (empty($nacionalidad)) {
         $errores++;
-        $erroresArray['nacionalidad'] = "Rellena el campo de Nacionalidad";
+        $erroresArray['nacionalidad'] = "Nacionalidad: Rellena el campo";
     }
 
     if (empty($idiomas)) {
         $errores++;
-        $erroresArray['idiomas'] = "Rellena el campo de Idiomas";
+        $erroresArray['idiomas'] = "Idiomas: Rellena el campo";
     }
 
     if (empty($email)) {
         $errores++;
-        $erroresArray['email'] = "Rellena el campo de Email";
+        $erroresArray['email'] = "Email: Rellena el campo";
 
     }elseif (!preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $email)) {
         $errores++;
-        $erroresArray['email'] = "Pon un Email correcto";
+        $erroresArray['email'] = "Email: Pon un Email correcto";
     }
 
     if (isset($_POST['validar'])) {
@@ -97,14 +100,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
             if ($fotoSize > 51200) {
                 $errores++;
-                $erroresArray['foto'] = "El archivo excede el tamaño máximo permitido de 50 KB.";
+                $erroresArray['foto'] = "Foto: El archivo excede el tamaño máximo permitido de 50 KB.";
             }
     
             $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
             $fotoExtension = strtolower(pathinfo($fotoName, PATHINFO_EXTENSION));
             if (!in_array($fotoExtension, $allowedExtensions)) {
                 $errores++;
-                $erroresArray['foto'] = "Tipo de archivo no permitido. Solo se aceptan archivos JPG, JPEG, PNG, y GIF.";
+                $erroresArray['foto'] = "Foto: Tipo de archivo no permitido (JPG, JPEG, PNG, y GIF)";
             }
     
             if ($errores === 0) {
@@ -112,30 +115,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $destination = $directorio . $uniqueName;
     
                 if (move_uploaded_file($fotoTmp, $destination)) {
-                    // Save the photo name to a hidden input
                     $fotoGuarda = $uniqueName;
                 } else {
+                    mkdir("./fotos");
                     $errores++;
-                    $erroresArray['foto'] = "No se pudo mover el archivo subido.";
+                    $erroresArray['foto'] = "Foto: Fallo de guarda, por favor intentalo de nuevo";
                 }
             }
         } else {
             $errores++;
-            $erroresArray['foto'] = "Sube una Foto.";
+            $erroresArray['foto'] = "Foto: Sube una Foto.";
         }
     }
 }
 
 if (isset($_POST['enviar'])) {
     if ($errores == 0) {
+
         $nombre = $_POST['nombre'];
+        $contrasena = $_POST['contrasena'];
+        $nivel = $_POST['nivel'];
+        $nacionalidad = $_POST['nacionalidad'];
+        $idiomas = isset($_POST['idiomas']) ? $_POST['idiomas'] : [];
+        $email = $_POST['email'];
+
         $fotoGuarda = $_POST['hidden_foto'] ?? '';
+
         if (strlen($fotoGuarda) > 0) {
             $destination = $directorio . $fotoGuarda;
-            header("Location: foto.php?nombre=$nombre&destination=$destination");
+            header("Location: foto.php?nombre=$nombre&contrasena=$contrasena&nivel=$nivel&nacionalidad=$nacionalidad&idiomas[]=" . implode('&idiomas[]=', array_map('urlencode', $idiomas)) . "&email=$email&destination=$destination");
         }else {
             $errores++;
-            $erroresArray['foto'] = "Sube una Foto.";
+            $erroresArray['foto'] = "No has validado y guardado la foto";
         }
     }
 }

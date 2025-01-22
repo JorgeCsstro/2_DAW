@@ -51,6 +51,8 @@ const stateCoordinates = {
     "WY": { lat: 42.755966, lon: -107.302490 }
 };
 
+const dataReq = ["localtime", "temp", "wdir_compass", "wspd"];
+
 
 
 window.onload = start;
@@ -101,16 +103,48 @@ function closeMod() {
 async function getData(lat, lon) {
     const query = `q=${lat},${lon}`;
     const apiUrl = `https://api.weatherusa.net/v1/forecast?${query}&daily=0&units=e&maxtime=1d`;
-    
+
+    console.log(apiUrl);
+
     try {
         const response = await fetch(apiUrl);
         const data = await response.json();
-        console.log("Fetched Data:", data);
-        // Update your UI with the data here
+
+        const table = document.querySelector("#modal table");
+        table.innerHTML = ""; // Clear any existing table content
+
+        // Create table body with headers on the left
+        const tbody = document.createElement("tbody");
+
+        // Loop through `dataReq` to create rows with headers and corresponding data
+        dataReq.forEach((key) => {
+            const row = document.createElement("tr");
+
+            // Create header cell
+            const headerCell = document.createElement("th");
+            headerCell.innerText = key;
+            row.appendChild(headerCell);
+
+            // Create data cells for each entry up to 24 entries
+            data.slice(0, 24).forEach((entry) => {
+                const dataCell = document.createElement("td");
+                dataCell.innerText = entry[key] || "N/A"; // Handle missing data with "N/A"
+                row.appendChild(dataCell);
+            });
+
+            tbody.appendChild(row);
+        });
+
+        table.appendChild(tbody);
+
     } catch (error) {
         console.error("Error fetching data:", error);
     }
 }
+
+
+
+
 
 
 

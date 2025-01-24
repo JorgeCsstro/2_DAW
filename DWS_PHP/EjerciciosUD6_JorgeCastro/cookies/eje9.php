@@ -3,41 +3,33 @@
  * @author Jorge Castro <jorgecastrot2005@gmail.com>
  */
 
- /*
+/*
     21. Realiza un programa donde el usuario seleccione una zona horaria de un máximo de 20 y le
     muestre la hora actual de dicha zona horaria
  */
 
 if (isset($_GET['enviar'])) {
     $zonas = $_GET['opciones'] ?? [];
-    if (!empty($zonas)) {
-        echo "<h2>Horas</h2>";
-        echo "<table border='1'";
-        echo "<tr><th>Zona Horaria</th><th>Hora Actual</th></tr>";
 
-        // Muestra todas las horas de las diferentes zonas horarias
-        foreach ($zonas as $zona) {
-            $dateTime = new DateTime("now", new DateTimeZone($zona));
-            echo "<tr><td>" . $zona . "</td><td>" . $dateTime->format('H:i:s') . "</td></tr>";
-        }
+    $stringDatos = implode(",", $zonas);
 
-        echo "</table>";
-    } else {
-        echo "<p>No seleccionaste ninguna zona horaria.</p>";
-    }
+    setcookie("HorasAnt", $stringDatos, time() + (24 * 60 * 60), "/");
 }
-?>
 
+$datosCookie = $_COOKIE["HorasAnt"] ?? '';
+$array_datos_cookie = explode(",", $datosCookie);
+
+?>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ejercicio 21 - Jorge Castro</title>
+<title>Ejercicio 9 - Jorge Castro</title>
 </head>
 
 <body>
-<form action="eje21.php" method="get">
-    <h1>Ejercicio 21 - Jorge Castro</h1>
+<form action="eje9.php" method="get">
+    <h1>Ejercicio 9 - Jorge Castro</h1>
     <label for="opciones">Seleccione zonas horarias:</label>
     <br>
     <select multiple size="10" name="opciones[]" id="opciones">
@@ -65,5 +57,39 @@ if (isset($_GET['enviar'])) {
     <br><br>
     <input type="submit" value="Enviar" name="enviar">
 </form>
+
+<h2>Horas Actuales:</h2>
+<?php
+if (!empty($zonas)) {
+    echo "<table border='1'>";
+    echo "<tr><th>Zona Horaria</th><th>Hora Actual</th></tr>";
+
+    foreach ($zonas as $zona) {
+        $dateTime = new DateTime("now", new DateTimeZone($zona));
+        echo "<tr><td>{$zona}</td><td>" . $dateTime->format('H:i:s') . "</td></tr>";
+    }
+
+    echo "</table>";
+} else {
+    echo "<p>No seleccionaste ninguna zona horaria.</p>";
+}
+?>
+
+<h2>Horas Anteriores:</h2>
+<?php
+if (!empty($datosCookie)) {
+    echo "<table border='1'>";
+    echo "<tr><th>Zona Horaria</th><th>Hora Actual</th></tr>";
+
+    foreach ($array_datos_cookie as $zona) {
+        $dateTime = new DateTime("now", new DateTimeZone($zona));
+        echo "<tr><td>{$zona}</td><td>" . $dateTime->format('H:i:s') . "</td></tr>";
+    }
+
+    echo "</table>";
+} else {
+    echo "<p>No hay datos guardados de zonas horarias anteriores.</p>";
+}
+?>
 </body>
 </html>

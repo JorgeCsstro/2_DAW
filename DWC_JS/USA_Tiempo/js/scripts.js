@@ -51,12 +51,11 @@ const stateCoordinates = {
     "WY": { lat: 42.755966, lon: -107.302490 }
 };
 
-const dataReq = ["localtime", "temp", "wdir_compass", "wspd"];
+const dataReq = ["localtime", "wx_icon", "temp", "wdir_compass", "wspd"];
 
-
+let currentIndex = 0;
 
 window.onload = start;
-
 
 function start() {
     let mapa = document.querySelector('map[name="USA"]');
@@ -81,10 +80,27 @@ function start() {
             }
         });
     });
+    document.getElementById("prevBtn").addEventListener("click", () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateCarousel();
+        }
+    });
+    
+    document.getElementById("nextBtn").addEventListener("click", () => {
+        const table = document.querySelector("#modal table");
+        const totalColumns = table.querySelectorAll("td").length / dataReq.length;
+        if (currentIndex < totalColumns - 6) {
+            currentIndex++;
+            updateCarousel();
+        }
+    });
 }
 
 function abreMod(event) {
     event.preventDefault();
+
+    currentIndex = 0;
 
     let stateTitle = event.target.title || event.target.getAttribute('data-cod');
 
@@ -102,16 +118,16 @@ function closeMod() {
 
 async function getData(lat, lon) {
     const query = `q=${lat},${lon}`;
-    const apiUrl = `https://api.weatherusa.net/v1/forecast?${query}&daily=0&units=e&maxtime=1d`;
+    const apiUrlTemp = `https://api.weatherusa.net/v1/forecast?${query}&daily=0&units=e&maxtime=1d`;
 
-    console.log(apiUrl);
+    console.log(apiUrlTemp);
 
     try {
-        const response = await fetch(apiUrl);
+        const response = await fetch(apiUrlTemp);
         const data = await response.json();
 
         const table = document.querySelector("#modal table");
-        table.innerHTML = ""; // Clear any existing table content
+        table.innerHTML = "";
 
         // Create table body with headers on the left
         const tbody = document.createElement("tbody");
@@ -120,31 +136,77 @@ async function getData(lat, lon) {
         dataReq.forEach((key) => {
             const row = document.createElement("tr");
 
-            // Create header cell
             const headerCell = document.createElement("th");
             headerCell.innerText = key;
             row.appendChild(headerCell);
-
-            // Create data cells for each entry up to 24 entries
-            data.slice(0, 24).forEach((entry) => {
-                const dataCell = document.createElement("td");
-                dataCell.innerText = entry[key] || "N/A"; // Handle missing data with "N/A"
-                row.appendChild(dataCell);
-            });
+            if (key == "wx_icon") {
+                data.slice(0, 24).forEach((entry) => {
+                    const dataCell = document.createElement("td");
+                    if (entry[key]) {
+                        const img = document.createElement("img");
+                        img.src = './imgs/' + entry[key] + '.png'; // Set the source of the image
+                        img.alt = key; // Optional: Set an alt attribute for the image
+                        img.style.width = "50px"; // Optional: Set a width for the image
+                        img.style.height = "50px"; // Optional: Set a height for the image
+                        dataCell.appendChild(img);
+                    } else {
+                        dataCell.innerText = "N/A"; // Fallback if `wx_icon` is not available
+                    }
+                    row.appendChild(dataCell);
+                });
+            } else {
+                data.slice(0, 24).forEach((entry) => {
+                    const dataCell = document.createElement("td");
+                    dataCell.innerText = entry[key] || "N/A";
+                    row.appendChild(dataCell);
+                });
+            }
 
             tbody.appendChild(row);
         });
 
         table.appendChild(tbody);
+        updateCarousel();
+
+        const apiUrlCams = `https://api.weatherusa.net/v1/skycams?${query}`;
+        console.log(apiUrlCams);
+        const responseCam = await fetch(apiUrlCams);
+        const dataCam = await responseCam.json();
+            
+        if (dataCam.length > 0 && dataCam[0].image) {
+            const imageUrl = dataCam[0].image;
+        
+            const lifeImgDiv = document.getElementById("life_img");
+            lifeImgDiv.innerHTML = ""; // Clear any previous content
+        
+            const imgElement = document.createElement("img");
+            imgElement.src = imageUrl;
+            imgElement.alt = "Live Camera View"; // Optional alt text
+        
+            lifeImgDiv.appendChild(imgElement);
+        } else {
+            console.error("No camera image found in the response");
+        }
 
     } catch (error) {
         console.error("Error fetching data:", error);
     }
 }
 
+function updateCarousel() {
+    const table = document.querySelector("#modal table");
+    const cells = table.querySelectorAll("td");
+    const totalColumns = cells.length / dataReq.length;
 
-
-
+    cells.forEach((cell, index) => {
+        const columnIndex = index % totalColumns;
+        if (columnIndex >= currentIndex && columnIndex < currentIndex + 6) {
+            cell.style.display = "table-cell";
+        } else {
+            cell.style.display = "none";
+        }
+    });
+}
 
 
 

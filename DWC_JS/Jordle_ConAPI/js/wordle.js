@@ -77,8 +77,6 @@ async function compruebaRAEadivinar(adivinar) {
 
 async function compruebaRAErandom(random) {
 
-
-
     let palabraExiste = await fetch("https://rae-api.com/api/words/" + random)
         .then(response => {
             if (response.ok) {
@@ -192,8 +190,6 @@ async function apiPalabra() {
 
     return palabraRand;
 }
-
-
 
 // Al iniciar una nueva partida...
 async function nuevaPartida() {

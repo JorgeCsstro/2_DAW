@@ -114,11 +114,13 @@ function closeMod() {
 
     document.getElementById("modal").classList.add("oculto");
     document.getElementById("fondo").classList.add("oculto");
+    const lifeImgDiv = document.getElementById("life_img");
+    lifeImgDiv.innerHTML="<div id='loadingOverlay' class='loading-overlay'><img src='./america.gif' alt=''></div>";
 }
 
 async function getData(lat, lon) {
     const query = `q=${lat},${lon}`;
-    const apiUrlTemp = `https://api.weatherusa.net/v1/forecast?${query}&daily=0&units=e&maxtime=1d`;
+    const apiUrlTemp = `https://api.weatherusa.net/v1/forecast?${query}&daily=0&units=m&maxtime=1d`;
 
     console.log(apiUrlTemp);
 
@@ -144,7 +146,7 @@ async function getData(lat, lon) {
                     const dataCell = document.createElement("td");
                     if (entry[key]) {
                         const img = document.createElement("img");
-                        img.src = './imgs/' + entry[key] + '.png'; // Set the source of the image
+                        img.src = './icons/' + entry[key] + '.png'; // Set the source of the image
                         img.alt = key; // Optional: Set an alt attribute for the image
                         img.style.width = "50px"; // Optional: Set a width for the image
                         img.style.height = "50px"; // Optional: Set a height for the image
@@ -154,7 +156,14 @@ async function getData(lat, lon) {
                     }
                     row.appendChild(dataCell);
                 });
-            } else {
+            } else if (key == "temp") {
+                data.slice(0, 24).forEach((entry) => {
+                    const dataCell = document.createElement("td");
+                    dataCell.innerText = entry[key] + "Cº" || "N/A";
+                    row.appendChild(dataCell);
+                });
+
+            }else{
                 data.slice(0, 24).forEach((entry) => {
                     const dataCell = document.createElement("td");
                     dataCell.innerText = entry[key] || "N/A";
@@ -168,25 +177,30 @@ async function getData(lat, lon) {
         table.appendChild(tbody);
         updateCarousel();
 
+        document.getElementById('loadingOverlay').style.display = 'flex';
         const apiUrlCams = `https://api.weatherusa.net/v1/skycams?${query}`;
         console.log(apiUrlCams);
         const responseCam = await fetch(apiUrlCams);
         const dataCam = await responseCam.json();
-            
-        if (dataCam.length > 0 && dataCam[0].image) {
-            const imageUrl = dataCam[0].image;
-        
-            const lifeImgDiv = document.getElementById("life_img");
-            lifeImgDiv.innerHTML = ""; // Clear any previous content
-        
-            const imgElement = document.createElement("img");
-            imgElement.src = imageUrl;
-            imgElement.alt = "Live Camera View"; // Optional alt text
-        
-            lifeImgDiv.appendChild(imgElement);
-        } else {
-            console.error("No camera image found in the response");
-        }
+
+        setTimeout(() => { 
+            if (dataCam[0] && dataCam[0].image) {
+                const imageUrl = dataCam[0].image;
+                
+                const lifeImgDiv = document.getElementById("life_img");
+                
+                const imgElement = document.createElement("img");
+                imgElement.src = imageUrl;
+                
+                lifeImgDiv.appendChild(imgElement);
+                
+                // Hide the loading overlay
+                document.getElementById('loadingOverlay').style.display = 'none';
+            } else {
+                const lifeImgDiv = document.getElementById("life_img");
+                lifeImgDiv.innerHTML = "NO SKYCAM FOUND";
+            }
+        }, 2000);
 
     } catch (error) {
         console.error("Error fetching data:", error);

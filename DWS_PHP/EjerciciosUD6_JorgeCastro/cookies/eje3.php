@@ -4,6 +4,16 @@
  * @author Jorge Castro <jorgecastrot2005@gmail.com>
  */
 
+/*
+
+    3.  Usa el formulario (Ejercicio 1 UD5) del selector de operación y las operaciones de suma, resta,
+        división y multiplicación de modo que se guarde en la Cookie los números y las operaciones
+        elegidas y muestre el resultado de la operación indicando cuáles han sido los números, las
+        operaciones elegidas y el resultado en la ejecución actual (formulario) y los números y las
+        elegidas en la operación anterior a la actual (cookie).
+
+*/
+
 // Cuando se ha apretado a "enviar"
 if (isset($_GET['enviar'])) {
 
@@ -14,9 +24,12 @@ if (isset($_GET['enviar'])) {
 
     // Si los 2 apartados introducidos són números
     if (is_numeric($num1) && is_numeric($num2)) {
-        // Por cada operación pondrá una línea con el resultado
+        
+        // Creo dos cookies para almacenar los datos actuales
         setcookie("num1", $num1, time() + (24 * 60 * 60), "/");
         setcookie("num2", $num2, time() + (24 * 60 * 60), "/");
+
+        // Por cada operación pondrá una línea con el resultado
         for ($i = 0; $i < count($operaciones); $i++) {
             switch ($operaciones[$i]) {
                 case '+':
@@ -44,6 +57,7 @@ if (isset($_GET['enviar'])) {
                     }
             }
         }
+        // Cojo el valor de la operación hecha
         $datosCookie = $_COOKIE["OpeAnt"];
     } else {
         echo ("Por favor introduzca números <br>");
@@ -84,6 +98,8 @@ if (isset($_GET['enviar'])) {
         <br>
         <input type="submit" value="Enviar" name="enviar">
     </form>
+
+    <!--Imprimo todos los datos-->
     <h2>Datos Actuales:</h2>
     <?php 
         print("<p>" . $ope . "</p>");

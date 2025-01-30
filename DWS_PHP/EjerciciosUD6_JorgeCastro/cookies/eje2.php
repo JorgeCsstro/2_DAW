@@ -8,7 +8,7 @@
     2.  Crea un formulario en el que se le pida al usuario los siguientes datos: nombre y preferencia de
         idioma, color y ciudad. Crea una Cookie que almacene estos datos y que, al recargar la página
         por realizar una nueva selección de datos (y posiblemente usuario) muestre los datos
-        introducidos en el formulario junto con los datos obtenidos de la Cookie
+        introducidos en el formulario junto con los datos obtenidos de la Cookie.
 */
 
 if (isset($_GET['enviar'])) {
@@ -22,8 +22,10 @@ if (isset($_GET['enviar'])) {
 
     $stringDatos = $nombre . "," . $idioma . "," . $color . "," . $ciudad;
 
+    // Creo una cookie para almacenar los datos actuales
     setcookie("datosAnt", $stringDatos, time() + (24 * 60 * 60), "/");
 
+    // Hago array con los datos de la cookie anterior
     $datosCookie = $_COOKIE["datosAnt"];
     $array_datos_cookie = explode(",", $datosCookie);
 
@@ -71,6 +73,8 @@ if (isset($_GET['enviar'])) {
         <br>
         <input type="submit" value="Enviar" name="enviar">
     </form>
+
+    <!--Imprimo todos los datos-->
     <h2>Datos Actuales:</h2>
     <?php 
         for ($i=0; $i < count($arrayDatos); $i++) { 

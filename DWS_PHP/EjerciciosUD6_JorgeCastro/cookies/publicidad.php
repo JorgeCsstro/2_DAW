@@ -5,10 +5,9 @@
 */
 
 /*
-    22. Escribe un formulario que solicite una dirección de correo y que la confirme e indique si
-    acepta recibir publicidad. Añade botón Enviar y Borrar. Cuando enviemos, iremos a otra página
-    donde se le indique el email y si ha aceptado recibir publicidad o no. El botón borrar se
-    mantendrá en el mismo formulario inicial pero limpiará todos los campos.
+    10. Usa el formulario (Ejercicio 22 UD5) que guarde en una Cookie la preferencia del usuario de si
+        desea o no recibir publicidad y que muestre la opción anterior y la nueva elegida en caso de que
+        la modifique.
 */
 
 if (isset($_GET['enviar'])) {
@@ -21,8 +20,10 @@ if (isset($_GET['enviar'])) {
 
     $stringDatos = $email . "," . $publi;
 
+    // Creo una cookie para guardar los datos
     setcookie("datosAnt", $stringDatos, time() + (24 * 60 * 60), "/");
 
+    // Los pongo en un array
     $datosCookie = $_COOKIE["datosAnt"];
     $array_datos_cookie = explode(",", $datosCookie);
 

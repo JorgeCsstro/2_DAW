@@ -4,10 +4,11 @@
  */
 
 /*
-    18. Escribe un programa para que, a criterio del usuario, obtenga la media, la moda (número más
-    frecuente) o la mediana (el número de en medio o el promedio de los dos centrales si son pares)
-    de los números que introduzca el usuario, Se podrán seleccionar de una a todas las opciones
-    calculadas pero se deben mostrar todas para que el usuario las marque o desmarque
+    8.  Usa el formulario (Ejercicio 18 UD5) de cálculo de media, mediana y moda donde se indiquen
+        varios números y pueda seleccionar una o todas las opciones de cálculo sobre esos números y
+        las muestre guardando estos datos en una Cookie. Se deben mostrar los números con los
+        cálculos seleccionados en el presente y los números y los cálculos realizados en la ocasión
+        anterior (cookie).
 */
 
 // Calcular media
@@ -56,10 +57,14 @@ if (isset($_GET['enviar'])) {
         $mediana = calcularMediana($numeros);
         $stringDatos = $stringDatos . "Mediana: $mediana";
     }
+
+    // Me quedo las operaciones en un array
     $array_datos_actuales = explode(",", $stringDatos);
 
+    // Creo una cookie con las operaciones
     setcookie("datosAnt", $stringDatos, time() + (24 * 60 * 60), "/");
 
+    // Cojo los datos y los pongo en un array
     $datosCookie = $_COOKIE["datosAnt"];
     $array_datos_cookie = explode(",", $datosCookie);
     
@@ -89,6 +94,8 @@ if (isset($_GET['enviar'])) {
     <br><br>
     <input type="submit" value="Enviar" name="enviar">
 </form>
+
+<!--Imprimo todos los datos-->
 <h2>Datos Actuales:</h2>
     <?php 
         for ($i=0; $i < count($array_datos_actuales); $i++) { 

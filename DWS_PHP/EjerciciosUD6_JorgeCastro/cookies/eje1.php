@@ -20,8 +20,10 @@ if (isset($_GET['enviar'])) {
 
     $stringDatos = $nombre . "," . $saldes;
 
+    // Creo una cookie para almacenar los datos actuales
     setcookie("datosAnterior", $stringDatos, time() + (24 * 60 * 60), "/");
 
+    // Hago array con los datos de la cookie anterior
     $datosCookie = $_COOKIE["datosAnterior"];
     $array_datos_cookie = explode(",", $datosCookie);
 
@@ -55,8 +57,11 @@ if (isset($_GET['enviar'])) {
         <br>
         <input type="submit" value="Enviar" name="enviar">
     </form>
+    
+    <!--Imprimo todos los datos-->
     <h2>Datos Actuales:</h2>
     <?php 
+    
         for ($i=0; $i < count($arrayDatos); $i++) { 
             print("<p>" . $arrayDatos[$i] . "</p>");
         }

@@ -4,18 +4,22 @@
  */
 
 /*
-    21. Realiza un programa donde el usuario seleccione una zona horaria de un máximo de 20 y le
-    muestre la hora actual de dicha zona horaria
+    9.  Usa el formulario (Ejercicio 21 UD5) de zona horaria donde se indique la zona horaria y
+        muestre la hora y la zona elegidas guardando estos datos en una Cookie. Se deben mostrar la
+        hora y la zona actual y la hora y la zona anterior (cookie).
  */
 
 if (isset($_GET['enviar'])) {
     $zonas = $_GET['opciones'] ?? [];
 
+    // Creo un string con todas las zonas separadas por comas
     $stringDatos = implode(",", $zonas);
 
+    // Creo una cookie con las zonas anteriores
     setcookie("HorasAnt", $stringDatos, time() + (24 * 60 * 60), "/");
 }
 
+// Saco los datos de la cookie y las pongo en un array
 $datosCookie = $_COOKIE["HorasAnt"] ?? '';
 $array_datos_cookie = explode(",", $datosCookie);
 
@@ -58,6 +62,7 @@ $array_datos_cookie = explode(",", $datosCookie);
     <input type="submit" value="Enviar" name="enviar">
 </form>
 
+<!--Imprimo todos los datos-->
 <h2>Horas Actuales:</h2>
 <?php
 if (!empty($zonas)) {

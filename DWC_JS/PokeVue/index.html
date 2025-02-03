@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokeVue</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- Header -->
+        <div class="header">PokeVue</div>
+
+        <!-- Main Content -->
+        <div class="container">
+            <!-- Left Side -->
+            <div class="side">
+                <div v-for="(randNum, index) in randomNumbersLeft" 
+                     :key="'left-' + index" 
+                     class="square"
+                     draggable="true"
+                     @dragstart="handleDragStart(randNum)">
+                    <img :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${randNum}.png`" 
+                         alt="Pokemon">
+                </div>
+            </div>
+
+            <!-- Center Rectangle -->
+            <div class="center-rectangle"
+                 @dragover="handleDragOver"
+                 @drop="handleDrop">
+                <img src="./img/battleMap.jpg" alt="Center Image">
+                <img v-if="draggedPokemon" 
+                     :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${draggedPokemon}.png`" 
+                     class="overlay-image">
+            </div>
+
+            <!-- Right Side -->
+            <div class="side">
+                <div v-for="(randNum, index) in randomNumbersRight" 
+                     :key="'right-' + index" 
+                     class="square"
+                     draggable="true"
+                     @dragstart="handleDragStart(randNum)">
+                    <img :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${randNum}.png`" 
+                         alt="Pokemon">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/main.js"></script>
+    <script src="js/components/AppProfile.js"></script>
+    <script>
+        const mountedApp = app.mount('#app');
+    </script>
+</body>
+
+</html>

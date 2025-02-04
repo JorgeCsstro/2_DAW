@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'poke';
+  src: url(./pokemon_generation_1.ttf);
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -64,11 +69,32 @@ body {
   max-height: 100%;
 }
 
-.overlay-image {
+.overlay-image-left {
   position: absolute;
-  width: 100px;
-  height: 100px;
-  top: 50%;
-  left: 50%;
+  width: 200px;
+  height: 200px;
+  top: 62%;
+  left: 25%;
   transform: translate(-50%, -50%);
+  clip-path: inset(0 0 75px 0); /* Cuts 20px from the bottom */
+}
+
+.overlay-image-right {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  top: 35%;
+  left: 73%;
+  transform: translate(-50%, -50%);
+  clip-path: inset(0 0 30px 0); /* Cuts 20px from the bottom */
+}
+
+.battle-text {
+  position: absolute;
+  width: 200px;
+  height: 75px;
+  background-color: white;
+  top: 73%;
+  left: 10%;
+  font-family: 'poke';
 }

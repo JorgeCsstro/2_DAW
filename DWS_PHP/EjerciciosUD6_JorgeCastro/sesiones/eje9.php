@@ -1,29 +1,72 @@
 <?php
+session_start();
 /**
  * @author Jorge Castro <jorgecastrot2005@gmail.com>
  */
 
 /*
-    9.  Usa el formulario (Ejercicio 21 UD5) de zona horaria donde se indique la zona horaria y
-        muestre la hora y la zona elegidas guardando estos datos en una Cookie. Se deben mostrar la
-        hora y la zona actual y la hora y la zona anterior (cookie).
- */
+    8.  Usa el formulario del ejercicio 8 de Cookies con selección de zona horaria para mostrar la hora
+        y zona elegidas de modo que uses la sesión para mostrar la zona horaria y hora actuales y
+        además muestre la zona horaria y hora de la selección anterior.
+*/
 
-if (isset($_GET['enviar'])) {
-    $zonas = $_GET['opciones'] ?? [];
-
-    // Creo un string con todas las zonas separadas por comas
-    $stringDatos = implode(",", $zonas);
-
-    // Creo una cookie con las zonas anteriores
-    setcookie("HorasAnt", $stringDatos, time() + (24 * 60 * 60), "/");
+// Calcular media
+function calcularMedia($numeros) {
+    return array_sum($numeros) / count($numeros);
 }
 
-// Saco los datos de la cookie y las pongo en un array
-$datosCookie = $_COOKIE["HorasAnt"] ?? '';
-$array_datos_cookie = explode(",", $datosCookie);
+// Calcular moda
+function calcularModa($numeros) {
+    $frecuencias = array_count_values($numeros);
+    $maxFrecuencia = max($frecuencias);
+    $moda = array_keys($frecuencias, $maxFrecuencia);
+    return $moda;
+}
 
+// Calcular mediana
+function calcularMediana($numeros) {
+    sort($numeros);
+    $n = count($numeros);
+    if ($n % 2 == 0) {
+        return ($numeros[$n / 2 - 1] + $numeros[$n / 2]) / 2;
+    } else {
+        return $numeros[floor($n / 2)];
+    }
+}
+
+if (isset($_GET['enviar'])) {
+    $numerosInput = $_GET['numeros'];
+    $opciones = $_GET['opciones'];
+
+    // Convertimos los números en un array
+    $numeros = array_map('intval', explode(',', $numerosInput));
+
+    $stringDatos = "";
+
+    // Print los resultados seleccionados
+    if (in_array('media', $opciones)) {
+        $media = calcularMedia($numeros);
+        $stringDatos = "Media: $media, ";
+    }
+    if (in_array('moda', $opciones)) {
+        $moda = calcularModa($numeros);
+        $stringDatos .= "Moda: " . implode(', ', $moda) . ", ";
+    }
+    if (in_array('mediana', $opciones)) {
+        $mediana = calcularMediana($numeros);
+        $stringDatos .= "Mediana: $mediana";
+    }
+
+    // Guardar en sesión
+    $_SESSION['datosAnt'] = $_SESSION['datosActuales'] ?? '';
+    $_SESSION['datosActuales'] = $stringDatos;
+}
+
+// Obtener datos de la sesión
+$datosActuales = $_SESSION['datosActuales'] ?? 'No hay cálculos actuales';
+$datosAnteriores = $_SESSION['datosAnt'] ?? 'No hay cálculos anteriores';
 ?>
+
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -34,67 +77,30 @@ $array_datos_cookie = explode(",", $datosCookie);
 <body>
 <form action="eje9.php" method="get">
     <h1>Ejercicio 9 - Jorge Castro</h1>
-    <label for="opciones">Seleccione zonas horarias:</label>
+    <label for="numeros">Dígame todos los números que quiera (separados por comas):</label>
+    <input type="text" name="numeros" id="numeros">
     <br>
-    <select multiple size="10" name="opciones[]" id="opciones">
-        <option value="Europe/Madrid">Madrid</option>
-        <option value="Europe/London">Londres</option>
-        <option value="Europe/Paris">París</option>
-        <option value="Europe/Berlin">Berlín</option>
-        <option value="Asia/Tokyo">Tokio</option>
-        <option value="America/New_York">Nueva York</option>
-        <option value="Australia/Sydney">Sídney</option>
-        <option value="America/Los_Angeles">Los Ángeles</option>
-        <option value="Europe/Moscow">Moscú</option>
-        <option value="Asia/Shanghai">Pekín</option>
-        <option value="Asia/Dubai">Dubái</option>
-        <option value="America/Mexico_City">Ciudad de México</option>
-        <option value="America/Sao_Paulo">Sao Paulo</option>
-        <option value="America/Toronto">Toronto</option>
-        <option value="Asia/Singapore">Singapur</option>
-        <option value="Asia/Seoul">Seúl</option>
-        <option value="America/Argentina/Buenos_Aires">Buenos Aires</option>
-        <option value="Europe/Istanbul">Estambul</option>
-        <option value="Africa/Nairobi">Nairobi</option>
-        <option value="Asia/Bangkok">Bangkok</option>
+    <label for="opciones">Seleccione opciones:</label>
+    <br>
+    <select multiple size="3" name="opciones[]" id="opciones">
+        <option value="media">Media</option>
+        <option value="moda">Moda</option>
+        <option value="mediana">Mediana</option>
     </select>
     <br><br>
     <input type="submit" value="Enviar" name="enviar">
 </form>
 
-<!--Imprimo todos los datos-->
-<h2>Horas Actuales:</h2>
-<?php
-if (!empty($zonas)) {
-    echo "<table border='1'>";
-    echo "<tr><th>Zona Horaria</th><th>Hora Actual</th></tr>";
+<?php 
+        if (!empty($_SESSION['datosActuales'])) {
+            echo "<h2>Datos Actuales:</h2>";
+            echo "<p>$datosActuales</p>";
+        }
 
-    foreach ($zonas as $zona) {
-        $dateTime = new DateTime("now", new DateTimeZone($zona));
-        echo "<tr><td>{$zona}</td><td>" . $dateTime->format('H:i:s') . "</td></tr>";
-    }
-
-    echo "</table>";
-} else {
-    echo "<p>No seleccionaste ninguna zona horaria.</p>";
-}
-?>
-
-<h2>Horas Anteriores:</h2>
-<?php
-if (!empty($datosCookie)) {
-    echo "<table border='1'>";
-    echo "<tr><th>Zona Horaria</th><th>Hora Actual</th></tr>";
-
-    foreach ($array_datos_cookie as $zona) {
-        $dateTime = new DateTime("now", new DateTimeZone($zona));
-        echo "<tr><td>{$zona}</td><td>" . $dateTime->format('H:i:s') . "</td></tr>";
-    }
-
-    echo "</table>";
-} else {
-    echo "<p>No hay datos guardados de zonas horarias anteriores.</p>";
-}
-?>
+        if (!empty($_SESSION['datosAnt'])) {
+            echo "<h2>Datos Anteriores:</h2>";
+            echo "<p>$datosAnteriores</p>";
+        }
+    ?>
 </body>
 </html>

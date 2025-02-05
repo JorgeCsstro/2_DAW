@@ -39,24 +39,64 @@
                      :src="pokemon.src" 
                      :class="pokemon.class"
                      :name="pokemon.name">
-                <div class="battle-text">
-                    HOLA
+                     
+                <div class="battleUI">
+                    <div class="startBattleUI">
+                        <img src="./img/startBattleUI.png" alt="">
+                        <div class="start-text">
+                            <b>
+                                What will XXXXXX do?
+                            </b>
+                        </div>
+                        <div class="battle-buttons">
+                            <button>
+                                FIGHT
+                            </button>
+                            <button>
+                                RUN
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="fightBattleUI">
+                        <img src="./img/fightBattleUI.png" alt="">
+                        <div class="fight-buttons">
+                            <button class="a1">
+                                -
+                            </button>
+                            <button class="a2">
+                                -
+                            </button>
+                            <button class="a3">
+                                -
+                            </button>
+                            <button class="a4">
+                                -
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="resultBattleUI">
+                        <img src="./img/resultBattleUI.png" alt="">
+
+                    </div>
+
                 </div>
             </div>
             
 
 
             <!-- Right Side -->
-            <div class="side">
-                <div v-for="(randNum, index) in randomNumbersRight" 
+            <div class="side"> 
+                <div v-for="(randNum, index) in randomNumbersRight"
                      :key="'right-' + index" 
-                     class="square"
+                     class="square" 
                      draggable="true"
-                     @dragstart="handleDragStart(randNum, 'right')">
-                    <img :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${randNum}.png`" 
-                         alt="Pokemon">
-                </div>
-            </div>
+                     @dragstart="handleDragStart(randNum, 'right')"> 
+                    <img :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${randNum}.png`"
+                         alt="Pokemon"> 
+                </div> 
+            </div> 
         </div>
     </div>
     <script src="js/main.js"></script>

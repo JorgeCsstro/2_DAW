@@ -6,28 +6,30 @@
 
 session_start();
 
-if (isset($_POST['enviar'])) {
-    $nombre = $_POST['nombre'];
-    $perfil = $_POST['perfil'];
-
-    if (isset($perfil)) {
-        $_SESSION['nombre'] = $nombre;
-        $_SESSION['perfil'] = $perfil;
-        switch ($_SESSION['perfil']) {
-            case 'Gerente':
-                $location = 'Location: eje1Gerente.php';
-                break;
-            case 'Sindicalista':
-                $location = 'Location: eje1Sindicalista.php';
-                break;
-            case 'Responsable':
-                $location = 'Location: eje1Responsable.php';
-                break;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['enviar'])) {
+        $nombre = $_POST['nombre'];
+        $perfil = $_POST['perfil'];
+    
+        if (isset($perfil)) {
+            $_SESSION['nombre'] = $nombre;
+            $_SESSION['perfil'] = $perfil;
+            switch ($_SESSION['perfil']) {
+                case 'Gerente':
+                    $location = 'Location: eje1Gerente.php';
+                    break;
+                case 'Sindicalista':
+                    $location = 'Location: eje1Sindicalista.php';
+                    break;
+                case 'Responsable':
+                    $location = 'Location: eje1Responsable.php';
+                    break;
+            }
+            header($location);
+            exit();
+        } else {
+            echo "<p>Perfil no válido.</p>";
         }
-        header($location);
-        exit();
-    } else {
-        echo "<p>Perfil no válido.</p>";
     }
 }
 

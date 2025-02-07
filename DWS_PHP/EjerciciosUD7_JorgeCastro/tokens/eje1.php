@@ -5,7 +5,7 @@
  */
 
 session_start();
-$_SESSION["token"] = bin2hex(openssl_random_pseudo_bytes(24));
+$_SESSION["tokenEJ1"] = bin2hex(openssl_random_pseudo_bytes(24));
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $location = 'Location: eje1Responsable.php';
                     break;
             }
-            header($location . "?token=". $_SESSION['token']);
+            header($location . "?tokenEJ1=". $_SESSION['tokenEJ1']);
             exit();
         } else {
             echo "<p>Perfil no válido.</p>";
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <option value="Responsable">Responsable de Nóminas</option>
         </select><br><br>
 
-        <input type="hidden" name="token" value="<?php echo $_SESSION['token'];?>">
+        <input type="hidden" name="tokenEJ1" value="<?php echo $_SESSION['tokenEJ1'];?>">
 
         <input type="submit" name="enviar" value="Entrar">
     </form>

@@ -13,8 +13,8 @@ function obtenerSalarios($empleados) {
     return [$max, $min, $media];
 }
 
-if (isset($_GET['token'])) {
-    if (hash_equals($_GET['token'], $_SESSION['token']) === true) {
+if (isset($_GET['tokenEJ1'])) {
+    if (hash_equals($_GET['tokenEJ1'], $_SESSION['tokenEJ1']) === true) {
         $empleados = [
             'Juan' => 3000,
             'Fran' => 2000,
@@ -57,7 +57,7 @@ if (isset($_GET['token'])) {
         exit();
     }
     if (isset($_POST['new_token'])) {
-        $_SESSION["token"] = bin2hex(openssl_random_pseudo_bytes(24));
+        $_SESSION["tokenEJ1"] = bin2hex(openssl_random_pseudo_bytes(24));
         header('Refresh: 0');
     }
     ?>

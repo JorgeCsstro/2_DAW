@@ -5,6 +5,7 @@
  */
 
 session_start();
+$_SESSION["tokenEJ2"] = bin2hex(openssl_random_pseudo_bytes(24));
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['enviar'])) {
@@ -41,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $location = 'Location: eje2Estudiante.php';
                 }
             }
-            header($location);
+            header($location . "?tokenEJ2=". $_SESSION['tokenEJ2']);
             exit();
         } else {
             echo "<p>Perfil no válido.</p>";
@@ -58,31 +59,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ejercicio 1 - Jorge Castro</title>
+    <title>Ejercicio 2 - Jorge Castro</title>
 </head>
 <body>
-    <h1>Ejercicio 1 - Jorge Castro</h1>
+    <h1>Ejercicio 2 - Jorge Castro</h1>
     <form method="post">
         <label for="">Nombre:</label>
         <input type="text" name="nombre" required><br><br>
         <label for="">Apellidos:</label>
         <input type="text" name="apellidos" required><br><br>
         <label for="">Asignatura:</label>
-        <input type="text" name="asignatura" required><br><br>
+        <select name="asignatura" required>
+            <option value="DAW">DAW</option>
+            <option value="DAM">DAM</option>
+            <option value="ASIR">ASIR</option>
+        </select><br><br>
         <label for="">Grupo:</label>
-        <input type="text" name="grupo" required><br><br>
+        <select name="grupo" required>
+            <option value="Mañana">Mañana</option>
+            <option value="Tarde">Tarde</option>
+        </select><br><br>
 
         <label for="">Eres mayor o menor de edad?:</label>
-        <select name="edad" required>
-            <option value="mayor">Mayor</option>
-            <option value="menor">Menor</option>
-        </select><br><br>
+        <input type="radio" name="edad" value="mayor">Mayor
+        <input type="radio" name="edad" value="menor">Menor
+        <br><br>
 
         <label for="">Tienes cargo?:</label>
-        <select name="cargo" required>
-            <option value="con">Con cargo</option>
-            <option value="sin">Sin cargo</option>
-        </select><br><br>
+        <input type="radio" name="cargo" value="con">Con cargo
+        <input type="radio" name="cargo" value="sin">Sin cargo
+        <br><br>
+
+        <input type="hidden" name="tokenEJ2" value="<?php echo $_SESSION['tokenEJ2'];?>">
 
         <input type="submit" name="enviar" value="Entrar">
     </form>

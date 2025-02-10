@@ -33,13 +33,22 @@
             <div class="center-rectangle"
                  @dragover="handleDragOver"
                  @drop="handleDrop">
-                <img src="./img/battleMap.jpg" alt="Center Image">
+                <img src="./img/battleMap.jpg" alt="Center Image" class="battleMap">
                 <img v-for="(pokemon, index) in centerPokemons" 
                      :key="index" 
                      :src="pokemon.src" 
                      :class="pokemon.class"
                      :name="pokemon.name">
-                     
+                
+                <div class="turn-left">
+                    <img src="./img/bubleTurn-left.png" class="bubbleTurn-left">
+                    <img  src="./img/tick.png" class="tick-left">
+                </div>
+                <div class="turn-right">
+                    <img src="./img/bubleTurn-right.png" class="bubbleTurn-right">
+                    <img  src="./img/tick.png" class="tick-right">
+                </div>
+
                 <div class="battleUI">
                     <div class="startBattleUI">
                         <img src="./img/startBattleUI.png" alt="">
@@ -73,6 +82,20 @@
                             <button class="a4">
                                 -
                             </button>
+                        </div>
+                        <div class="fight-stats">
+                            <div class="myPP">
+                                PP: 30/30
+                            </div>
+                            <div class="movePP">
+                                MV PP: 10
+                            </div>
+                            <div class="power">
+                                Power: 10
+                            </div>
+                            <div class="acc">
+                                ACC: 85
+                            </div>
                         </div>
                     </div>
 

@@ -4,12 +4,6 @@ session_start();
  * @author Jorge Castro <jorgecastrot2005@gmail.com>
  */
 
-/*
-    8.  Usa el formulario del ejercicio 8 de Cookies con selección de zona horaria para mostrar la hora
-        y zona elegidas de modo que uses la sesión para mostrar la zona horaria y hora actuales y
-        además muestre la zona horaria y hora de la selección anterior.
-*/
-
 // Calcular media
 function calcularMedia($numeros) {
     return array_sum($numeros) / count($numeros);
@@ -58,13 +52,13 @@ if (isset($_GET['enviar'])) {
     }
 
     // Guardar en sesión
-    $_SESSION['datosAnt'] = $_SESSION['datosActuales'] ?? '';
-    $_SESSION['datosActuales'] = $stringDatos;
+    $_SESSION['calcAnt'] = $_SESSION['calcActuales'];
+    $_SESSION['calcActuales'] = $stringDatos;
 }
 
 // Obtener datos de la sesión
-$datosActuales = $_SESSION['datosActuales'] ?? 'No hay cálculos actuales';
-$datosAnteriores = $_SESSION['datosAnt'] ?? 'No hay cálculos anteriores';
+$calcActuales = $_SESSION['calcActuales'];
+$calcAnt = $_SESSION['calcAnt'];
 ?>
 
 <html lang="es">
@@ -75,7 +69,7 @@ $datosAnteriores = $_SESSION['datosAnt'] ?? 'No hay cálculos anteriores';
 </head>
 
 <body>
-<form action="eje9.php" method="get">
+<form action="" method="get">
     <h1>Ejercicio 9 - Jorge Castro</h1>
     <label for="numeros">Dígame todos los números que quiera (separados por comas):</label>
     <input type="text" name="numeros" id="numeros">
@@ -92,15 +86,15 @@ $datosAnteriores = $_SESSION['datosAnt'] ?? 'No hay cálculos anteriores';
 </form>
 
 <?php 
-        if (!empty($_SESSION['datosActuales'])) {
-            echo "<h2>Datos Actuales:</h2>";
-            echo "<p>$datosActuales</p>";
-        }
+    if (!empty($calcActuales)) {
+        echo "<h2>Datos Actuales:</h2>";
+        echo "<p>$calcActuales</p>";
+    }
 
-        if (!empty($_SESSION['datosAnt'])) {
-            echo "<h2>Datos Anteriores:</h2>";
-            echo "<p>$datosAnteriores</p>";
-        }
-    ?>
+    if (!empty($calcAnt)) {
+        echo "<h2>Datos Anteriores:</h2>";
+        echo "<p>$calcAnt</p>";
+    }
+?>
 </body>
 </html>

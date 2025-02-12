@@ -13,7 +13,7 @@ const enemyRows = 5;
 const enemyCols = 8;
 let enemyDirection = "right";
 let enemyPositions = [];
-let baseSpeed = 5000;
+let baseSpeed = 3000;
 
 
 function createGrid() {
@@ -109,7 +109,7 @@ function moverInvaders() {
     }
 
     renderEnemies();
-    setTimeout(moverInvaders, baseSpeed / level); // Adjust speed based on level
+    setTimeout(moverInvaders, baseSpeed - (250 * level)); // Adjust speed based on level
 }
 
 // PLAYER //
@@ -166,7 +166,7 @@ function shoot() {
     // Reset shooting ability after 1 second
     setTimeout(() => {
         shootingCooldown = false;
-    }, 1000); // Reset after 1 second
+    }, 250); // Reset after 1 second
 }
 
 // Render bullets function
@@ -220,7 +220,7 @@ let moveInterval;
 
 function startBulletMovement() {
     if (!moveInterval) {
-        moveInterval = setInterval(moveBullets, 500); // Move bullets every 500ms
+        moveInterval = setInterval(moveBullets, 100); // Move bullets every 500ms
     }
 }
 
@@ -252,7 +252,7 @@ function updateLevel() {
 // INIT //
 function nuevaPartida() {
     level = 1;
-    baseSpeed = 5000;
+    baseSpeed = 3000;
     score = 0;
     createGrid();
     initializeEnemies();

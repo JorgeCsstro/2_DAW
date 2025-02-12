@@ -1,8 +1,10 @@
 const gameArea = document.getElementById("gameArea");
-const rows = 14;
-const cols = 12;
+const rows = 17;
+const cols = 16;
 
 let score = 0;
+
+let level = 1;
 let playerPosition = { x: Math.floor(cols / 2), y: rows - 1 };
 let bullets = [];
 let canShoot = true;
@@ -11,6 +13,7 @@ const enemyRows = 5;
 const enemyCols = 8;
 let enemyDirection = "right";
 let enemyPositions = [];
+let baseSpeed = 5000;
 
 
 function createGrid() {
@@ -106,7 +109,7 @@ function moverInvaders() {
     }
 
     renderEnemies();
-    setTimeout(moverInvaders, 5000);
+    setTimeout(moverInvaders, baseSpeed / level); // Adjust speed based on level
 }
 
 // PLAYER //
@@ -196,6 +199,14 @@ function moveBullets() {
                 // Increment the score
                 score += 100;
                 updateScore();
+
+                // Check if all enemies are defeated
+                if (enemyPositions.length === 0) {
+                    level++;
+                    updateLevel();
+                    initializeEnemies();
+                    renderEnemies();
+                }
             }
         });
     });
@@ -228,16 +239,26 @@ document.addEventListener("keydown", (event) => {
 });
 
 function updateScore() {
-    const scoreElement = document.querySelector('.racha');
-    scoreElement.textContent = `RACHA: ${score}`;
+    const scoreElement = document.querySelector('.score');
+    scoreElement.textContent = `SCORE: ${score}`;
+}
+
+function updateLevel() {
+    const levelElement = document.querySelector('.level');
+    levelElement.textContent = `NIVEL: ${level}`;
 }
 
 
 // INIT //
 function nuevaPartida() {
+    level = 1;
+    baseSpeed = 5000;
+    score = 0;
     createGrid();
     initializeEnemies();
     renderEnemies();
     placePlayer();
     moverInvaders();
+    updateLevel();
+    updateScore();
 }

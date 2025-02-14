@@ -4,7 +4,11 @@ include_once "Ave.php";
 
 class Canario extends Ave {
     public function pia() {
-        echo $this->getDescripcion() . ": Pio pio pio<br>";
+        echo $this->getDescripcion() . ": Pio pio pio<br>\n";
+    }
+
+    public function getComida() {
+        return "alpiste";
     }
 
     public function alimentarse() {
@@ -12,12 +16,13 @@ class Canario extends Ave {
     }
 
     public function getDescripcion() {
-        return parent::getDescripcion() . ", en concreto un Canario";
+        return parent::getDescripcion();
     }
 
     public function getClassHierarchy() {
-        return parent::getClassHierarchy() . ", en concreto un Canario";
+        return "Ave > Canario";
     }
+    
 }
 
 ?>

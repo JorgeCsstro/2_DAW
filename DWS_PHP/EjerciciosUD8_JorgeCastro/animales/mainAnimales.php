@@ -116,6 +116,6 @@ $isidoro->dormirse();
 print Animal::getTotalAnimales();
 print Ave::getTotalAves();
 print Mamifero::getTotalMamiferos();
-print("Fin del Programa");
+print("Fin del Programa\n");
 
 ?>

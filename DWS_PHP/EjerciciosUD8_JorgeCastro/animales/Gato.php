@@ -5,13 +5,17 @@ include_once "Mamifero.php";
 class Gato extends Mamifero {
     public $raza;
 
-    public function __construct($sexo = 'M', $nombre = null, $raza = null) {
+    public function __construct($sexo = null, $nombre = null, $raza = null) {
         parent::__construct($sexo, $nombre);
         $this->raza = $raza;
     }
 
     public function maulla() {
-        echo $this->getDescripcion() . ": Miauuuu<br>";
+        echo $this->getDescripcion() . ": Miauuuu<br>\n";
+    }
+
+    public function getComida() {
+        return "pescado";
     }
 
     public function alimentarse() {
@@ -19,8 +23,7 @@ class Gato extends Mamifero {
     }
 
     public function getDescripcion() {
-        $raza = $this->raza ? " raza $this->raza" : "";
-        return parent::getDescripcion() . ", en concreto un Gato$raza";
+        return parent::getDescripcion();
     }
 
     public static function consSexoNombre($sexo, $nombre) {
@@ -32,20 +35,7 @@ class Gato extends Mamifero {
     }
 
     public function getClassHierarchy() {
-        return parent::getClassHierarchy() . ", en concreto un Gato";
-    }
-
-    public function getDetails() {
-        $sexo = ($this->sexo == 'H') ? 'HEMBRA' : 'MACHO';
-        $raza = $this->raza ? "raza $this->raza" : "";
-        $nombre = $this->nombre ? "llamado $this->nombre" : "y no tengo nombre";
-        
-        $details = "con sexo $sexo";
-        if ($raza) {
-            $details .= ", $raza";
-        }
-        $details .= ", $nombre";
-        return $details;
+        return "Mamífero > Gato";
     }
 }
 

@@ -3,7 +3,7 @@
 abstract class Animal {
     public static $totalAnimales = 0;
     public $sexo;
-    public $nombre;
+    public $nombre = "";
 
     public function __construct($sexo = 'M', $nombre = null) {
         $this->sexo = $sexo;
@@ -24,37 +24,82 @@ abstract class Animal {
     }
 
     public function alimentarse() {
-        echo $this->getDescripcion() . ": Estoy comiendo<br>\n";
+        echo $this->getDescripcion() . ": Estoy comiendo " . $this->getComida() . "<br>\n";
     }
 
     public function morirse() {
         echo $this->getDescripcion() . ": Adiós!<br>\n";
-        
-        // Solo restar si el animal aún existe
+
         if (self::$totalAnimales > 0) {
             self::$totalAnimales--;
         }
     }
 
-    public function getDescripcion() {
+    public function getDescripcionCompleta() {
         $desc = "Soy un Animal";
-        $desc .= $this->getClassHierarchy();
+        $classHierarchy = explode(" > ", $this->getClassHierarchy());
+    
+        if ($classHierarchy[0] == "Lagarto") {
+
+            $desc .= ", en concreto un " . $classHierarchy[0];
+        } else if(count($classHierarchy) == 1){
+
+            $desc .= ", un " . $classHierarchy[0];
+        }else{
+
+            $desc .= ", un " . $classHierarchy[0] . ", en concreto un " . $classHierarchy[1];
+        }
+    
         $desc .= $this->getDetails();
         return $desc;
     }
+    
+    
 
-    public function getClassHierarchy() {
+    public function getDescripcion() {
+        $classHierarchy = explode(" > ", $this->getClassHierarchy());
+        if (count($classHierarchy) == 2) {
+            $desc = $classHierarchy[1];
+        }else{
+            $desc = $this->getClassHierarchy();
+        }
+        $nombre = $this->nombre ? " " . $this->nombre : "";
+        $desc .= $nombre;
+        return $desc;
+    }
+
+    public function getComida(){
         return "";
     }
 
+    public function getRaza(){
+        return "";
+    }
+
+    public function getClassHierarchy() {
+        return "Animal";
+    }
+
     public function getDetails() {
+        $classHierarchy = explode(" > ", $this->getClassHierarchy());
         $sexo = ($this->sexo == 'H') ? 'HEMBRA' : 'MACHO';
-        $nombre = $this->nombre ? ", llamado $this->nombre" : "";
-        return ", con sexo $sexo" . $nombre;
+        $nombre = $this->nombre ? " " . $this->nombre : "";
+        $details = ", con sexo $sexo";
+        if ($classHierarchy[0] == "Mamífero" ) {
+            $details .= ", raza " . $this->getRaza();
+            if ($nombre == "") {
+                $details .= " y no tengo nombre";
+            }else{
+                $details .= " y mi nombre es " . $nombre;
+            }
+        }else{
+            $details .= ", llamado" . $nombre;
+        }
+        return $details;
     }
 
     public function __toString() {
-        return $this->getDescripcion() . "<br>\n";
+        return $this->getDescripcionCompleta() . "<br>\n";
     }
 
     public static function consSexo($sexo) {

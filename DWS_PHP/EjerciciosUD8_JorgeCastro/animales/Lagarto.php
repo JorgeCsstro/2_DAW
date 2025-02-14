@@ -4,12 +4,20 @@ include_once "Animal.php";
 
 class Lagarto extends Animal {
 
+    public function __construct($sexo = 'M', $nombre = null) {
+        parent::__construct($sexo, $nombre);
+    }
+
     public function getClassHierarchy() {
-        return ", en concreto un Lagarto";
+        return "Lagarto";
     }
 
     public function tomarSol() {
-        echo $this->getDescripcion() . ": Estoy tomando el Sol<br>";
+        echo $this->getDescripcion() . ": Estoy tomando el Sol<br>\n";
+    }
+
+    public function getComida() {
+        return "insectos";
     }
 
     public function alimentarse() {
@@ -17,7 +25,11 @@ class Lagarto extends Animal {
     }
 
     public function getDescripcion() {
-        return parent::getDescripcion() . ", en concreto un Lagarto";
+        return parent::getDescripcion();
+    }
+
+    public function setNombre($nombre) {
+        parent::setNombre($nombre);
     }
 }
 

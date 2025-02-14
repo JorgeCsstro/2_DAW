@@ -30,11 +30,11 @@ abstract class Ave extends Animal {
     }
 
     public function getClassHierarchy() {
-        return ", un Ave";
+        return "Ave";
     }
     
     public function getDescripcion() {
-        return parent::getDescripcion() . ", en concreto un Ave\n";
+        return parent::getDescripcion();
     }
 }
 

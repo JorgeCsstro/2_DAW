@@ -5,13 +5,21 @@ include_once "Mamifero.php";
 class Perro extends Mamifero {
     public $raza;
 
-    public function __construct($sexo = 'M', $nombre = null, $raza = null) {
+    public function __construct($sexo = null, $nombre = null, $raza = null) {
         parent::__construct($sexo, $nombre);
         $this->raza = $raza;
     }
 
     public function ladra() {
-        echo $this->getDescripcion() . ": Guau guau<br>";
+        echo $this->getDescripcion() . ": Guau guau<br>\n";
+    }
+
+    public function getComida() {
+        return "carne";
+    }
+
+    public function getRaza(){
+        return $this->raza ? " raza $this->raza" : "";
     }
 
     public function alimentarse() {
@@ -19,8 +27,7 @@ class Perro extends Mamifero {
     }
 
     public function getDescripcion() {
-        $raza = $this->raza ? " raza $this->raza" : "";
-        return parent::getDescripcion() . ", en concreto un Perro$raza";
+        return parent::getDescripcion();
     }
 
     public static function consSexoNombre($sexo, $nombre) {
@@ -32,7 +39,7 @@ class Perro extends Mamifero {
     }
 
     public function getClassHierarchy() {
-        return parent::getClassHierarchy() . ", en concreto un Perro";
+        return "Mamífero > Perro";
     }
 
     public function getDetails() {
@@ -40,7 +47,7 @@ class Perro extends Mamifero {
         $raza = $this->raza ? "raza $this->raza" : "";
         $nombre = $this->nombre ? "llamado $this->nombre" : "y no tengo nombre";
         
-        $details = "con sexo $sexo";
+        $details = ", con sexo $sexo";
         if ($raza) {
             $details .= ", $raza";
         }

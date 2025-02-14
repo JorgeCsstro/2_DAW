@@ -4,11 +4,15 @@ include_once "Ave.php";
 
 class Pinguino extends Ave {
     public function programar() {
-        echo $this->getDescripcion() . ": Estoy programando en PHP<br>";
+        echo $this->getDescripcion() . ": Estoy programando en PHP<br>\n";
     }
 
     public function pia() {
-        echo $this->getDescripcion() . ": Soy un pingüino programando en PHP<br>";
+        echo $this->getDescripcion() . ": Soy un pingüino programando en PHP<br>\n";
+    }
+
+    public function getComida() {
+        return "peces";
     }
 
     public function alimentarse() {
@@ -16,11 +20,11 @@ class Pinguino extends Ave {
     }
 
     public function getDescripcion() {
-        return parent::getDescripcion() . ", en concreto un Pingüino";
+        return parent::getDescripcion();
     }
 
     public function getClassHierarchy() {
-        return parent::getClassHierarchy() . ", en concreto un Pingüino";
+        return "Ave > Pingüino";
     }
 }
 ?>

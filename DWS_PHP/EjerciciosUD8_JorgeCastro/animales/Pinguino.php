@@ -23,7 +23,7 @@ class Pinguino extends Ave {
         return parent::getDescripcion();
     }
 
-    public function getClassHierarchy() {
+    public function getJerarquia() {
         return "Ave > Pingüino";
     }
 }

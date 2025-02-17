@@ -4,7 +4,7 @@ include_once "Animal.php";
 
 abstract class Mamifero extends Animal {
     public static $totalMamiferos = 0;
-    public $raza;
+    private $raza;
 
     public function __construct($sexo = 'M', $nombre = null) {
         parent::__construct($sexo, $nombre);
@@ -15,8 +15,16 @@ abstract class Mamifero extends Animal {
         return "Hay un total de " . self::$totalMamiferos . " mamíferos<br>\n";
     }
 
+    public function setRaza($raza) {
+        $this->raza = $raza;
+    }
+
+    public function getRaza() {
+        return $this->raza;
+    }
+
     public function amamantar() {
-        if ($this->sexo == 'H') {
+        if ($this->getSexo() == 'H') {
             echo $this->getDescripcion() . ": Amamantando a mis crías<br>\n";
         } else {
             echo $this->getDescripcion() . ": Soy macho, no puedo amamantar<br>\n";
@@ -30,10 +38,6 @@ abstract class Mamifero extends Animal {
         }
     }
 
-    public function getRaza(){
-        return $this->raza ? "$this->raza" : "";
-    }
-    
     public function getDescripcion() {
         return parent::getDescripcion();
     }
@@ -42,7 +46,7 @@ abstract class Mamifero extends Animal {
         return new static($sexo, $nombre, $raza);
     }
 
-    public function getClassHierarchy() {
+    public function getJerarquia() {
         return "Mamífero";
     }
 

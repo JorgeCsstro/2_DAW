@@ -3,11 +3,11 @@
 include_once "Mamifero.php";
 
 class Gato extends Mamifero {
-    public $raza;
+    private $raza;
 
     public function __construct($sexo = null, $nombre = null, $raza = null) {
         parent::__construct($sexo, $nombre);
-        $this->raza = $raza;
+        $this->setRaza($raza);
     }
 
     public function maulla() {
@@ -16,6 +16,10 @@ class Gato extends Mamifero {
 
     public function getComida() {
         return "pescado";
+    }
+
+    public function getRaza(){
+        return $this->raza ? $this->raza : "";
     }
 
     public function alimentarse() {
@@ -34,7 +38,7 @@ class Gato extends Mamifero {
         return new static($sexo, $nombre, $raza);
     }
 
-    public function getClassHierarchy() {
+    public function getJerarquia() {
         return "Mamífero > Gato";
     }
 }

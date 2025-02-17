@@ -2,17 +2,29 @@
 
 abstract class Animal {
     public static $totalAnimales = 0;
-    public $sexo;
-    public $nombre = "";
+    private $sexo;
+    private $nombre;
 
     public function __construct($sexo = 'M', $nombre = null) {
-        $this->sexo = $sexo;
-        $this->nombre = $nombre;
+        $this->setSexo($sexo);
+        $this->setNombre($nombre);
         self::$totalAnimales++;
+    }
+
+    public function setSexo($sexo) {
+        $this->sexo = $sexo;
+    }
+
+    public function getSexo() {
+        return $this->sexo;
     }
 
     public function setNombre($nombre) {
         $this->nombre = $nombre;
+    }
+
+    public function getNombre() {
+        return $this->nombre;
     }
 
     public static function getTotalAnimales() {
@@ -29,41 +41,19 @@ abstract class Animal {
 
     public function morirse() {
         echo $this->getDescripcion() . ": Adiós!<br>\n";
-
         if (self::$totalAnimales > 0) {
             self::$totalAnimales--;
         }
     }
 
-    public function getDescripcionCompleta() {
-        $desc = "Soy un Animal";
-        $classHierarchy = explode(" > ", $this->getClassHierarchy());
-    
-        if ($classHierarchy[0] == "Lagarto") {
-
-            $desc .= ", en concreto un " . $classHierarchy[0];
-        } else if(count($classHierarchy) == 1){
-
-            $desc .= ", un " . $classHierarchy[0];
-        }else{
-
-            $desc .= ", un " . $classHierarchy[0] . ", en concreto un " . $classHierarchy[1];
-        }
-    
-        $desc .= $this->getDetails();
-        return $desc;
-    }
-    
-    
-
     public function getDescripcion() {
-        $classHierarchy = explode(" > ", $this->getClassHierarchy());
-        if (count($classHierarchy) == 2) {
-            $desc = $classHierarchy[1];
-        }else{
-            $desc = $this->getClassHierarchy();
+        $jerarquia = explode(" > ", $this->getJerarquia());
+        if (count($jerarquia) == 2) {
+            $desc = $jerarquia[1];
+        } else {
+            $desc = $this->getJerarquia();
         }
-        $nombre = $this->nombre ? " " . $this->nombre : "";
+        $nombre = $this->getNombre() ? " " . $this->getNombre() : "";
         $desc .= $nombre;
         return $desc;
     }
@@ -76,30 +66,44 @@ abstract class Animal {
         return "";
     }
 
-    public function getClassHierarchy() {
+    public function getJerarquia() {
         return "Animal";
     }
 
-    public function getDetails() {
-        $classHierarchy = explode(" > ", $this->getClassHierarchy());
-        $sexo = ($this->sexo == 'H') ? 'HEMBRA' : 'MACHO';
-        $nombre = $this->nombre ? " " . $this->nombre : "";
-        $details = ", con sexo $sexo";
-        if ($classHierarchy[0] == "Mamífero" ) {
-            $details .= ", raza " . $this->getRaza();
+    public function getDetalles() {
+        $jerarquia = explode(" > ", $this->getJerarquia());
+        $sexo = ($this->getSexo() == 'H') ? 'HEMBRA' : 'MACHO';
+        $nombre = $this->getNombre() ? $this->getNombre() : "";
+
+        $detalles = ", con sexo $sexo";
+
+        if ($jerarquia[0] == "Mamífero") {
+            $detalles .= ", raza " . $this->getRaza();
             if ($nombre == "") {
-                $details .= " y no tengo nombre";
-            }else{
-                $details .= " y mi nombre es " . $nombre;
+                $detalles .= " y no tengo nombre";
+            } else {
+                $detalles .= " y mi nombre es " . $nombre;
             }
-        }else{
-            $details .= ", llamado" . $nombre;
+        } else {
+            $detalles .= ", llamado " . $nombre;
         }
-        return $details;
+        return $detalles;
     }
 
     public function __toString() {
-        return $this->getDescripcionCompleta() . "<br>\n";
+        $desc = "Soy un Animal";
+        $jerarquia = explode(" > ", $this->getJerarquia());
+    
+        if ($jerarquia[0] == "Lagarto") {
+            $desc .= ", en concreto un " . $jerarquia[0];
+        } else if(count($jerarquia) == 1){
+            $desc .= ", un " . $jerarquia[0];
+        } else {
+            $desc .= ", un " . $jerarquia[0] . ", en concreto un " . $jerarquia[1];
+        }
+    
+        $desc .= $this->getdetalles();
+        return $desc . "<br>\n";
     }
 
     public static function consSexo($sexo) {

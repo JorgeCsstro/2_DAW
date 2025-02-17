@@ -3,23 +3,30 @@
 include_once "Mamifero.php";
 
 class Perro extends Mamifero {
-    public $raza;
 
+    private $raza = "teckel";
+
+    // Constructor
     public function __construct($sexo = null, $nombre = null, $raza = null) {
         parent::__construct($sexo, $nombre);
-        $this->raza = $raza;
+        if ($raza != null) {
+            $this->setRaza($raza);
+        }
     }
 
+    // Accion: ladra
     public function ladra() {
         echo $this->getDescripcion() . ": Guau guau<br>\n";
     }
 
+    // Accion: tipo de comida
     public function getComida() {
         return "carne";
     }
 
+    // Accion: Raza
     public function getRaza(){
-        return $this->raza ? " raza $this->raza" : "";
+        return $this->raza ? $this->raza : "";
     }
 
     public function alimentarse() {
@@ -38,21 +45,8 @@ class Perro extends Mamifero {
         return new static($sexo, $nombre, $raza);
     }
 
-    public function getClassHierarchy() {
+    public function getJerarquia() {
         return "Mamífero > Perro";
-    }
-
-    public function getDetails() {
-        $sexo = ($this->sexo == 'H') ? 'HEMBRA' : 'MACHO';
-        $raza = $this->raza ? "raza $this->raza" : "";
-        $nombre = $this->nombre ? "llamado $this->nombre" : "y no tengo nombre";
-        
-        $details = ", con sexo $sexo";
-        if ($raza) {
-            $details .= ", $raza";
-        }
-        $details .= ", $nombre";
-        return $details;
     }
 }
 

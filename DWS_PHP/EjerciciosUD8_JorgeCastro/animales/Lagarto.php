@@ -8,7 +8,7 @@ class Lagarto extends Animal {
         parent::__construct($sexo, $nombre);
     }
 
-    public function getClassHierarchy() {
+    public function getJerarquia() {
         return "Lagarto";
     }
 

@@ -7,7 +7,7 @@ const app = Vue.createApp({
             selectedPokemonsInModal: { player1: [], player2: [] },
             draggedPokemon: null,
             draggedFrom: null,
-            centerPokemons: { left: "", right: "" },
+            centerPokemons: [],
             savedPokemons: {},
             showWelcomeModal: true,
             showPvEModal: false,
@@ -92,9 +92,12 @@ const app = Vue.createApp({
                 this.selectedPokemonsInModal[player] = this.selectedPokemonsInModal[player].filter(p => p.id !== pokemon.id);
             } else if (this.selectedPokemonsInModal[player].length < 5) {
                 // Select if less than 5 are selected
-                this.selectedPokemonsInModal[player].push(pokemon);
+                this.fetchPokemonData(pokemon.id).then(data => {
+                    this.savedPokemons[pokemon.id] = data;
+                    this.selectedPokemonsInModal[player].push(data);
+                });
             }
-
+        
             // If 5 Pokémon are selected for both players in PvP mode, close the modal
             if (this.currentMode === 'pvp' && 
                 this.selectedPokemonsInModal.player1.length === 5 && 
@@ -103,7 +106,7 @@ const app = Vue.createApp({
                 this.selectedPokemonsRight = [...this.selectedPokemonsInModal.player2];
                 this.closePvPModal();
             }
-
+        
             // If 5 Pokémon are selected in PvE mode, close the modal
             if (this.currentMode === 'pve' && this.selectedPokemonsInModal.player1.length === 5) {
                 this.selectedPokemonsLeft = [...this.selectedPokemonsInModal.player1];
@@ -134,36 +137,30 @@ const app = Vue.createApp({
             this.draggedFrom = side;
         },
 
-        async handleDrop(event) {
+        handleDrop(event) {
             event.preventDefault();
             if (!this.draggedPokemon) return;
-
+        
             const pokemonId = this.draggedPokemon;
             if (this.savedPokemons[pokemonId]) {
                 console.log(`Using cached data for ${this.savedPokemons[pokemonId].name}`);
-                return this.placePokemonInCenter(this.savedPokemons[pokemonId]);
-            }
-
-            try {
-                const data = await this.fetchPokemonData(pokemonId);
-                this.savedPokemons[pokemonId] = data;
-                this.placePokemonInCenter(data);
-            } catch (error) {
-                console.error("Error fetching Pokémon data:", error);
+                this.placePokemonInCenter(this.savedPokemons[pokemonId]);
+            } else {
+                console.error("Pokemon data not found in cache");
             }
         },
 
         async fetchPokemonData(pokemonId) {
             const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
             const data = await response.json();
-
+        
             const stats = {
                 hp: data.stats[0].base_stat,
                 attack: data.stats[1].base_stat,
                 defense: data.stats[2].base_stat,
                 speed: data.stats[5].base_stat
             };
-
+        
             const selectedMoves = await this.fetchPokemonMoves(data.moves);
             return {
                 id: pokemonId,
@@ -233,13 +230,13 @@ const app = Vue.createApp({
         autoPlaceFirstOpponent() {
             if (this.selectedPokemonsRight.length > 0) {
                 const firstPokemon = this.selectedPokemonsRight[0];
-                this.fetchPokemonData(firstPokemon.id)
-                    .then(data => {
-                        this.savedPokemons[firstPokemon.id] = data;
-                        data.class = "overlay-image-right"; // Ensure it is classified as a right-side Pokémon
-                        this.placePokemonInCenter(data);
-                    })
-                    .catch(error => console.error("Error placing first opponent:", error));
+                if (this.savedPokemons[firstPokemon.id]) {
+                    const data = this.savedPokemons[firstPokemon.id];
+                    data.class = "overlay-image-right"; // Ensure it is classified as a right-side Pokémon
+                    this.placePokemonInCenter(data);
+                } else {
+                    console.error("Pokemon data not found in cache");
+                }
             }
         },
         

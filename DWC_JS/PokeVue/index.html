@@ -106,31 +106,26 @@
 
             <!-- Center Rectangle -->
             <div class="center-rectangle"
-                 @dragover="handleDragOver"
-                 @drop="handleDrop">
-                <img src="./img/battleMap.jpg" alt="Center Image" class="battleMap">
-                <img v-for="(pokemon, index) in centerPokemons" 
-                     :key="index" 
-                     :src="pokemon.src" 
-                     :class="pokemon.class"
-                     :name="pokemon.name">
-                
-                <div class="turn-left">
-                    <img src="./img/bubleTurn-left.png" class="bubbleTurn-left">
-                    <img  src="./img/tick.png" class="tick-left">
-                </div>
-                <div class="turn-right">
-                    <img src="./img/bubleTurn-right.png" class="bubbleTurn-right">
-                    <img  src="./img/tick.png" class="tick-right">
-                </div>
+     @dragover="handleDragOver"
+     @drop="handleDrop">
+    <img src="./img/battleMap.jpg" alt="Center Image" class="battleMap">
+    <img v-for="(pokemon, index) in centerPokemons" 
+         :key="index" 
+         :src="pokemon.src" 
+         :class="pokemon.class"
+         :name="pokemon.name">
+    
+    <div class="turn-left">
+        <img src="./img/bubleTurn-left.png" class="bubbleTurn-left">
+        <img  src="./img/tick.png" class="tick-left">
+    </div>
+    <div class="turn-right">
+        <img src="./img/bubleTurn-right.png" class="bubbleTurn-right">
+        <img  src="./img/tick.png" class="tick-right">
+    </div>
 
-                <div class="hpBarLeft">
-
-                </div>
-
-                <div class="hpBarRight">
-
-                </div>
+    <div class="hpBarLeft"></div>
+    <div class="hpBarRight"></div>
 
                 <div class="battleUI">
                     <div class="startBattleUI">

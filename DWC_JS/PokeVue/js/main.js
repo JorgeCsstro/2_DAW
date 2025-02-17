@@ -7,12 +7,14 @@ const app = Vue.createApp({
             selectedPokemonsInModal: { player1: [], player2: [] },
             draggedPokemon: null,
             draggedFrom: null,
-            centerPokemons: [],
+            centerPokemons: { left: "", right: "" },
             savedPokemons: {},
             showWelcomeModal: true,
             showPvEModal: false,
             showPvPModal: false,
-            currentMode: null
+            currentMode: null,
+            hoveredPokemon: null,
+            hoverSide: null
         };
     },
 
@@ -105,9 +107,27 @@ const app = Vue.createApp({
             // If 5 Pokémon are selected in PvE mode, close the modal
             if (this.currentMode === 'pve' && this.selectedPokemonsInModal.player1.length === 5) {
                 this.selectedPokemonsLeft = [...this.selectedPokemonsInModal.player1];
+                this.selectedPokemonsRight = this.generateRandomNumbers().map(id => ({
+                    id,
+                    name: this.allPokemons.find(p => p.id === id)?.name || `Pokemon ${id}`
+                }));
                 this.closePvEModal();
+                this.autoPlaceFirstOpponent();
             }
         },
+
+        showPokemonStats(pokemon, side) {
+            console.log("Showing stats for:", pokemon.name, "on side:", side); // Debugging
+            this.hoveredPokemon = pokemon;
+            this.hoverSide = side;
+        },
+    
+        hidePokemonStats() {
+            console.log("Hiding stats"); // Debugging
+            this.hoveredPokemon = null;
+            this.hoverSide = null;
+        },
+        
 
         handleDragStart(pokemonId, side) {
             this.draggedPokemon = pokemonId;
@@ -194,12 +214,36 @@ const app = Vue.createApp({
         },
 
         placePokemonInCenter(pokemonEntry) {
-            this.centerPokemons = this.centerPokemons.filter(pokemon => pokemon.class !== pokemonEntry.class);
-            this.centerPokemons.push(pokemonEntry);
-            this.updateBattleMoves(pokemonEntry.moves);
+            // Ensure the correct slot is updated based on the Pokémon's original side
+            if (pokemonEntry.class.includes('overlay-image-left')) {
+                this.centerPokemons.left = pokemonEntry; // Left-side Pokémon
+            } else {
+                this.centerPokemons.right = pokemonEntry; // Right-side Pokémon
+            }
+        
+            // Update battle moves only for the left Pokémon (the player’s Pokémon)
+            if (pokemonEntry.class.includes('overlay-image-left')) {
+                this.updateBattleMoves(pokemonEntry.moves);
+            }
+        
             this.draggedPokemon = null;
             this.draggedFrom = null;
+        },        
+
+        autoPlaceFirstOpponent() {
+            if (this.selectedPokemonsRight.length > 0) {
+                const firstPokemon = this.selectedPokemonsRight[0];
+                this.fetchPokemonData(firstPokemon.id)
+                    .then(data => {
+                        this.savedPokemons[firstPokemon.id] = data;
+                        data.class = "overlay-image-right"; // Ensure it is classified as a right-side Pokémon
+                        this.placePokemonInCenter(data);
+                    })
+                    .catch(error => console.error("Error placing first opponent:", error));
+            }
         },
+        
+        
 
         updateBattleMoves(moves) {
             document.querySelectorAll('.fight-buttons button').forEach((button, index) => {
@@ -228,11 +272,6 @@ const app = Vue.createApp({
         },
 
         useMove(moves, index) {
-            if (!this.centerPokemons.length) {
-                console.log("No Pokémon in the center to use a move!");
-                return;
-            }
-
             let move = moves[index];
             if (move.movePP === 0 || move.remainMovePP > 0) {
                 move.remainMovePP = move.movePP === 0 ? move.remainMovePP : move.remainMovePP - 1;

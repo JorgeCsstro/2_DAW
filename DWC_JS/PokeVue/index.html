@@ -87,9 +87,20 @@
                      :key="'left-' + index" 
                      class="square"
                      draggable="true"
-                     @dragstart="handleDragStart(pokemon.id, 'left')">
+                     @dragstart="handleDragStart(pokemon.id, 'left')"
+                     @mouseenter="showPokemonStats(pokemon, 'left')"
+                     @mouseleave="hidePokemonStats">
                     <img :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`" 
                          alt="Pokemon">
+                    <div v-if="hoveredPokemon && hoveredPokemon.id === pokemon.id && hoverSide === 'left'" class="pokemon-stats left">
+                        <h3>{{ hoveredPokemon.name }} Stats</h3>
+                        <div class="stats-grid">
+                            <div><strong>HP:</strong> {{ hoveredPokemon.stats.hp }}</div>
+                            <div><strong>Attack:</strong> {{ hoveredPokemon.stats.attack }}</div>
+                            <div><strong>Defense:</strong> {{ hoveredPokemon.stats.defense }}</div>
+                            <div><strong>Speed:</strong> {{ hoveredPokemon.stats.speed }}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -111,6 +122,14 @@
                 <div class="turn-right">
                     <img src="./img/bubleTurn-right.png" class="bubbleTurn-right">
                     <img  src="./img/tick.png" class="tick-right">
+                </div>
+
+                <div class="hpBarLeft">
+
+                </div>
+
+                <div class="hpBarRight">
+
                 </div>
 
                 <div class="battleUI">
@@ -174,11 +193,22 @@
                      :key="'right-' + index" 
                      class="square" 
                      draggable="true"
-                     @dragstart="handleDragStart(pokemon.id, 'right')"> 
+                     @dragstart="handleDragStart(pokemon.id, 'right')"
+                     @mouseenter="showPokemonStats(pokemon, 'right')"
+                     @mouseleave="hidePokemonStats"> 
                     <img :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`"
                          alt="Pokemon"> 
+                    <div v-if="hoveredPokemon && hoveredPokemon.id === pokemon.id && hoverSide === 'right'" class="pokemon-stats right">
+                        <h3>{{ hoveredPokemon.name }} Stats</h3>
+                        <div class="stats-grid">
+                            <div><strong>HP:</strong> {{ hoveredPokemon.stats.hp }}</div>
+                            <div><strong>Attack:</strong> {{ hoveredPokemon.stats.attack }}</div>
+                            <div><strong>Defense:</strong> {{ hoveredPokemon.stats.defense }}</div>
+                            <div><strong>Speed:</strong> {{ hoveredPokemon.stats.speed }}</div>
+                        </div>
+                    </div>
                 </div> 
-            </div> 
+            </div>
         </div>
     </div>
     <script src="js/main.js"></script>

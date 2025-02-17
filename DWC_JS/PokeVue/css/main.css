@@ -35,6 +35,32 @@ body {
   gap: 10px;
 }
 
+.pokemon-stats {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  z-index: 1000;
+  width: 200px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.pokemon-stats.left {
+  top: 0;
+  left: 100%;
+}
+
+.pokemon-stats.right {
+  top: 0;
+  right: 100%;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+}
+
 .square {
   width: 100px;
   height: 100px;
@@ -68,6 +94,29 @@ body {
   max-width: 100%;
   max-height: 100%;
 }
+
+.hpBarLeft {
+  position: absolute;
+  width: 128px; /* Adjust as needed */
+  height: 6px; /* Adjust thickness */
+  background-color: green;
+  top: 224.5px; /* Adjust position */
+  left: 496px; /* Adjust position */
+  border-radius: 5px;
+
+}
+
+.hpBarRight {
+  position: absolute;
+  width: 128px; /* Adjust as needed */
+  height: 6px; /* Adjust thickness */
+  background-color: green;
+  top: 93px; /* Adjust position */
+  left: 169px; /* Adjust position */
+  border-radius: 5px;
+
+}
+
 
 .battleMap{
   width: 92%;

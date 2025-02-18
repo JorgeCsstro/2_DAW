@@ -9,9 +9,9 @@
 <body>
 
 <!--
-    10. Usa el formulario (Ejercicio 22 UD5) que guarde en una Cookie la preferencia del usuario de si
-        desea o no recibir publicidad y que muestre la opción anterior y la nueva elegida en caso de que
-        la modifique.
+    10. Usa el formulario del ejercicio 10 de Cookies con selección de si se desea publicidad o no de
+        modo que uses la sesión para mostrar el nombre del usuario y si desea o no publicidad del
+        usuario actual y además muestre usuario y elección del anterior.
 -->
 
     <h1>Ejercicio 22 - Jorge Castro</h1>

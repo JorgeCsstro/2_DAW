@@ -10,14 +10,21 @@
         
 */
 
-if (isset($_GET['enviar'])) {
-    
-    // Cojo los valores del formulario
-    $nombre = $_GET['nombre'];
-    $email = $_GET['email'];
-    $nivel = $_GET['nivel'];
-    $situacion = $_GET['situacion'];
-    $hobbies = $_GET['hobbies'];
+session_start(); // Iniciar la sesión
+
+if (isset($_POST['enviar'])) {
+    $_SESSION['nombre'] = $_POST['nombre'];
+    $_SESSION['email'] = $_POST['email'];
+    $_SESSION['nivel'] = $_POST['nivel'];
+    $_SESSION['situacion'] = $_POST['situacion'];
+    $_SESSION['hobbies'] = $_POST['hobbies'];
+
+    $nombre = $_SESSION['nombre'];
+    $email = $_SESSION['email'];
+    $nivel = $_SESSION['nivel'];
+    $situacion = $_SESSION['situacion'];
+    $hobbies = $_SESSION['hobbies'];
+
     
     // Muestro los valores
     print(
@@ -27,6 +34,9 @@ if (isset($_GET['enviar'])) {
             "<br><i>Situación:</i> <b>" . strtoupper(implode(", ", $situacion)) . "</b>" .
             "<br><i>Hobbies:</i> <b>" . strtoupper(implode(", ", $hobbies)) . "</b>"
     );
+}else {
+    header("Location: eje11.php");
+    exit();
 }
 
 ?>

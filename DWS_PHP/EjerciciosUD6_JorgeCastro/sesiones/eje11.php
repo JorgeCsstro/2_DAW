@@ -8,14 +8,14 @@
 
 <body>
 
-    <!--
+<!--
     11. Aplica la sesión en el ejercicio 23 de la UD5 para poder pasar los datos en lugar de construir la
         url para enviarlos.
 -->
 
     <h1>Ejercicio 11 - Jorge Castro</h1>
 
-    <form action="datos.php" method="get">
+    <form action="datos.php" method="post">
         <label for="">Nombre completo:</label>
         <input type="text" name="nombre" maxlength="40">
         <br>

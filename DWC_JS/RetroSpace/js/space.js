@@ -203,6 +203,7 @@ function moveBullets() {
                 // Check if all enemies are defeated
                 if (enemyPositions.length === 0) {
                     level++;
+                    clearBullets();
                     updateLevel();
                     initializeEnemies();
                     renderEnemies();
@@ -238,6 +239,11 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
+function clearBullets() {
+    bullets = []; // Clear the bullets array
+    document.querySelectorAll(".bullet").forEach(img => img.remove()); // Remove all bullet images
+}
+
 function updateScore() {
     const scoreElement = document.querySelector('.score');
     scoreElement.textContent = `SCORE: ${score}`;
@@ -258,6 +264,7 @@ function nuevaPartida() {
     initializeEnemies();
     renderEnemies();
     placePlayer();
+    clearBullets();
     moverInvaders();
     updateLevel();
     updateScore();

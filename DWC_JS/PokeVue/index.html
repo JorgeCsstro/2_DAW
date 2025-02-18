@@ -12,70 +12,6 @@
 
 <body>
     <div id="app">
-        <!-- Welcome Modal -->
-        <div id="welcomeModal" class="modal">
-            <div class="modal-content">
-                <div class="welcome-page">
-                    <h1>Welcome to PokeVue</h1>
-                    <button @click="startPvE">PvE</button>
-                    <button @click="startPvP">PvP</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- PvE Modal -->
-        <div id="pveModal" class="modal">
-            <div class="modal-content">
-                <span class="close" @click="closeModal">&times;</span>
-                <h2>Select 5 Pokémon</h2>
-                <div class="pokemon-list">
-                    <div v-for="pokemon in allPokemons" 
-                         :key="pokemon.name" 
-                         class="pokemon-item" 
-                         :class="{ selected: isSelected(pokemon) }"
-                         @click="selectPokemon(pokemon)">
-                        <img :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`" :alt="pokemon.name">
-                        <p>{{ pokemon.name }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- PvP Modal -->
-        <div id="pvpModal" class="modal">
-            <div class="modal-content">
-                <span class="close" @click="closeModal">&times;</span>
-                <div class="pvp-selector">
-                    <div class="player">
-                        <h3>Player 1</h3>
-                        <div class="pokemon-list">
-                            <div v-for="pokemon in allPokemons" 
-                                 :key="pokemon.name" 
-                                 class="pokemon-item" 
-                                 :class="{ selected: isSelected(pokemon, 'player1') }"
-                                 @click="selectPokemon(pokemon, 'player1')">
-                                <img :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`" :alt="pokemon.name">
-                                <p>{{ pokemon.name }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="player">
-                        <h3>Player 2</h3>
-                        <div class="pokemon-list">
-                            <div v-for="pokemon in allPokemons" 
-                                 :key="pokemon.name" 
-                                 class="pokemon-item" 
-                                 :class="{ selected: isSelected(pokemon, 'player2') }"
-                                 @click="selectPokemon(pokemon, 'player2')">
-                                <img :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`" :alt="pokemon.name">
-                                <p>{{ pokemon.name }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Header -->
         <div class="header">PokeVue</div>
 
@@ -83,22 +19,22 @@
         <div class="container">
             <!-- Left Side -->
             <div class="side">
-                <div v-for="(pokemon, index) in selectedPokemonsLeft" 
+                <div v-for="(randNum, index) in randomNumbersLeft" 
                      :key="'left-' + index" 
                      class="square"
                      draggable="true"
-                     @dragstart="handleDragStart(pokemon.id, 'left')"
-                     @mouseenter="showPokemonStats(pokemon, 'left')"
-                     @mouseleave="hidePokemonStats">
-                    <img :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`" 
+                     @dragstart="handleDragStart(randNum, 'left')"
+                     @mouseenter="showStats(randNum)"
+                     @mouseleave="hideStats">
+                    <img :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${randNum}.png`" 
                          alt="Pokemon">
-                    <div v-if="hoveredPokemon && hoveredPokemon.id === pokemon.id && hoverSide === 'left'" class="pokemon-stats left">
-                        <h3>{{ hoveredPokemon.name }} Stats</h3>
+                    <div v-if="hoveredPokemonId === randNum" class="stats-box-left">
                         <div class="stats-grid">
-                            <div><strong>HP:</strong> {{ hoveredPokemon.stats.hp }}</div>
-                            <div><strong>Attack:</strong> {{ hoveredPokemon.stats.attack }}</div>
-                            <div><strong>Defense:</strong> {{ hoveredPokemon.stats.defense }}</div>
-                            <div><strong>Speed:</strong> {{ hoveredPokemon.stats.speed }}</div>
+                            <p class="pokeName">{{ pokemonsData[randNum]?.name }} Stats</p>
+                            <p>HP: {{ pokemonsData[randNum]?.stats.maxHP }}/{{ pokemonsData[randNum]?.stats.currHP }}</p>
+                            <p>ATK: {{ pokemonsData[randNum]?.stats.ATK }}</p>
+                            <p>DEF: {{ pokemonsData[randNum]?.stats.DEF }}</p>
+                            <p>SPD: {{ pokemonsData[randNum]?.stats.SPD }}</p>
                         </div>
                     </div>
                 </div>
@@ -106,25 +42,28 @@
 
             <!-- Center Rectangle -->
             <div class="center-rectangle"
-     @dragover="handleDragOver"
-     @drop="handleDrop">
-    <img src="./img/battleMap.jpg" alt="Center Image" class="battleMap">
-    <img v-for="(pokemon, index) in centerPokemons" 
-         :key="index" 
-         :src="pokemon.src" 
-         :class="pokemon.class"
-         :name="pokemon.name">
-    
-    <div class="turn-left">
-        <img src="./img/bubleTurn-left.png" class="bubbleTurn-left">
-        <img  src="./img/tick.png" class="tick-left">
-    </div>
-    <div class="turn-right">
-        <img src="./img/bubleTurn-right.png" class="bubbleTurn-right">
-        <img  src="./img/tick.png" class="tick-right">
-    </div>
+                 @dragover="handleDragOver"
+                 @drop="handleDrop">
+                <img src="./img/battleMap.jpg" alt="Center Image" class="battleMap">
+                <img v-for="(pokemon, index) in centerPokemons" 
+                     :key="index" 
+                     :src="pokemon.src" 
+                     :class="pokemon.class"
+                     :name="pokemon.name">
 
-    <div class="hpBarLeft"></div>
+                <div class="pokeLeftName"></div>
+                <div class="pokeRightName"></div>
+                
+                <div class="turn-left">
+                    <img src="./img/bubleTurn-left.png" class="bubbleTurn-left">
+                    <img  src="./img/tick.png" class="tick-left">
+                </div>
+                <div class="turn-right">
+                    <img src="./img/bubleTurn-right.png" class="bubbleTurn-right">
+                    <img  src="./img/tick.png" class="tick-right">
+                </div>
+
+                <div class="hpBarLeft"></div>
     <div class="hpBarRight"></div>
 
                 <div class="battleUI">
@@ -184,26 +123,26 @@
             
             <!-- Right Side -->
             <div class="side"> 
-                <div v-for="(pokemon, index) in selectedPokemonsRight"
+                <div v-for="(randNum, index) in randomNumbersRight"
                      :key="'right-' + index" 
                      class="square" 
                      draggable="true"
-                     @dragstart="handleDragStart(pokemon.id, 'right')"
-                     @mouseenter="showPokemonStats(pokemon, 'right')"
-                     @mouseleave="hidePokemonStats"> 
-                    <img :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`"
-                         alt="Pokemon"> 
-                    <div v-if="hoveredPokemon && hoveredPokemon.id === pokemon.id && hoverSide === 'right'" class="pokemon-stats right">
-                        <h3>{{ hoveredPokemon.name }} Stats</h3>
+                     @dragstart="handleDragStart(randNum, 'right')"
+                     @mouseenter="showStats(randNum)"
+                     @mouseleave="hideStats">
+                    <img :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${randNum}.png`" 
+                         alt="Pokemon">
+                    <div v-if="hoveredPokemonId === randNum" class="stats-box-right">
                         <div class="stats-grid">
-                            <div><strong>HP:</strong> {{ hoveredPokemon.stats.hp }}</div>
-                            <div><strong>Attack:</strong> {{ hoveredPokemon.stats.attack }}</div>
-                            <div><strong>Defense:</strong> {{ hoveredPokemon.stats.defense }}</div>
-                            <div><strong>Speed:</strong> {{ hoveredPokemon.stats.speed }}</div>
+                            <p class="pokeName">{{ pokemonsData[randNum]?.name }} Stats</p>
+                            <p>HP: {{ pokemonsData[randNum]?.stats.hp }}</p>
+                            <p>ATK: {{ pokemonsData[randNum]?.stats.attack }}</p>
+                            <p>DEF: {{ pokemonsData[randNum]?.stats.defense }}</p>
+                            <p>SPD: {{ pokemonsData[randNum]?.stats.speed }}</p>
                         </div>
                     </div>
                 </div> 
-            </div>
+            </div> 
         </div>
     </div>
     <script src="js/main.js"></script>

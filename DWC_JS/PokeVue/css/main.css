@@ -35,34 +35,48 @@ body {
   gap: 10px;
 }
 
-.pokemon-stats {
+.stats-box-left {
   position: absolute;
-  background: white;
+  left: 120px;
+  background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid #ccc;
-  padding: 10px;
-  z-index: 1000;
-  width: 200px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 10;
 }
 
-.pokemon-stats.left {
-  top: 0;
-  left: 100%;
-}
-
-.pokemon-stats.right {
-  top: 0;
-  right: 100%;
+.stats-box-right {
+  position: absolute;
+  right: 120px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 10;
 }
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 5px;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  grid-template-rows: repeat(3, 1fr); /* 2 rows */
+  gap: 5px; /* Add gap between grid items */
+}
+
+.pokeName { 
+  grid-column: span 2; 
+  grid-row: 1; 
+  
+}
+
+.stats-grid p {
+  margin: 0; /* Remove default margin for better alignment */
+  padding: 5px; /* Add padding for better readability */
+  text-align: center; /* Center text */
+  font-family: poke;
+  font-size: 12px;
 }
 
 .square {
-  position: absolute;
   width: 100px;
   height: 100px;
   background-color: #e0e0e0;
@@ -96,6 +110,11 @@ body {
   max-height: 100%;
 }
 
+.battleMap{
+  width: 92%;
+  height: 92%;
+}
+
 .hpBarLeft {
   position: absolute;
   width: 128px; /* Adjust as needed */
@@ -118,11 +137,6 @@ body {
 
 }
 
-
-.battleMap{
-  width: 92%;
-  height: 92%;
-}
 
 .turn-left{
   position: absolute;
@@ -229,11 +243,12 @@ body {
   left: 5%;
   top: 5%;
   font-family: 'poke';
-  white-space: normal;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+  white-space: normal; /* Allow text to wrap */
+  word-wrap: break-word; /* Force wrapping */
+  overflow-wrap: break-word; /* Ensures long words break */
   color: white;
 }
+
 
 .fight-buttons {
   position: absolute;
@@ -297,96 +312,4 @@ body {
   font-family: 'poke';
   font-size: 20px;
 
-}
-
-/* Modal Styles */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  max-width: 600px;
-  border-radius: 10px;
-  text-align: center;
-}
-
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.pokemon-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
-
-.pokemon-item {
-  cursor: pointer;
-  text-align: center;
-  width: 100px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.pokemon-item.selected {
-  background-color: lightyellow;
-}
-
-.pokemon-item img {
-  width: 100%;
-  height: auto;
-}
-
-.welcome-page {
-  text-align: center;
-}
-
-.welcome-page h1 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-}
-
-.welcome-page button {
-  font-size: 1.2rem;
-  padding: 10px 20px;
-  margin: 10px;
-  cursor: pointer;
-}
-
-.pvp-selector {
-  display: flex;
-  justify-content: space-between;
-}
-
-.pvp-selector .player {
-  width: 48%;
-}
-
-.pvp-selector h3 {
-  text-align: center;
 }

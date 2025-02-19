@@ -29,6 +29,100 @@ body {
   justify-content: space-between;
 }
 
+/* --- MODAL --- */
+
+.start-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  text-align: center;
+  max-height: 80vh; /* Ensure modal doesn't take full screen */
+  overflow: hidden;
+}
+
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: 70vh;
+}
+
+.modal-content h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.mode-btn {
+  background: #ffcc00;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+  width: 100%;
+  max-height: 60vh; /* Limit height for scrolling */
+  overflow-y: auto; /* Enable scrolling */
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+}
+
+.pokemon-item {
+  background: #f3f3f3;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.pokemon-item img {
+  width: 80px;
+  height: 80px;
+}
+
+.pokemon-item.selected {
+  border: 3px solid #ff0000;
+  transform: scale(1.1);
+}
+
+.pokemon-item.disabled {
+  opacity: 0.5; /* Gray out the Pokémon but keep them clickable */
+  pointer-events: auto; /* Allow selection for PvP mode */
+}
+
+.confirm-btn {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.confirm-btn:disabled {
+  background: gray;
+  cursor: not-allowed;
+}
+
+/* --- MODAL --- */
+
 .side {
   display: flex;
   flex-direction: column;
@@ -115,15 +209,32 @@ body {
   height: 92%;
 }
 
+.pokeLeftName{
+  position: absolute;
+  top: 190px;
+  left: 420px;
+  font-family: poke;
+  font-size: 14px;
+}
+
 .hpBarLeft {
   position: absolute;
   width: 128px; /* Adjust as needed */
   height: 6px; /* Adjust thickness */
   background-color: green;
-  top: 224.5px; /* Adjust position */
+  top: 224px; /* Adjust position */
   left: 496px; /* Adjust position */
   border-radius: 5px;
 
+}
+
+.hpTextLeft{
+  position: absolute;
+  width: 150px;
+  top: -10px;
+  left: 40px;
+  font-family: poke;
+  font-size: 14px;
 }
 
 .hpBarRight {

@@ -13,7 +13,11 @@
 <body>
     <div id="app">
         <!-- Start Modal -->
-        <start-modal v-if="showStartModal" @choose-mode="chooseMode"></start-modal>
+        <start-modal 
+            v-if="showStartModal" 
+            @select-pokemons="handleSelectedPokemons"
+            @choose-mode="chooseMode">
+        </start-modal>
 
         <!-- Main Content -->
         <div v-else class="container">
@@ -51,8 +55,19 @@
                      :class="pokemon.class"
                      :name="pokemon.name">
 
-                <div class="pokeLeftName"></div>
-                <div class="pokeRightName"></div>
+                <!-- Left Pokémon UI --> 
+                <div v-if="activePokemonLeft" class="pokeLeftName">{{ activePokemonLeft.name }}</div>
+                <div v-if="activePokemonLeft" class="hpBarLeft">
+                    <div class="hpFillLeft" :style="{ width: (activePokemonLeft.stats.currHP / activePokemonLeft.stats.maxHP * 100) + '%' }"></div>
+                    <p class="hpTextLeft">{{ activePokemonLeft.stats.currHP }} / {{ activePokemonLeft.stats.maxHP }}</p>
+                </div>
+                
+                <!-- Right Pokémon UI -->
+                <div v-if="activePokemonRight" class="pokeRightName">{{ activePokemonRight.name }}</div>
+                <div v-if="activePokemonRight" class="hpBarRight">
+                    <div class="hpFillRight" :style="{ width: (activePokemonRight.stats.currHP / activePokemonRight.stats.maxHP * 100) + '%' }"></div>
+                    <p class="hpTextRight">{{ activePokemonRight.stats.currHP }} / {{ activePokemonRight.stats.maxHP }}</p>
+                </div>
                 
                 <div class="turn-left">
                     <img src="./img/bubleTurn-left.png" class="bubbleTurn-left">
@@ -63,8 +78,7 @@
                     <img  src="./img/tick.png" class="tick-right">
                 </div>
 
-                <div class="hpBarLeft"></div>
-                <div class="hpBarRight"></div>
+                
 
                 <div class="battleUI">
                     <div class="startBattleUI">
@@ -135,10 +149,10 @@
                     <div v-if="hoveredPokemonId === randNum" class="stats-box-right">
                         <div class="stats-grid">
                             <p class="pokeName">{{ pokemonsData[randNum]?.name }} Stats</p>
-                            <p>HP: {{ pokemonsData[randNum]?.stats.hp }}</p>
-                            <p>ATK: {{ pokemonsData[randNum]?.stats.attack }}</p>
-                            <p>DEF: {{ pokemonsData[randNum]?.stats.defense }}</p>
-                            <p>SPD: {{ pokemonsData[randNum]?.stats.speed }}</p>
+                            <p>HP: {{ pokemonsData[randNum]?.stats.maxHP }}/{{ pokemonsData[randNum]?.stats.currHP }}</p>
+                            <p>ATK: {{ pokemonsData[randNum]?.stats.ATK }}</p>
+                            <p>DEF: {{ pokemonsData[randNum]?.stats.DEF }}</p>
+                            <p>SPD: {{ pokemonsData[randNum]?.stats.SPD }}</p>
                         </div>
                     </div>
                 </div> 
@@ -146,10 +160,5 @@
         </div>
     </div>
     <script src="js/main.js"></script>
-    <script src="js/components/AppProfile.js"></script>
-    <script>
-        const mountedApp = app.mount('#app');
-    </script>
 </body>
-
 </html>

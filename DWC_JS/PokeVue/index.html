@@ -12,11 +12,11 @@
 
 <body>
     <div id="app">
-        <!-- Header -->
-        <div class="header">PokeVue</div>
+        <!-- Start Modal -->
+        <start-modal v-if="showStartModal" @choose-mode="chooseMode"></start-modal>
 
         <!-- Main Content -->
-        <div class="container">
+        <div v-else class="container">
             <!-- Left Side -->
             <div class="side">
                 <div v-for="(randNum, index) in randomNumbersLeft" 
@@ -64,7 +64,7 @@
                 </div>
 
                 <div class="hpBarLeft"></div>
-    <div class="hpBarRight"></div>
+                <div class="hpBarRight"></div>
 
                 <div class="battleUI">
                     <div class="startBattleUI">

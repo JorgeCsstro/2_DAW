@@ -1,6 +1,9 @@
-<?php 
+<?php
+require_once "./traitDB.php";
 
 class Incidencia {
+    use traitDB;
+
     private static $pendientes = 0;
     private static $incidencias = [];
     private $codigo;
@@ -8,63 +11,66 @@ class Incidencia {
     private $resuelta;
     private $solucion;
 
+    public function __construct($codigo, $descripcion, $resuelta = false, $solucion = "") {
+        $this->codigo = $codigo;
+        $this->descripcion = $descripcion;
+        $this->resuelta = $resuelta;
+        $this->solucion = $solucion;
+    }
+
     public static function resetearBD() {
+        $sql = "DELETE FROM INCIDENCIA";
+        self::execDB($sql);
         self::$pendientes = 0;
         self::$incidencias = [];
     }
 
     public static function creaIncidencia($codigo, $descripcion) {
+        $sql = "INSERT INTO INCIDENCIA (CODIGO, ESTADO, PROBLEMA) VALUES (?, 'Pendiente', ?)";
+        self::queryPreparadaDB($sql, [$codigo, $descripcion]);
+        self::$pendientes++;
         $incidencia = new self($codigo, $descripcion);
         self::$incidencias[] = $incidencia;
-        self::$pendientes++;
         return $incidencia;
-    }
-
-    public function __construct($codigo, $descripcion) {
-        $this->codigo = $codigo;
-        $this->descripcion = $descripcion;
-        $this->resuelta = false;
-        $this->solucion = "";
     }
 
     public function resuelve($solucion) {
         $this->resuelta = true;
         $this->solucion = $solucion;
+        $sql = "UPDATE INCIDENCIA SET ESTADO = 'Resuelta', RESOLUCION = ? WHERE CODIGO = ?";
+        self::queryPreparadaDB($sql, [$solucion, $this->codigo]);
         self::$pendientes--;
     }
 
     public function actualizaIncidencia($codigo, $descripcion, $resuelta, $solucion) {
-        if ($descripcion !== "") {
-            $this->descripcion = $descripcion;
-        }
-        // Actualizar otros campos si es necesario
+        $sql = "UPDATE INCIDENCIA SET PROBLEMA = ? WHERE CODIGO = ?";
+        self::queryPreparadaDB($sql, [$descripcion, $this->codigo]);
+        $this->descripcion = $descripcion;
     }
 
     public function borraIncidencia() {
-        $index = array_search($this, self::$incidencias);
-        if ($index !== false) {
-            array_splice(self::$incidencias, $index, 1);
-            if (!$this->resuelta) {
-                self::$pendientes--;
-            }
-        }
+        $sql = "DELETE FROM INCIDENCIA WHERE CODIGO = ?";
+        self::queryPreparadaDB($sql, [$this->codigo]);
     }
 
     public static function getPendientes() {
-        return self::$pendientes;
+        return self::$pendientes . "\n";
     }
 
     public static function leeIncidencia($codigo) {
-        foreach (self::$incidencias as $incidencia) {
-            if ($incidencia->codigo == $codigo) {
-                return $incidencia;
-            }
-        }
-        return null;
+        $sql = "SELECT * FROM INCIDENCIA WHERE CODIGO = ?";
+        $result = self::queryPreparadaDB($sql, [$codigo]);
+        return !empty($result) ? new self($result[0]['CODIGO'], $result[0]['PROBLEMA'], $result[0]['ESTADO'] == 'Resuelta', $result[0]['RESOLUCION']) : null;
     }
 
     public static function leeTodasIncidencias() {
-        return self::$incidencias;
+        $sql = "SELECT * FROM INCIDENCIA";
+        $result = self::queryPreparadaDB($sql, []);
+        $incidencias = [];
+        foreach ($result as $row) {
+            $incidencias[] = new self($row['CODIGO'], $row['PROBLEMA'], $row['ESTADO'] == 'Resuelta', $row['RESOLUCION']);
+        }
+        return $incidencias;
     }
 
     public function __toString() {
@@ -76,5 +82,3 @@ class Incidencia {
         return $this->codigo;
     }
 }
-
-?>

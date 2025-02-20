@@ -8,7 +8,7 @@ trait traitDB
     {
         try {
             $host = HOST;
-            $ddbb = "INCIDENCIAS";
+            $ddbb = "EMPRESA";
             $root = "root";
             $pass = "dbrootpass";
             
@@ -43,20 +43,9 @@ trait traitDB
     public static function resetearBD()
     {
         $conn = self::connectDB();
-        $sql = "USE INCIDENCIAS";
+        $sql = "USE EMPRESA";
         $conn->exec($sql);
-        $sql = "DELETE FROM INCIDENCIA";
+        $sql = "DELETE FROM EMPRESA";
         $conn->exec($sql);
-        // $sql = "DROP TABLE INCIDENCIA IF EXISTS";
-        // $conn->exec($sql);
-        // $sql = "CREATE TABLE INCIDENCIA (
-        //     CODIGO INTEGER,
-        //     ESTADO VARCHAR (100) NOT NULL,
-        //     PUESTO VARCHAR (15),
-        //     PROBLEMA VARCHAR(255),
-        //     RESOLUCION VARCHAR(255),
-        //     CONSTRAINT PK_CODIGO PRIMARY KEY(CODIGO)
-        // )";
-        // $conn->exec($sql);
     }
 }

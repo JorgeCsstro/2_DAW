@@ -1,6 +1,6 @@
 const gameArea = document.getElementById("gameArea");
 const rows = 17;
-const cols = 16;
+const cols = 14;
 
 let score = 0;
 
@@ -9,12 +9,79 @@ let playerPosition = { x: Math.floor(cols / 2), y: rows - 1 };
 let bullets = [];
 let canShoot = true;
 
-const enemyRows = 5;
-const enemyCols = 8;
-let enemyDirection = "right";
-let enemyPositions = [];
+const invaderRows = 5;
+const invaderCols = 8;
+let invaderDirection = "right";
+let invaderPositions = [];
 let baseSpeed = 3000;
 
+let volumeLevel = 1.0;
+const shootPlayer = new Audio("./sounds/shoot.wav");
+const invaderDies = new Audio("./sounds/invaderDeath.wav");
+const playerDies = new Audio("./sounds/playerDeath.wav");
+const levelUP = new Audio("./sounds/lvlup.mp3");
+
+// VOLUME CONTROLS //
+
+function setVolume(level) {
+    volumeLevel = level;
+    shootPlayer.volume = level;
+    invaderDies.volume = level;
+    playerDies.volume = level;
+    levelUP.volume = level;
+    updateMuteButton();
+}
+
+function Mute() {
+    if (volumeLevel > 0) {
+        setVolume(0);
+    } else {
+        setVolume(1.0);
+    }
+}
+
+function updateMuteButton() {
+    const muteButton = document.getElementById("muteButton");
+    if (volumeLevel > 0) {
+        muteButton.src = "./img/volume-on.png";
+    } else {
+        muteButton.src = "./img/volume-off.png";
+    }
+}
+
+// START //
+
+document.addEventListener("DOMContentLoaded", () => {
+    const muteButton = document.createElement("img");
+    muteButton.id = "muteButton";
+    muteButton.src = "./img/volume-on.png";
+    muteButton.classList.add("mute-button");
+    muteButton.onclick = Mute;
+    document.body.appendChild(muteButton);
+
+    showStartModal();
+});
+
+function showStartModal() {
+    const modal = document.createElement("div");
+    modal.classList.add("start-modal");
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h2>Space Invaders</h2>
+            <video width="400" controls autoplay loop>
+                <source src="./video/intro.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <button onclick="startGame()">PLAY</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+function startGame() {
+    document.querySelector(".start-modal").remove();
+    nuevaPartida();
+}
 
 function createGrid() {
     gameArea.innerHTML = "";
@@ -37,11 +104,11 @@ function createGrid() {
 // INVADERS //
 
 function initializeEnemies() {
-    enemyPositions = [];
-    for (let y = 0; y < enemyRows; y++) {
-        for (let x = 0; x < enemyCols; x++) {
-            enemyPositions.push({
-                x: x + Math.floor((cols - enemyCols) / 2),
+    invaderPositions = [];
+    for (let y = 0; y < invaderRows; y++) {
+        for (let x = 0; x < invaderCols; x++) {
+            invaderPositions.push({
+                x: x + Math.floor((cols - invaderCols) / 2),
                 y: y
             });
         }
@@ -49,19 +116,22 @@ function initializeEnemies() {
 }
 
 function renderEnemies() {
-    document.querySelectorAll(".enemy").forEach(img => img.remove());
-    enemyPositions.forEach(pos => {
+    document.querySelectorAll(".invader").forEach(img => img.remove());
+    invaderPositions.forEach(pos => {
         const cell = document.querySelector(`.cell[data-x='${pos.x}'][data-y='${pos.y}']`);
         if (cell) {
-            const enemyImg = document.createElement("img");
-            enemyImg.src = "./img/enemyCenter.png";
-            enemyImg.classList.add("enemy");
-            cell.appendChild(enemyImg);
+            const invaderImg = document.createElement("img");
+            invaderImg.src = "./img/invaderCenter.png";
+            invaderImg.classList.add("invader");
+            cell.appendChild(invaderImg);
         }
     });
 }
 
 function showGameOverModal() {
+
+    playerDies.play();
+
     const modal = document.createElement("div");
     modal.classList.add("game-over-modal");
     modal.innerHTML = `
@@ -81,29 +151,29 @@ function restartGame() {
 function moverInvaders() {
     let moveDown = false;
     
-    if (enemyDirection === "right") {
-        let rightmost = Math.max(...enemyPositions.map(e => e.x));
+    if (invaderDirection === "right") {
+        let rightmost = Math.max(...invaderPositions.map(e => e.x));
         if (rightmost < cols - 1) {
-            enemyPositions.forEach(e => e.x++);
+            invaderPositions.forEach(e => e.x++);
         } else {
             moveDown = true;
-            enemyDirection = "left";
+            invaderDirection = "left";
         }
-    } else if (enemyDirection === "left") {
-        let leftmost = Math.min(...enemyPositions.map(e => e.x));
+    } else if (invaderDirection === "left") {
+        let leftmost = Math.min(...invaderPositions.map(e => e.x));
         if (leftmost > 0) {
-            enemyPositions.forEach(e => e.x--);
+            invaderPositions.forEach(e => e.x--);
         } else {
             moveDown = true;
-            enemyDirection = "right";
+            invaderDirection = "right";
         }
     }
 
     if (moveDown) {
-        enemyPositions.forEach(e => e.y++);
+        invaderPositions.forEach(e => e.y++);
     }
 
-    if (enemyPositions.some(e => e.y >= rows - 1)) {
+    if (invaderPositions.some(e => e.y >= rows - 1)) {
         showGameOverModal();
         return;
     }
@@ -144,8 +214,6 @@ document.addEventListener("keydown", (event) => {
 
 // BULLET & SCORE //
 
-const shootSound = new Audio("./sounds/shoot.wav"); // Path to your sound file
-
 function shoot() {
     if (shootingCooldown) return;
     shootingCooldown = true;
@@ -158,15 +226,15 @@ function shoot() {
     bullets.push(bullet);
     renderBullets();
 
-    // Start bullet movement if it's the first bullet
+    // Start bullet movement
     startBulletMovement();
 
-    shootSound.play();
+    shootPlayer.play(); // Play shooting sound
 
-    // Reset shooting ability after 1 second
+    // Reset shooting ability after cooldown
     setTimeout(() => {
         shootingCooldown = false;
-    }, 250); // Reset after 1 second
+    }, 500);
 }
 
 // Render bullets function
@@ -185,23 +253,25 @@ function renderBullets() {
 
 // Bullet movement function
 function moveBullets() {
-    // Update bullet positions and check for collisions with enemies
     bullets = bullets.map(bullet => ({ x: bullet.x, y: bullet.y - 1 })).filter(bullet => bullet.y >= 0);
 
     // Check for collisions with enemies
     bullets.forEach((bullet, bulletIndex) => {
-        enemyPositions.forEach((enemy, enemyIndex) => {
-            if (bullet.x === enemy.x && bullet.y === enemy.y) {
-                // Remove the enemy
-                enemyPositions.splice(enemyIndex, 1);
+        invaderPositions.forEach((invader, invaderIndex) => {
+            if (bullet.x === invader.x && bullet.y === invader.y) {
+                // Remove the invader
+                invaderPositions.splice(invaderIndex, 1);
                 // Remove the bullet
                 bullets.splice(bulletIndex, 1);
                 // Increment the score
                 score += 100;
                 updateScore();
 
-                // Check if all enemies are defeated
-                if (enemyPositions.length === 0) {
+                invaderDies.play(); // Play invader death sound
+
+                // Check invaders muertos
+                if (invaderPositions.length === 0) {
+                    levelUP.play();
                     level++;
                     clearBullets();
                     updateLevel();
@@ -213,7 +283,7 @@ function moveBullets() {
     });
 
     renderBullets();
-    renderEnemies();  // Re-render enemies after removing the hit ones
+    renderEnemies();
 }
 
 
@@ -221,7 +291,7 @@ let moveInterval;
 
 function startBulletMovement() {
     if (!moveInterval) {
-        moveInterval = setInterval(moveBullets, 100); // Move bullets every 500ms
+        moveInterval = setInterval(moveBullets, 100); // Velocidad disparos
     }
 }
 
@@ -230,18 +300,17 @@ function stopBulletMovement() {
     moveInterval = null;
 }
 
-// Spacebar event listener (updated)
 let shootingCooldown = false;
 
 document.addEventListener("keydown", (event) => {
     if (event.key === " " && !shootingCooldown) {
-        shoot(); // Trigger shoot if cooldown is not active
+        shoot();
     }
 });
 
 function clearBullets() {
-    bullets = []; // Clear the bullets array
-    document.querySelectorAll(".bullet").forEach(img => img.remove()); // Remove all bullet images
+    bullets = [];
+    document.querySelectorAll(".bullet").forEach(img => img.remove());
 }
 
 function updateScore() {

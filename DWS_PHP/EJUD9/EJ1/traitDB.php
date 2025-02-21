@@ -1,13 +1,11 @@
 <?php
 
-require_once __DIR__ . "/../db.php";
-
 trait traitDB
 {
     public static function connectDB()
     {
         try {
-            $host = HOST;
+            $host = "localhost:33006";
             $ddbb = "INCIDENCIAS";
             $root = "root";
             $pass = "dbrootpass";

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); /* Retro Font */
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f1f1f1;
@@ -7,9 +9,34 @@ body {
     height: 100vh;
     margin: 0;
     background-image: url("../img/back.jpg");
+    flex-direction: column;
+}
+
+.titulo {
+    margin-top: 100px;
+    font-family: 'Press Start 2P';
+    font-size: 40px;
+    color: white;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8);
+}
+
+.mute-button {
+    position: absolute;
+    top: 10px;
+    right: 120px;  /* Moved to the right */
+    width: 40px;
+    cursor: pointer;
+}
+
+.volume-slider {
+    position: absolute;
+    top: 20px;
+    right: 10px; /* Moved to the right */
+    width: 100px;
 }
 
 .score {
+    font-family: 'Press Start 2P'; /* Retro font */
     font-size: 26px;
     padding: 10px;
     transition: background-color 0.5s ease;
@@ -17,7 +44,8 @@ body {
     color: white;
 }
 
-.level{
+.level {
+    font-family: 'Press Start 2P';
     font-size: 26px;
     padding: 10px;
     transition: background-color 0.5s ease;
@@ -26,17 +54,10 @@ body {
 }
 
 .container {
-    display: flex;
+    display: none; /* Hide the container initially */
     flex-direction: column;
     align-items: center;
-}
-
-.titulo {
-    margin-top: 20px;
-    padding: 10px 250px;
-    border: solid black;
-    border-radius: 35px;
-    background-color: #969e00;
+    justify-content: center;
 }
 
 .game-over-modal {
@@ -79,10 +100,12 @@ body {
     background: #cc0000;
 }
 
-
 .game-area {
-    display: grid;
-    gap: 2px;
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+    border: 4px solid rgb(255, 255, 255);
+    margin-bottom: 10px;
 }
 
 .cell {
@@ -91,7 +114,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid #ccc;
 }
 
 .cell img {
@@ -99,4 +121,3 @@ body {
     height: 100%;
     object-fit: contain;
 }
-

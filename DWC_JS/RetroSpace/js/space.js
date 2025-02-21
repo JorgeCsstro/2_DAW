@@ -1,6 +1,7 @@
+
 const gameArea = document.getElementById("gameArea");
 const rows = 17;
-const cols = 16;
+const cols = 14;
 
 let score = 0;
 
@@ -9,13 +10,113 @@ let playerPosition = { x: Math.floor(cols / 2), y: rows - 1 };
 let bullets = [];
 let canShoot = true;
 
-const enemyRows = 5;
-const enemyCols = 8;
-let enemyDirection = "right";
-let enemyPositions = [];
+const invaderRows = 5;
+const invaderCols = 8;
+let invaderDirection = "right";
+let invaderPositions = [];
 let baseSpeed = 3000;
 
+let volumeLevel = 1.0;
+const shootPlayer = new Audio("./sounds/shoot.wav");
+const invaderDies = new Audio("./sounds/invaderDeath.wav");
+const playerDies = new Audio("./sounds/playerDeath.wav");
+const levelUP = new Audio("./sounds/lvlup.mp3");
 
+// VOLUME CONTROLS //
+function setVolume(level) {
+    volumeLevel = parseFloat(level);
+    shootPlayer.volume = volumeLevel;
+    invaderDies.volume = volumeLevel;
+    playerDies.volume = volumeLevel;
+    levelUP.volume = volumeLevel;
+    updateMuteButton();
+    document.getElementById("volumeSlider").value = volumeLevel;
+}
+
+function Mute() {
+    if (volumeLevel > 0) {
+        setVolume(0);
+    } else {
+        setVolume(1.0);
+    }
+}
+
+function updateMuteButton() {
+    const muteButton = document.getElementById("muteButton");
+    if (volumeLevel > 0) {
+        muteButton.src = "./img/volume-on.png";
+    } else {
+        muteButton.src = "./img/volume-off.png";
+    }
+}
+
+// START //
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Mute
+    const muteButton = document.createElement("img");
+    muteButton.id = "muteButton";
+    muteButton.src = "./img/volume-on.png";
+    muteButton.classList.add("mute-button");
+    muteButton.onclick = Mute;
+    document.body.appendChild(muteButton);
+
+    // Volume Slider
+    const volumeSlider = document.createElement("input");
+    volumeSlider.id = "volumeSlider";
+    volumeSlider.type = "range";
+    volumeSlider.min = "0";
+    volumeSlider.max = "1";
+    volumeSlider.step = "0.1";
+    volumeSlider.value = volumeLevel;
+    volumeSlider.classList.add("volume-slider");
+    volumeSlider.oninput = () => setVolume(volumeSlider.value);
+    document.body.appendChild(volumeSlider);
+
+    showStartModal();
+});
+
+function showStartModal() {
+    const modal = document.createElement("div");
+    modal.classList.add("start-modal");
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h2>Space Invaders</h2>
+            <video width="800" autoplay loop muted>
+                <source src="./img/Space_Invaders.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <button onclick="startGame()">PLAY</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+
+// INIT //
+function nuevaPartida() {
+    level = 1;
+    baseSpeed = 3000;
+    score = 0;
+    createGrid();
+    initializeInvaders();
+    renderInvaders();
+    placePlayer();
+    clearBullets();
+    moverInvaders();
+    updateLevel();
+    updateScore();
+}
+
+// Empezar el juego (empezar y hacerlo visible)
+function startGame() {
+    document.querySelector(".start-modal").remove();
+    const container = document.querySelector(".container");
+    container.style.display = "flex";
+    nuevaPartida();
+}
+
+// Crear escenario
 function createGrid() {
     gameArea.innerHTML = "";
     gameArea.style.display = "grid";
@@ -34,43 +135,16 @@ function createGrid() {
     }
 }
 
-// INVADERS //
+// UPDATES //
 
-function initializeEnemies() {
-    enemyPositions = [];
-    for (let y = 0; y < enemyRows; y++) {
-        for (let x = 0; x < enemyCols; x++) {
-            enemyPositions.push({
-                x: x + Math.floor((cols - enemyCols) / 2),
-                y: y
-            });
-        }
-    }
+function updateScore() {
+    const scoreElement = document.querySelector('.score');
+    scoreElement.textContent = `SCORE: ${score}`;
 }
 
-function renderEnemies() {
-    document.querySelectorAll(".enemy").forEach(img => img.remove());
-    enemyPositions.forEach(pos => {
-        const cell = document.querySelector(`.cell[data-x='${pos.x}'][data-y='${pos.y}']`);
-        if (cell) {
-            const enemyImg = document.createElement("img");
-            enemyImg.src = "./img/enemyCenter.png";
-            enemyImg.classList.add("enemy");
-            cell.appendChild(enemyImg);
-        }
-    });
-}
-
-function showGameOverModal() {
-    const modal = document.createElement("div");
-    modal.classList.add("game-over-modal");
-    modal.innerHTML = `
-        <div class="modal-content">
-            <h2>GAME OVER</h2>
-            <button onclick="restartGame()">Nueva Partida</button>
-        </div>
-    `;
-    document.body.appendChild(modal);
+function updateLevel() {
+    const levelElement = document.querySelector('.level');
+    levelElement.textContent = `LEVEL: ${level}`;
 }
 
 function restartGame() {
@@ -78,38 +152,67 @@ function restartGame() {
     nuevaPartida();
 }
 
+// INVADERS //
+
+// Crear Invaders
+function initializeInvaders() {
+    invaderPositions = [];
+    for (let y = 0; y < invaderRows; y++) {
+        for (let x = 0; x < invaderCols; x++) {
+            invaderPositions.push({
+                x: x + Math.floor((cols - invaderCols) / 2),
+                y: y
+            });
+        }
+    }
+}
+
+// Render Invaders
+function renderInvaders() {
+    document.querySelectorAll(".invader").forEach(img => img.remove());
+    invaderPositions.forEach(pos => {
+        const cell = document.querySelector(`.cell[data-x='${pos.x}'][data-y='${pos.y}']`);
+        if (cell) {
+            const invaderImg = document.createElement("img");
+            invaderImg.src = "./img/invaderCenter.png";
+            invaderImg.classList.add("invader");
+            cell.appendChild(invaderImg);
+        }
+    });
+}
+
 function moverInvaders() {
     let moveDown = false;
     
-    if (enemyDirection === "right") {
-        let rightmost = Math.max(...enemyPositions.map(e => e.x));
+    if (invaderDirection === "right") {
+        let rightmost = Math.max(...invaderPositions.map(e => e.x));
         if (rightmost < cols - 1) {
-            enemyPositions.forEach(e => e.x++);
+            invaderPositions.forEach(e => e.x++);
         } else {
             moveDown = true;
-            enemyDirection = "left";
+            invaderDirection = "left";
         }
-    } else if (enemyDirection === "left") {
-        let leftmost = Math.min(...enemyPositions.map(e => e.x));
+    } else if (invaderDirection === "left") {
+        let leftmost = Math.min(...invaderPositions.map(e => e.x));
         if (leftmost > 0) {
-            enemyPositions.forEach(e => e.x--);
+            invaderPositions.forEach(e => e.x--);
         } else {
             moveDown = true;
-            enemyDirection = "right";
+            invaderDirection = "right";
         }
     }
 
     if (moveDown) {
-        enemyPositions.forEach(e => e.y++);
+        invaderPositions.forEach(e => e.y++);
     }
 
-    if (enemyPositions.some(e => e.y >= rows - 1)) {
-        showGameOverModal();
+    if (invaderPositions.some(e => e.y >= rows - 1)) {
+        PlayerDied();
         return;
     }
 
-    renderEnemies();
-    setTimeout(moverInvaders, baseSpeed - (250 * level)); // Adjust speed based on level
+    renderInvaders();
+    setTimeout(moverInvaders, baseSpeed - (500 * level));
 }
 
 // PLAYER //
@@ -134,6 +237,21 @@ function movePlayer(direction) {
     placePlayer();
 }
 
+function PlayerDied() {
+
+    playerDies.play();
+
+    const modal = document.createElement("div");
+    modal.classList.add("game-over-modal");
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h2>GAME OVER</h2>
+            <button onclick="restartGame()">Nueva Partida</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
 document.addEventListener("keydown", (event) => {
     if (event.key === "ArrowLeft" || event.key.toLowerCase() === "a") {
         movePlayer("left");
@@ -144,32 +262,28 @@ document.addEventListener("keydown", (event) => {
 
 // BULLET & SCORE //
 
-const shootSound = new Audio("./sounds/shoot.wav"); // Path to your sound file
-
 function shoot() {
     if (shootingCooldown) return;
     shootingCooldown = true;
 
-    // Create bullet
+    // Crear bullet
     const bullet = {
         x: playerPosition.x,
         y: playerPosition.y - 1
     };
     bullets.push(bullet);
     renderBullets();
+    bulletMove();
 
-    // Start bullet movement if it's the first bullet
-    startBulletMovement();
+    shootPlayer.play();
 
-    shootSound.play();
-
-    // Reset shooting ability after 1 second
+    // Cooldown shoot
     setTimeout(() => {
         shootingCooldown = false;
-    }, 250); // Reset after 1 second
+    }, 500);
 }
 
-// Render bullets function
+// Render bullets
 function renderBullets() {
     document.querySelectorAll(".bullet").forEach(img => img.remove());
     bullets.forEach(bullet => {
@@ -183,45 +297,44 @@ function renderBullets() {
     });
 }
 
-// Bullet movement function
 function moveBullets() {
-    // Update bullet positions and check for collisions with enemies
     bullets = bullets.map(bullet => ({ x: bullet.x, y: bullet.y - 1 })).filter(bullet => bullet.y >= 0);
 
-    // Check for collisions with enemies
     bullets.forEach((bullet, bulletIndex) => {
-        enemyPositions.forEach((enemy, enemyIndex) => {
-            if (bullet.x === enemy.x && bullet.y === enemy.y) {
-                // Remove the enemy
-                enemyPositions.splice(enemyIndex, 1);
-                // Remove the bullet
+        invaderPositions.forEach((invader, invaderIndex) => {
+            if (bullet.x === invader.x && bullet.y === invader.y) {
+
+                invaderPositions.splice(invaderIndex, 1);
                 bullets.splice(bulletIndex, 1);
-                // Increment the score
                 score += 100;
                 updateScore();
 
-                // Check if all enemies are defeated
-                if (enemyPositions.length === 0) {
+                invaderDies.play();
+
+                // Check invaders muertos
+                if (invaderPositions.length === 0) {
+                    levelUP.play();
                     level++;
                     clearBullets();
                     updateLevel();
-                    initializeEnemies();
-                    renderEnemies();
+                    initializeInvaders();
+                    renderInvaders();
                 }
             }
         });
     });
 
     renderBullets();
-    renderEnemies();  // Re-render enemies after removing the hit ones
+    renderInvaders();
 }
 
 
 let moveInterval;
 
-function startBulletMovement() {
+// Velocidad de balas
+function bulletMove() {
     if (!moveInterval) {
-        moveInterval = setInterval(moveBullets, 100); // Move bullets every 500ms
+        moveInterval = setInterval(moveBullets, 100);
     }
 }
 
@@ -230,42 +343,15 @@ function stopBulletMovement() {
     moveInterval = null;
 }
 
-// Spacebar event listener (updated)
 let shootingCooldown = false;
 
 document.addEventListener("keydown", (event) => {
     if (event.key === " " && !shootingCooldown) {
-        shoot(); // Trigger shoot if cooldown is not active
+        shoot();
     }
 });
 
 function clearBullets() {
-    bullets = []; // Clear the bullets array
-    document.querySelectorAll(".bullet").forEach(img => img.remove()); // Remove all bullet images
-}
-
-function updateScore() {
-    const scoreElement = document.querySelector('.score');
-    scoreElement.textContent = `SCORE: ${score}`;
-}
-
-function updateLevel() {
-    const levelElement = document.querySelector('.level');
-    levelElement.textContent = `NIVEL: ${level}`;
-}
-
-
-// INIT //
-function nuevaPartida() {
-    level = 1;
-    baseSpeed = 3000;
-    score = 0;
-    createGrid();
-    initializeEnemies();
-    renderEnemies();
-    placePlayer();
-    clearBullets();
-    moverInvaders();
-    updateLevel();
-    updateScore();
+    bullets = [];
+    document.querySelectorAll(".bullet").forEach(img => img.remove());
 }

@@ -157,7 +157,8 @@ const app = Vue.createApp({
         },
 
         async fetchSelectedPokemonsData(pokemonIds) {
-            for (const id of pokemonIds) {
+            for (let id of pokemonIds) {
+                console.log(id);
                 const apiUrl = `https://pokeapi.co/api/v2/pokemon/${id}`;
                 try {
                     const response = await fetch(apiUrl);
@@ -209,6 +210,8 @@ const app = Vue.createApp({
                         },
                         moves: selectedMoves
                     };
+
+                    console.log(this.pokemonsData[id]);
         
                 } catch (error) {
                     console.error(`Error fetching Pokémon data for ID ${id}:`, error);
@@ -231,9 +234,7 @@ const app = Vue.createApp({
                         randomIds.push(randomId);
                     }
                 }
-                this.selectedPokemonsRight = randomIds.map(id => 
-                    this.allPokemons.find(pokemon => pokemon.id === id)
-                );
+                this.selectedPokemonsRight = randomIds;  // Store the IDs, not the objects
                 this.randomNumbersRight = [...randomIds];
             } else {
                 // PvP mode: Right side was selected by the second player
@@ -241,14 +242,16 @@ const app = Vue.createApp({
                 this.randomNumbersRight = [...this.selectedPokemonsRight];
             }
         
+            // Fetch data for both left and right Pokémon
             await this.fetchSelectedPokemonsData(this.selectedPokemonsLeft);
             await this.fetchSelectedPokemonsData(this.selectedPokemonsRight);
         
+            // Set active Pokémon
             this.activeLeftPokemon = this.pokemonsData[this.selectedPokemonsLeft[0]];
             this.activeRightPokemon = this.pokemonsData[this.selectedPokemonsRight[0]];
         
             this.showStartModal = false;
-        },        
+        },     
 
         handleDragStart(pokemonId, side) {
             this.draggedPokemon = pokemonId;

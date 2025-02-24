@@ -209,6 +209,8 @@ body {
   height: 92%;
 }
 
+/* LEFT */
+
 .pokeLeftName{
   position: absolute;
   top: 190px;
@@ -237,16 +239,37 @@ body {
   font-size: 14px;
 }
 
+/* RIGHT */
+
+.pokeRightName{
+  position: absolute;
+  top: 60px;
+  left: 150px;
+  font-family: poke;
+  font-size: 14px;
+}
+
 .hpBarRight {
   position: absolute;
   width: 128px; /* Adjust as needed */
   height: 6px; /* Adjust thickness */
   background-color: green;
-  top: 93px; /* Adjust position */
-  left: 169px; /* Adjust position */
+  top: 93px;
+  left: 169px;
   border-radius: 5px;
 
 }
+
+.hpTextRight{
+  position: absolute;
+  width: 150px;
+  top: -35px;
+  left: -60px;
+  font-family: poke;
+  font-size: 14px;
+}
+
+/**/
 
 
 .turn-left{
